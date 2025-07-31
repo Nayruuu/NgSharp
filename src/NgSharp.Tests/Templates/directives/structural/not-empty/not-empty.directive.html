@@ -1,0 +1,20 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <section [not-empty]="MyArray">
+            <h2>Not Empty Array</h2>
+            <div [for]="MyArray">
+                <span>{{ Id }}</span>
+                <span>{{ Name }}</span>
+            </div>
+        </section>
+        <section [not-empty]="MyTasks">
+            <h2>Empty Array</h2>
+            <div [for]="MyTasks">
+                <span>{{ Id }}</span>
+                <span>{{ Name }}</span>
+            </div>
+        </section>
+    </body>
+</html>

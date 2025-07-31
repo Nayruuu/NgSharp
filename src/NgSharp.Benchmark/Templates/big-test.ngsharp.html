@@ -1,0 +1,38 @@
+<html>
+<head>
+    <style>
+        .bg { color: red; }
+    </style>
+</head>
+<body>
+    <h1>{{ Title | upper }}</h1>
+    <p>{{ Date | date: 'dd/MM/yyyy' }}</p>
+
+    <div [attr.class]="MyAddedClass" class="initial__class">Text with two classes</div>
+    <a [attr.href]="MyCustomLink">My Custom Link</a>
+
+    <div [html]="MyHtmlData"></div>
+
+    <div [style.font-weight]="MyInitialWeight">Italic Text</div>
+    <div [style.font-weight]="MyBoldWeight">Bold Text</div>
+    
+    <div [if]="User.IsActive == true">
+        <p>Welcome {{ User.Name }}</p>
+    </div>
+
+    <div [for]="Items">
+        <span [attr.class]="CssClass">{{ Amount | largeNumber }}</span>
+    </div>
+
+    <h2>Header Page</h2>
+    <div [for]="MyArray;Split:3;Repeat:Previous">
+        <span>{{ Id }}</span>
+        <span>{{ Name }}</span>
+        <div [for]="Tasks">
+            <span>{{ TaskId }}</span>
+            <span>{{ TaskName }}</span>
+        </div>
+    </div>
+
+</body>
+</html>

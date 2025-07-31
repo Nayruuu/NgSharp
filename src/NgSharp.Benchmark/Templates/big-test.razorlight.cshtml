@@ -1,0 +1,32 @@
+@model dynamic
+<html>
+<head>
+    <style>
+        .bg {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>@Model.Title.ToUpper()</h1>
+    <p>@Model.Date.ToString("dd/MM/yyyy")</p>
+
+    <div class="initial__class @Model.MyAddedClass">Text with two classes</div>
+    <a href="@Model.MyCustomLink">My Custom Link</a>
+
+    <div>@Model.MyHtmlData</div>
+
+    <div style="font-weight:@Model.MyInitialWeight">Italic Text</div>
+    <div style="font-weight:@Model.MyBoldWeight">Bold Text</div>
+
+    @if (((dynamic)Model.User)?.IsActive == true)
+    {
+        <p>Welcome @((dynamic)Model.User).Name</p>
+    }
+
+    @foreach (var item in Model.Items)
+    {
+        <span class="@Model.CssClass">@((dynamic)item).Amount.ToString("N0")</span>
+    }
+</body>
+</html>
