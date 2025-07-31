@@ -1,0 +1,248 @@
+// Validating benchmarks:
+// ***** BenchmarkRunner: Start   *****
+// ***** Found 2 benchmark(s) in total *****
+// ***** Building 1 exe(s) in Parallel: Start   *****
+// start dotnet  restore /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /p:Deterministic=true /p:Optimize=true /p:ArtifactsPath="/Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/" /p:OutDir="/Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/bin/Release/net9.0/" /p:OutputPath="/Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/bin/Release/net9.0/" /p:PublishDir="/Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/publish/" in /Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1
+// command took 12.18 sec and exited with 0
+// start dotnet  build -c Release --no-restore /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /p:Deterministic=true /p:Optimize=true /p:ArtifactsPath="/Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/" /p:OutDir="/Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/bin/Release/net9.0/" /p:OutputPath="/Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/bin/Release/net9.0/" /p:PublishDir="/Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/publish/" --output "/Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/bin/Release/net9.0/" in /Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1
+// command took 14.56 sec and exited with 0
+// ***** Done, took 00:00:27 (27 sec)   *****
+// Found 2 benchmarks:
+//   NgSharpBenchmark.NgSharp: Job-XPUURG(IterationCount=10, WarmupCount=5)
+//   NgSharpBenchmark.RazorLight: Job-XPUURG(IterationCount=10, WarmupCount=5)
+
+// **************************
+// Benchmark: NgSharpBenchmark.NgSharp: Job-XPUURG(IterationCount=10, WarmupCount=5)
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet NgSharp.Benchmark-Job-XPUURG-1.dll --anonymousPipes 119 120 --benchmarkName FluentQL.Benchmark.Benchmarks.NgSharpBenchmark.NgSharp --job "IterationCount=10, WarmupCount=5" --benchmarkId 0 in /Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/bin/Release/net9.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 9.0.6 (9.0.625.26613), X64 RyuJIT SSE4.2
+// GC=Concurrent Workstation
+// HardwareIntrinsics=SSE4.2,AES,PCLMUL,POPCNT VectorSize=128
+// Job: Job-XPUURG(IterationCount=10, WarmupCount=5)
+
+OverheadJitting  1: 1000 op, 700833.00 ns, 700.8330 ns/op
+WorkloadJitting  1: 1000 op, 521010916.00 ns, 521.0109 us/op
+
+OverheadJitting  2: 1000 op, 32125.00 ns, 32.1250 ns/op
+WorkloadJitting  2: 1000 op, 20846875.00 ns, 20.8469 us/op
+
+OverheadJitting  3: 16000 op, 684625.00 ns, 42.7891 ns/op
+WorkloadJitting  3: 16000 op, 207556875.00 ns, 12.9723 us/op
+
+WorkloadPilot    1: 16000 op, 296671375.00 ns, 18.5420 us/op
+WorkloadPilot    2: 32000 op, 489558541.00 ns, 15.2987 us/op
+WorkloadPilot    3: 64000 op, 778757708.00 ns, 12.1681 us/op
+
+OverheadWarmup   1: 64000 op, 69375.00 ns, 1.0840 ns/op
+OverheadWarmup   2: 64000 op, 667.00 ns, 0.0104 ns/op
+OverheadWarmup   3: 64000 op, 2000.00 ns, 0.0313 ns/op
+OverheadWarmup   4: 64000 op, 1500.00 ns, 0.0234 ns/op
+OverheadWarmup   5: 64000 op, 1541.00 ns, 0.0241 ns/op
+OverheadWarmup   6: 64000 op, 625.00 ns, 0.0098 ns/op
+
+OverheadActual   1: 64000 op, 23667.00 ns, 0.3698 ns/op
+OverheadActual   2: 64000 op, 1458.00 ns, 0.0228 ns/op
+OverheadActual   3: 64000 op, 19625.00 ns, 0.3066 ns/op
+OverheadActual   4: 64000 op, 1125.00 ns, 0.0176 ns/op
+OverheadActual   5: 64000 op, 1708.00 ns, 0.0267 ns/op
+OverheadActual   6: 64000 op, 1416.00 ns, 0.0221 ns/op
+OverheadActual   7: 64000 op, 1000.00 ns, 0.0156 ns/op
+OverheadActual   8: 64000 op, 1792.00 ns, 0.0280 ns/op
+OverheadActual   9: 64000 op, 1042.00 ns, 0.0163 ns/op
+OverheadActual  10: 64000 op, 625.00 ns, 0.0098 ns/op
+OverheadActual  11: 64000 op, 958.00 ns, 0.0150 ns/op
+OverheadActual  12: 64000 op, 625.00 ns, 0.0098 ns/op
+OverheadActual  13: 64000 op, 1125.00 ns, 0.0176 ns/op
+OverheadActual  14: 64000 op, 875.00 ns, 0.0137 ns/op
+OverheadActual  15: 64000 op, 22042.00 ns, 0.3444 ns/op
+OverheadActual  16: 64000 op, 21083.00 ns, 0.3294 ns/op
+OverheadActual  17: 64000 op, 20291.00 ns, 0.3170 ns/op
+OverheadActual  18: 64000 op, 19125.00 ns, 0.2988 ns/op
+OverheadActual  19: 64000 op, 20583.00 ns, 0.3216 ns/op
+OverheadActual  20: 64000 op, 23208.00 ns, 0.3626 ns/op
+
+WorkloadWarmup   1: 64000 op, 469959166.00 ns, 7.3431 us/op
+WorkloadWarmup   2: 64000 op, 424544167.00 ns, 6.6335 us/op
+WorkloadWarmup   3: 64000 op, 337825500.00 ns, 5.2785 us/op
+WorkloadWarmup   4: 64000 op, 314328209.00 ns, 4.9114 us/op
+WorkloadWarmup   5: 64000 op, 283733750.00 ns, 4.4333 us/op
+
+// BeforeActualRun
+WorkloadActual   1: 64000 op, 264531250.00 ns, 4.1333 us/op
+WorkloadActual   2: 64000 op, 270773417.00 ns, 4.2308 us/op
+WorkloadActual   3: 64000 op, 270910125.00 ns, 4.2330 us/op
+WorkloadActual   4: 64000 op, 273093125.00 ns, 4.2671 us/op
+WorkloadActual   5: 64000 op, 262136042.00 ns, 4.0959 us/op
+WorkloadActual   6: 64000 op, 265388625.00 ns, 4.1467 us/op
+WorkloadActual   7: 64000 op, 266823583.00 ns, 4.1691 us/op
+WorkloadActual   8: 64000 op, 302456583.00 ns, 4.7259 us/op
+WorkloadActual   9: 64000 op, 310910667.00 ns, 4.8580 us/op
+WorkloadActual  10: 64000 op, 310846209.00 ns, 4.8570 us/op
+
+// AfterActualRun
+WorkloadResult   1: 64000 op, 264529667.00 ns, 4.1333 us/op
+WorkloadResult   2: 64000 op, 270771834.00 ns, 4.2308 us/op
+WorkloadResult   3: 64000 op, 270908542.00 ns, 4.2329 us/op
+WorkloadResult   4: 64000 op, 273091542.00 ns, 4.2671 us/op
+WorkloadResult   5: 64000 op, 262134459.00 ns, 4.0959 us/op
+WorkloadResult   6: 64000 op, 265387042.00 ns, 4.1467 us/op
+WorkloadResult   7: 64000 op, 266822000.00 ns, 4.1691 us/op
+WorkloadResult   8: 64000 op, 302455000.00 ns, 4.7259 us/op
+WorkloadResult   9: 64000 op, 310909084.00 ns, 4.8580 us/op
+WorkloadResult  10: 64000 op, 310844626.00 ns, 4.8569 us/op
+// GC:  8 3 0 53746808 64000
+// Threading:  0 0 64000
+
+// AfterAll
+// Benchmark Process 63518 has exited with code 0.
+
+Mean = 4.372 μs, StdErr = 0.098 μs (2.25%), N = 10, StdDev = 0.311 μs
+Min = 4.096 μs, Q1 = 4.152 μs, Median = 4.232 μs, Q3 = 4.611 μs, Max = 4.858 μs
+IQR = 0.459 μs, LowerFence = 3.464 μs, UpperFence = 5.299 μs
+ConfidenceInterval = [3.901 μs; 4.842 μs] (CI 99.9%), Margin = 0.471 μs (10.76% of Mean)
+Skewness = 0.71, Kurtosis = 1.5, MValue = 2.86
+
+// ** Remained 1 (50,0 %) benchmark(s) to run. Estimated finish 2025-08-01 22:11 (0h 0m from now) **
+// **************************
+// Benchmark: NgSharpBenchmark.RazorLight: Job-XPUURG(IterationCount=10, WarmupCount=5)
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet NgSharp.Benchmark-Job-XPUURG-1.dll --anonymousPipes 119 120 --benchmarkName FluentQL.Benchmark.Benchmarks.NgSharpBenchmark.RazorLight --job "IterationCount=10, WarmupCount=5" --benchmarkId 1 in /Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/bin/Release/net9.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 9.0.6 (9.0.625.26613), X64 RyuJIT SSE4.2
+// GC=Concurrent Workstation
+// HardwareIntrinsics=SSE4.2,AES,PCLMUL,POPCNT VectorSize=128
+// Job: Job-XPUURG(IterationCount=10, WarmupCount=5)
+
+OverheadJitting  1: 1000 op, 2838458.00 ns, 2.8385 us/op
+WorkloadJitting  1: 1000 op, 3264362667.00 ns, 3.2644 ms/op
+
+OverheadJitting  2: 1000 op, 26792.00 ns, 26.7920 ns/op
+WorkloadJitting  2: 1000 op, 250670292.00 ns, 250.6703 us/op
+
+WorkloadPilot    1: 2000 op, 257488250.00 ns, 128.7441 us/op
+WorkloadPilot    2: 3000 op, 322860917.00 ns, 107.6203 us/op
+WorkloadPilot    3: 4000 op, 418156208.00 ns, 104.5391 us/op
+WorkloadPilot    4: 5000 op, 561417875.00 ns, 112.2836 us/op
+
+WorkloadWarmup   1: 5000 op, 479553666.00 ns, 95.9107 us/op
+WorkloadWarmup   2: 5000 op, 734659417.00 ns, 146.9319 us/op
+WorkloadWarmup   3: 5000 op, 495677333.00 ns, 99.1355 us/op
+WorkloadWarmup   4: 5000 op, 498317208.00 ns, 99.6634 us/op
+WorkloadWarmup   5: 5000 op, 401680000.00 ns, 80.3360 us/op
+
+// BeforeActualRun
+WorkloadActual   1: 5000 op, 456438458.00 ns, 91.2877 us/op
+WorkloadActual   2: 5000 op, 458352333.00 ns, 91.6705 us/op
+WorkloadActual   3: 5000 op, 483192833.00 ns, 96.6386 us/op
+WorkloadActual   4: 5000 op, 516722000.00 ns, 103.3444 us/op
+WorkloadActual   5: 5000 op, 505289083.00 ns, 101.0578 us/op
+WorkloadActual   6: 5000 op, 429950250.00 ns, 85.9901 us/op
+WorkloadActual   7: 5000 op, 433353875.00 ns, 86.6708 us/op
+WorkloadActual   8: 5000 op, 443886375.00 ns, 88.7773 us/op
+WorkloadActual   9: 5000 op, 423033084.00 ns, 84.6066 us/op
+WorkloadActual  10: 5000 op, 366149500.00 ns, 73.2299 us/op
+
+// AfterActualRun
+WorkloadResult   1: 5000 op, 456438458.00 ns, 91.2877 us/op
+WorkloadResult   2: 5000 op, 458352333.00 ns, 91.6705 us/op
+WorkloadResult   3: 5000 op, 483192833.00 ns, 96.6386 us/op
+WorkloadResult   4: 5000 op, 516722000.00 ns, 103.3444 us/op
+WorkloadResult   5: 5000 op, 505289083.00 ns, 101.0578 us/op
+WorkloadResult   6: 5000 op, 429950250.00 ns, 85.9901 us/op
+WorkloadResult   7: 5000 op, 433353875.00 ns, 86.6708 us/op
+WorkloadResult   8: 5000 op, 443886375.00 ns, 88.7773 us/op
+WorkloadResult   9: 5000 op, 423033084.00 ns, 84.6066 us/op
+WorkloadResult  10: 5000 op, 366149500.00 ns, 73.2299 us/op
+// GC:  3 1 0 22451896 5000
+// Threading:  70 0 5000
+// Exceptions:  0,011
+
+// AfterAll
+// Benchmark Process 63532 has exited with code 0.
+
+Mean = 90.327 μs, StdErr = 2.762 μs (3.06%), N = 10, StdDev = 8.735 μs
+Min = 73.230 μs, Q1 = 86.160 μs, Median = 90.032 μs, Q3 = 95.397 μs, Max = 103.344 μs
+IQR = 9.236 μs, LowerFence = 72.306 μs, UpperFence = 109.251 μs
+ConfidenceInterval = [77.121 μs; 103.534 μs] (CI 99.9%), Margin = 13.207 μs (14.62% of Mean)
+Skewness = -0.24, Kurtosis = 2.24, MValue = 2.33
+
+// ** Remained 0 (0,0 %) benchmark(s) to run. Estimated finish 2025-08-01 22:11 (0h 0m from now) **
+// ***** BenchmarkRunner: Finish  *****
+
+// * Export *
+  BenchmarkDotNet.Artifacts/results/FluentQL.Benchmark.Benchmarks.NgSharpBenchmark-report.csv
+  BenchmarkDotNet.Artifacts/results/FluentQL.Benchmark.Benchmarks.NgSharpBenchmark-report-github.md
+  BenchmarkDotNet.Artifacts/results/FluentQL.Benchmark.Benchmarks.NgSharpBenchmark-report.html
+
+// * Detailed results *
+NgSharpBenchmark.NgSharp: Job-XPUURG(IterationCount=10, WarmupCount=5)
+Runtime = .NET 9.0.6 (9.0.625.26613), X64 RyuJIT SSE4.2; GC = Concurrent Workstation
+Mean = 4.372 μs, StdErr = 0.098 μs (2.25%), N = 10, StdDev = 0.311 μs
+Min = 4.096 μs, Q1 = 4.152 μs, Median = 4.232 μs, Q3 = 4.611 μs, Max = 4.858 μs
+IQR = 0.459 μs, LowerFence = 3.464 μs, UpperFence = 5.299 μs
+ConfidenceInterval = [3.901 μs; 4.842 μs] (CI 99.9%), Margin = 0.471 μs (10.76% of Mean)
+Skewness = 0.71, Kurtosis = 1.5, MValue = 2.86
+-------------------- Histogram --------------------
+[3.992 μs ; 4.371 μs) | @@@@@@@
+[4.371 μs ; 4.602 μs) | 
+[4.602 μs ; 5.048 μs) | @@@
+---------------------------------------------------
+
+NgSharpBenchmark.RazorLight: Job-XPUURG(IterationCount=10, WarmupCount=5)
+Runtime = .NET 9.0.6 (9.0.625.26613), X64 RyuJIT SSE4.2; GC = Concurrent Workstation
+Mean = 90.327 μs, StdErr = 2.762 μs (3.06%), N = 10, StdDev = 8.735 μs
+Min = 73.230 μs, Q1 = 86.160 μs, Median = 90.032 μs, Q3 = 95.397 μs, Max = 103.344 μs
+IQR = 9.236 μs, LowerFence = 72.306 μs, UpperFence = 109.251 μs
+ConfidenceInterval = [77.121 μs; 103.534 μs] (CI 99.9%), Margin = 13.207 μs (14.62% of Mean)
+Skewness = -0.24, Kurtosis = 2.24, MValue = 2.33
+-------------------- Histogram --------------------
+[67.908 μs ;  78.552 μs) | @
+[78.552 μs ;  82.817 μs) | 
+[82.817 μs ;  93.460 μs) | @@@@@@
+[93.460 μs ; 105.313 μs) | @@@
+---------------------------------------------------
+
+// * Summary *
+
+BenchmarkDotNet v0.15.2, macOS Sequoia 15.4.1 (24E263) [Darwin 24.4.0]
+Apple M1 Max 2.40GHz, 1 CPU, 10 logical and 10 physical cores
+.NET SDK 9.0.301
+  [Host]     : .NET 9.0.6 (9.0.625.26613), X64 RyuJIT SSE4.2
+  Job-XPUURG : .NET 9.0.6 (9.0.625.26613), X64 RyuJIT SSE4.2
+
+IterationCount=10  WarmupCount=5  
+
+| Method     | Mean      | Error      | StdDev    | Gen0   | Gen1   | Allocated |
+|----------- |----------:|-----------:|----------:|-------:|-------:|----------:|
+| NgSharp    |  4.372 μs |  0.4706 μs | 0.3113 μs | 0.1250 | 0.0469 |     840 B |
+| RazorLight | 90.327 μs | 13.2068 μs | 8.7355 μs | 0.6000 | 0.2000 |    4490 B |
+
+// * Legends *
+  Mean      : Arithmetic mean of all measurements
+  Error     : Half of 99.9% confidence interval
+  StdDev    : Standard deviation of all measurements
+  Gen0      : GC Generation 0 collects per 1000 operations
+  Gen1      : GC Generation 1 collects per 1000 operations
+  Allocated : Allocated memory per single operation (managed only, inclusive, 1KB = 1024B)
+  1 μs      : 1 Microsecond (0.000001 sec)
+
+// * Diagnostic Output - MemoryDiagnoser *
+
+
+// ***** BenchmarkRunner: End *****
+Run time: 00:00:22 (22.09 sec), executed benchmarks: 2
+
+Global total time: 00:00:49 (49.76 sec), executed benchmarks: 2
+// * Artifacts cleanup *
+Artifacts cleanup is finished

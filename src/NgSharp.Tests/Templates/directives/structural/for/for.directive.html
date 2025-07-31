@@ -1,0 +1,15 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <h2>Header Page</h2>
+        <div [for]="MyArray;Split:3;Repeat:Previous">
+            <span>{{ Id }}</span>
+            <span>{{ Name }}</span>
+            <div [for]="Tasks">
+                <span>{{ TaskId }}</span>
+                <span>{{ TaskName }}</span>
+            </div>
+        </div>
+    </body>
+</html>

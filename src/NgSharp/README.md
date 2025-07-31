@@ -82,7 +82,7 @@ NgSharp is up to **13× faster** and **5× lighter** than RazorLight in pure HTM
 
 ## 🔌 Custom Pipes
 
-NgSharp allows you to build custom pipes with logic inside.  
+NgSharp allows you to build custom pipes with logic inside.
 
 ```csharp
 public class LowerCasePipe : IPipe

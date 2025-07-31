@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>NgSharp</PackageId>
+    <Version>1.0.1</Version>
+    <Authors>Nayruu</Authors>
+    <Description>Angular-style HTML rendering engine for .NET. Includes pipes, directives, and component system. Built on top of AngleSharp.</Description>
+    <PackageTags>template html rendering angular pipes directives components pdf email ssr razorless lightweight fast anglesharp</PackageTags>
+    <RepositoryUrl>https://github.com/Nayruuu/NgSharp</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Nayruuu/NgSharp</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RootNamespace>NgSharp</RootNamespace>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>9</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AngleSharp" Version="1.3.0" />
+    <PackageReference Include="SkiaSharp" Version="3.119.0" />
+    <PackageReference Include="System.Text.Json" Version="9.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+</Project>

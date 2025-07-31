@@ -52,3 +52,10 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# Settings
+*.DotSettings.user
+
+# Misc
+**/.idea
+**/.DS_STORE
