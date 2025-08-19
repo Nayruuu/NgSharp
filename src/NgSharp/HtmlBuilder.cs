@@ -474,7 +474,7 @@ namespace NgSharp
                     }
                     else
                     {
-                        nodeText = nodeText.Replace(interpolation.Value.tokens[i], instanceValue?.Value.ToString());
+                        nodeText = nodeText.Replace(interpolation.Value.tokens[i], instanceValue?.Value?.ToString());
                     }
                 }
 
