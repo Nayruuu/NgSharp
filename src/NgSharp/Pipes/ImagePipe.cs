@@ -27,6 +27,9 @@ namespace NgSharp.Pipes
                 {
                     var imageContent = Convert.ToBase64String(image.FileContent);
 
+                    if (childElement.TagName.ToLower() == "img")
+                        return $"data:image/{Path.GetExtension(image.FileName).Replace(".", "")};base64,{imageContent}";
+                    
                     return
                         $"url(data:image/{Path.GetExtension(image.FileName).Replace(".", "")};base64,{imageContent})";
                 }

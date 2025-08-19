@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <PackageId>NgSharp</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.4</Version>
     <Authors>Nayruu</Authors>
     <Description>Angular-style HTML rendering engine for .NET. Includes pipes, directives, and component system. Built on top of AngleSharp.</Description>
     <PackageTags>template html rendering angular pipes directives components pdf email ssr razorless lightweight fast anglesharp</PackageTags>
