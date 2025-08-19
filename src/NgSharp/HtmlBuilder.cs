@@ -392,25 +392,35 @@ namespace NgSharp
                 {
                     case JsonValueKind.String:
                         var strVal = element.GetString();
-                        if (targetType == typeof(DateTime)) return DateTime.Parse(strVal);
-                        if (targetType.IsEnum) return Enum.Parse(targetType, strVal, ignoreCase: true);
-                        if (targetType == typeof(Guid)) return Guid.Parse(strVal);
-                        if (targetType == typeof(byte[])) return Convert.FromBase64String(strVal);
+                        
+                        if (targetType == typeof(DateTime)) 
+                            return DateTime.Parse(strVal);
+                        if (targetType.IsEnum) 
+                            return Enum.Parse(targetType, strVal, ignoreCase: true);
+                        if (targetType == typeof(Guid) || targetType == typeof(Guid?)) 
+                            return Guid.Parse(strVal);
+                        if (targetType == typeof(byte[])) 
+                            return Convert.FromBase64String(strVal);
 
-                        return Convert.ChangeType(strVal, targetType);
+                        return Convert.ChangeType(strVal, Nullable.GetUnderlyingType(targetType) ?? targetType);
 
                     case JsonValueKind.Number:
-                        if (targetType == typeof(int)) return element.GetInt();
-                        if (targetType == typeof(long)) return element.GetLong();
-                        if (targetType == typeof(float)) return element.GetFloat();
-                        if (targetType == typeof(double)) return element.GetDouble();
-                        if (targetType == typeof(decimal)) return element.GetDecimal();
+                        if (targetType == typeof(int) || targetType == typeof(int?)) 
+                            return element.GetInt();
+                        if (targetType == typeof(long) || targetType == typeof(long?)) 
+                            return element.GetLong();
+                        if (targetType == typeof(float) || targetType == typeof(float?)) 
+                            return element.GetFloat();
+                        if (targetType == typeof(double) || targetType == typeof(double?)) 
+                            return element.GetDouble();
+                        if (targetType == typeof(decimal) || targetType == typeof(decimal?)) 
+                            return element.GetDecimal();
                         
-                        return Convert.ChangeType(element.GetDouble(), targetType);
+                        return Convert.ChangeType(element.GetDouble(), Nullable.GetUnderlyingType(targetType) ?? targetType);
 
                     case JsonValueKind.True:
                     case JsonValueKind.False:
-                        return Convert.ChangeType(element.GetBoolean(), targetType);
+                        return Convert.ChangeType(element.GetBoolean(), Nullable.GetUnderlyingType(targetType) ?? targetType);
 
                     case JsonValueKind.Null:
                         return null;
