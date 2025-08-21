@@ -304,7 +304,9 @@ public class Tests
     [SkippableFact]
     public async Task Should_Parse_Big_One()
     {
+        #if !DEBUG
         Skip.IfNot(RuntimeInformation.IsOSPlatform(OSPlatform.Windows), "SkiaSharp not supported on CI");
+        #endif
         
         var icon = File.ReadAllBytes("Templates/big-test-marker-icon.webp");
         

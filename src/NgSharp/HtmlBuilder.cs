@@ -541,7 +541,11 @@ namespace NgSharp
         #region Minify
         public static string MinifyHtml(string html)
         {
-            return Regex.Replace(html, @"\s*(?=<)|(?<=>)\s*|\r|\n", "").Trim();
+            var result = Regex.Replace(html, @"\r|\n|\t", "");          // supprime retours et tabulations
+            result = Regex.Replace(result, @">\s+<", "><");             // supprime espaces entre balises
+            result = Regex.Replace(result, @"(?<=>)\s+(?=<)", "");      // supprime indentation texte vide
+            result = Regex.Replace(result, @"\s{2,}", " ");             // compresse multiples espaces en 1
+            return result.Trim();
         }
         #endregion
         

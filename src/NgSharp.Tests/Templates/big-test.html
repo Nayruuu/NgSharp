@@ -21,7 +21,7 @@
     </div>
 
     <div [for]="Items">
-        <span [attr.class]="CssClass">{{ Amount | largeNumber }}</span>
+        <span [attr.class]="CssClass">Montant <span>{{ Amount | largeNumber }}</span></span>
     </div>
 
     <h2>Header Page</h2>
@@ -35,8 +35,5 @@
             </div>
         </div>
     </div>
-
-    <map [MapPoints]="MapPoints" [IconData]="Icon" [Height]="512" [Width]="512" [ApiKey]="ApiKey"></map>
-
 </body>
 </html>
