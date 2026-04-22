@@ -242,26 +242,33 @@ namespace NgSharp.Components
 
         private string DrawMarkersLayer(IEnumerable<MapPoint> points, BoundEntity bounds, int zoom, int mapWidth, int mapHeight, byte[] markerIconData)
         {
-            using (var imageStream = new MemoryStream())
+            using var imageStream = new MemoryStream();
+            using var globalMarkerIcon = GetMarkerIcon(markerIconData);
+
+            using var markersLayerGraphic = SKSurface.Create(new SKImageInfo(mapWidth, mapHeight, SKColorType.Bgra8888, SKAlphaType.Premul));
+
+            var canvas = markersLayerGraphic.Canvas;
+            canvas.Clear(SKColors.Transparent);
+
+            foreach (var point in points)
             {
-                var markerIcon = GetMarkerIcon(markerIconData);
-                using (var markersLayerGraphic = SKSurface.Create(new SKImageInfo(mapWidth, mapHeight, SKColorType.Bgra8888, SKAlphaType.Premul)))
+                if (point.IconData != null)
                 {
-                    var canvas = markersLayerGraphic.Canvas;
-                    canvas.Clear(SKColors.Transparent);
+                    using var pointIcon = GetMarkerIcon(point.IconData);
 
-                    foreach (var point in points)
-                    {
-                        DrawMarker(canvas, bounds, point, markerIcon, zoom);
-                    }
-
-                    using var image = markersLayerGraphic.Snapshot();
-                    using var data = image.Encode(SKEncodedImageFormat.Png, 100);
-                    data.SaveTo(imageStream);
-
-                    return $"data:image/png;base64,{System.Convert.ToBase64String(imageStream.ToArray())}";
+                    DrawMarker(canvas, bounds, point, pointIcon, zoom);
+                }
+                else
+                {
+                    DrawMarker(canvas, bounds, point, globalMarkerIcon, zoom);
                 }
             }
+
+            using var image = markersLayerGraphic.Snapshot();
+            using var data = image.Encode(SKEncodedImageFormat.Png, 100);
+            data.SaveTo(imageStream);
+
+            return $"data:image/png;base64,{System.Convert.ToBase64String(imageStream.ToArray())}";
         }
     }
 }
