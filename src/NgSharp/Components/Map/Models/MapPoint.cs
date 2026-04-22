@@ -7,6 +7,8 @@ namespace NgSharp.Components
         public double Longitude { get; set; }
         
         public double? Orientation { get; set; }
+        
+        public byte[] IconData { get; set; }
 
         private MapPoint()
         {

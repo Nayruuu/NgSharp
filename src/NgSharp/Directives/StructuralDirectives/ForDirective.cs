@@ -172,7 +172,12 @@ namespace NgSharp.Directives
                 {
                     var instanceValue = Token(content, match.Groups[1].Value.Trim());
 
-                    return match.Value.Replace(match.Groups[1].Value, instanceValue.Path);
+                    if (instanceValue != null)
+                    {
+                        return match.Value.Replace(match.Groups[1].Value, instanceValue.Path);
+                    }
+
+                    return match.Value;
                 });
             }
 
@@ -189,7 +194,12 @@ namespace NgSharp.Directives
                 {
                     var instanceValue = Token(content, match.Groups[1].Value.Trim());
 
-                    return match.Value.Replace(match.Groups[1].Value, instanceValue.Path);
+                    if (instanceValue != null)
+                    {
+                        return match.Value.Replace(match.Groups[1].Value, instanceValue.Path);
+                    }
+
+                    return match.Value;
                 });
             }
 
