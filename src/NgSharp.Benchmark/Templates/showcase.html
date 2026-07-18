@@ -1,0 +1,50 @@
+<article class="company" [attr.data-headcount]="Headcount">
+  <header class="masthead">
+    <h1>{{ Name | upper }}</h1>
+    <div class="logo" [html]="LogoHtml"></div>
+    <p class="meta">Founded {{ FoundedAt | date: 'yyyy' }} · {{ Headcount | largeNumber }} people across {{ Departments.Count }} departments</p>
+  </header>
+  <section class="dept" [for]="Departments" [class.core]="IsCore" [attr.data-budget]="Budget">
+    <h2 [style.color]="ThemeColor">{{ Name }}</h2>
+    <p class="budget">Budget {{ Budget | number: 'C0' }}</p>
+    @if (IsCore)
+    {
+      <span class="badge">core</span>
+    }
+    <div class="team" [for]="Teams">
+      <h3>{{ Name }} — {{ Members.Count }} members</h3>
+      <ul class="roster" [not-empty]="Members">
+        <li class="member" [for]="Members" [class.lead]="IsLead" [class.remote]="IsRemote">
+          <span class="name">{{ Name | upper }}</span>
+          <span class="role">{{ Role }}</span>
+          <span class="salary">{{ Salary | number: 'C0' }}</span>
+          <span class="joined">joined {{ JoinedAt | date: 'yyyy-MM-dd' }}</span>
+          @if (Age >= 40)
+          {
+            <span class="tier senior">senior</span>
+          }
+          @else if (Age >= 25)
+          {
+            <span class="tier mid">mid-level</span>
+          }
+          @else
+          {
+            <span class="tier junior">junior</span>
+          }
+          <span [if]="IsLead && IsRemote" class="flag">remote lead</span>
+          <span class="mode">{{ IsRemote == true ? RemoteLabel : OnsiteLabel }}</span>
+          <span class="status" [html]="StatusHtml"></span>
+          <ul class="tasks" [not-empty]="Tasks">
+            <li class="task" [for]="Tasks" [class.done]="Done">
+              <span class="title">{{ Title }}</span>
+              <span class="prio">{{ Priority | upper }}</span>
+              <span [if]="Priority == 'high'" class="urgent">urgent</span>
+              <span [if]="Points > 5 || Done == true" class="pts">{{ Points }} pts</span>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </section>
+  <headcount-badge [total]="Headcount"></headcount-badge>
+</article>

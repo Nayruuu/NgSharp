@@ -1,0 +1,23 @@
+<div class="catalog">
+  <header>
+    <h1>{{Title}}</h1>
+    <p class="meta">{{TotalProducts}} products</p>
+  </header>
+  {{#each Categories}}
+    <section>
+      <h2>{{Name}} ({{Count}})</h2>
+      <ul>
+        {{#each Products}}
+          <li>
+            <span class="name">{{Name}}</span>
+            <span class="sku">{{Sku}}</span>
+            <span class="price">{{Price}}€</span>
+            {{#if InStock}}<span class="ok">in stock</span>{{/if}}
+            {{#if OnSale}}<span class="sale">sale</span>{{/if}}
+            <span class="rating">{{Rating}}/5</span>
+          </li>
+        {{/each}}
+      </ul>
+    </section>
+  {{/each}}
+</div>

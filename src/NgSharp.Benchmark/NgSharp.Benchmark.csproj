@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <OutputType>Exe</OutputType>
@@ -14,7 +14,11 @@
 
     <ItemGroup>
       <PackageReference Include="BenchmarkDotNet" Version="0.15.2" />
+      <PackageReference Include="Fluid.Core" Version="2.31.0" />
+      <PackageReference Include="Handlebars.Net" Version="2.1.6" />
       <PackageReference Include="RazorLight" Version="2.3.1" />
+      <PackageReference Include="Scriban" Version="7.2.5" />
+      <PackageReference Include="Stubble.Core" Version="1.10.8" />
     </ItemGroup>
 
     <ItemGroup>
@@ -22,12 +26,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Templates\big-test.ngsharp.html">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Templates\big-test.razorlight.cshtml">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+      <!-- Engine templates embedded so they travel with the assembly (BenchmarkDotNet runs each
+           benchmark in a generated child process where a file-relative read would not find them). -->
+      <EmbeddedResource Include="Templates\*" />
     </ItemGroup>
 
 </Project>

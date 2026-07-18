@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>NgSharp.Map</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Nayruu</Authors>
+    <Description>Static Google Maps component for NgSharp — renders map markers with SkiaSharp. Optional add-on so the NgSharp core stays free of the native SkiaSharp dependency.</Description>
+    <PackageTags>ngsharp map staticmap googlemaps skiasharp component</PackageTags>
+    <RepositoryUrl>https://github.com/Nayruuu/NgSharp</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Nayruuu/NgSharp</PackageProjectUrl>
+    <RootNamespace>NgSharp.Components</RootNamespace>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>9</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SkiaSharp" Version="3.119.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NgSharp\NgSharp.csproj" />
+  </ItemGroup>
+
+</Project>

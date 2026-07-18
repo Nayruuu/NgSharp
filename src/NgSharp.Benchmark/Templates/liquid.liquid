@@ -1,0 +1,23 @@
+<div class="catalog">
+  <header>
+    <h1>{{ Title }}</h1>
+    <p class="meta">{{ TotalProducts }} products</p>
+  </header>
+  {% for c in Categories %}
+    <section>
+      <h2>{{ c.Name }} ({{ c.Count }})</h2>
+      <ul>
+        {% for p in c.Products %}
+          <li>
+            <span class="name">{{ p.Name }}</span>
+            <span class="sku">{{ p.Sku }}</span>
+            <span class="price">{{ p.Price }}€</span>
+            {% if p.InStock %}<span class="ok">in stock</span>{% endif %}
+            {% if p.OnSale %}<span class="sale">sale</span>{% endif %}
+            <span class="rating">{{ p.Rating }}/5</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endfor %}
+</div>

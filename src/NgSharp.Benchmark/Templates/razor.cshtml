@@ -1,0 +1,31 @@
+<div class="catalog">
+  <header>
+    <h1>@Model.Title</h1>
+    <p class="meta">@Model.TotalProducts products</p>
+  </header>
+  @foreach (var c in Model.Categories)
+  {
+    <section>
+      <h2>@c.Name (@c.Count)</h2>
+      <ul>
+        @foreach (var p in c.Products)
+        {
+          <li>
+            <span class="name">@p.Name</span>
+            <span class="sku">@p.Sku</span>
+            <span class="price">@p.Price€</span>
+            @if (p.InStock)
+            {
+              <span class="ok">in stock</span>
+            }
+            @if (p.OnSale)
+            {
+              <span class="sale">sale</span>
+            }
+            <span class="rating">@p.Rating/5</span>
+          </li>
+        }
+      </ul>
+    </section>
+  }
+</div>

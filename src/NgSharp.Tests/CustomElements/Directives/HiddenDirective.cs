@@ -1,4 +1,3 @@
-using AngleSharp.Dom;
 using NgSharp.Directives;
 
 namespace NgSharp.Tests.CustomElements;
@@ -6,15 +5,12 @@ namespace NgSharp.Tests.CustomElements;
 public class HiddenDirective : IDirective
 {
     public string DirectiveName => "hidden";
-    public bool ApplyWhileParsing => false;
 
-    public void Apply(HtmlBuilder builder, string directiveName, IElement childElement, NgElement content, Dictionary<string, string> optionalArguments = null)
+    public void Apply(DirectiveElement element, NgElement content)
     {
-        var booleanValue = content.GetBoolean();
-
-        if (booleanValue == true)
+        if (content.GetBoolean() == true)
         {
-            childElement.SetAttribute("hidden", string.Empty);
+            element.SetAttribute("hidden", string.Empty);
         }
     }
 }

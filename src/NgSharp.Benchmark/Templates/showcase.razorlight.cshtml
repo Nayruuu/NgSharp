@@ -1,0 +1,77 @@
+<article class="company" data-headcount="@Model.Headcount">
+  <header class="masthead">
+    <h1>@Model.Name.ToUpper()</h1>
+    <div class="logo">@Raw(Model.LogoHtml)</div>
+    <p class="meta">Founded @Model.FoundedAt.ToString("yyyy") · @Model.Headcount people across @Model.Departments.Count departments</p>
+  </header>
+  @foreach (var d in Model.Departments)
+  {
+    <section class="dept@(d.IsCore ? " core" : "")" data-budget="@d.Budget">
+      <h2 style="color: @d.ThemeColor">@d.Name</h2>
+      <p class="budget">Budget @Raw(d.Budget.ToString("C0"))</p>
+      @if (d.IsCore)
+      {
+        <span class="badge">core</span>
+      }
+      @foreach (var t in d.Teams)
+      {
+        <div class="team">
+          <h3>@t.Name — @t.Members.Count members</h3>
+          @if (t.Members.Count > 0)
+          {
+            <ul class="roster">
+              @foreach (var m in t.Members)
+              {
+                <li class="member@(m.IsLead ? " lead" : "")@(m.IsRemote ? " remote" : "")">
+                  <span class="name">@m.Name.ToUpper()</span>
+                  <span class="role">@m.Role</span>
+                  <span class="salary">@Raw(m.Salary.ToString("C0"))</span>
+                  <span class="joined">joined @m.JoinedAt.ToString("yyyy-MM-dd")</span>
+                  @if (m.Age >= 40)
+                  {
+                    <span class="tier senior">senior</span>
+                  }
+                  else if (m.Age >= 25)
+                  {
+                    <span class="tier mid">mid-level</span>
+                  }
+                  else
+                  {
+                    <span class="tier junior">junior</span>
+                  }
+                  @if (m.IsLead && m.IsRemote)
+                  {
+                    <span class="flag">remote lead</span>
+                  }
+                  <span class="mode">@(m.IsRemote ? m.RemoteLabel : m.OnsiteLabel)</span>
+                  <span class="status">@Raw(m.StatusHtml)</span>
+                  @if (m.Tasks.Count > 0)
+                  {
+                    <ul class="tasks">
+                      @foreach (var k in m.Tasks)
+                      {
+                        <li class="task@(k.Done ? " done" : "")">
+                          <span class="title">@k.Title</span>
+                          <span class="prio">@k.Priority.ToUpper()</span>
+                          @if (k.Priority == "high")
+                          {
+                            <span class="urgent">urgent</span>
+                          }
+                          @if (k.Points > 5 || k.Done)
+                          {
+                            <span class="pts">@k.Points pts</span>
+                          }
+                        </li>
+                      }
+                    </ul>
+                  }
+                </li>
+              }
+            </ul>
+          }
+        </div>
+      }
+    </section>
+  }
+  <footer class="headcount">Total headcount: @Model.Headcount</footer>
+</article>

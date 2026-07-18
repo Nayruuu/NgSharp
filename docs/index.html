@@ -1,0 +1,1716 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="NgSharp — the interpreted, Angular-style HTML template engine for .NET. Get started, learn by example, and browse the API.">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0}
+h1,h2,h3,h4,p,ul,ol,dl,dd,figure,pre,blockquote{margin:0}
+ul,ol{padding:0;list-style:none}
+button{font-family:inherit}
+img{max-width:100%;display:block}
+</style>
+<title>NgSharp — Documentation</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #FFFFFF;
+    --surface: #FFFFFF;
+    --surface-2: #F1F0F6;
+    --code-bg: #F5F4FA;
+    --ink: #1A1620;
+    --ink-soft: #4A4553;
+    --muted: #726C7D;
+    --border: #EAE7F0;
+    --border-strong: #DAD5E4;
+    --accent: #C4123E;
+    --accent-soft: #FBE7EC;
+    --accent-ink: #A00E33;
+    --kw: #7A5CF0;
+    --ty: #1E47B5;
+    --str: #1E874B;
+    --num: #B4600A;
+    --shadow: 0 1px 2px rgba(30,16,40,.05), 0 10px 34px rgba(30,16,40,.08);
+    --shadow-soft: 0 1px 2px rgba(30,16,40,.04);
+  }
+  /* The docs page is light-only — no prefers-color-scheme dark auto-switch. */
+  :root[data-theme="light"] {
+    --bg: #FFFFFF; --surface: #FFFFFF; --surface-2: #F1F0F6; --code-bg: #F5F4FA;
+    --ink: #1A1620; --ink-soft: #4A4553; --muted: #726C7D; --border: #EAE7F0; --border-strong: #DAD5E4;
+    --accent: #C4123E; --accent-soft: #FBE7EC; --accent-ink: #A00E33;
+    --kw: #7A5CF0; --ty: #1E47B5; --str: #1E874B; --num: #B4600A;
+    --shadow: 0 1px 2px rgba(30,16,40,.05), 0 10px 34px rgba(30,16,40,.08); --shadow-soft: 0 1px 2px rgba(30,16,40,.04);
+  }
+  :root[data-theme="dark"] {
+    --bg: #120E17; --surface: #1B1622; --surface-2: #251E30; --code-bg: #181320;
+    --ink: #F3EFF7; --ink-soft: #CBC4D6; --muted: #948CA2; --border: #2C2437; --border-strong: #3D3350;
+    --accent: #FF6E8A; --accent-soft: #2C1420; --accent-ink: #FF9DB0;
+    --kw: #A995FF; --ty: #6E9BFF; --str: #5FD08C; --num: #E5A85F;
+    --shadow: 0 1px 2px rgba(0,0,0,.35), 0 12px 40px rgba(0,0,0,.45); --shadow-soft: 0 1px 2px rgba(0,0,0,.3);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    scroll-padding-top: 84px;
+  }
+  code, pre, .mono, .sig { font-family: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas, monospace; }
+  a { color: var(--accent-ink); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+  /* ---- top bar ---- */
+  .topbar {
+    position: sticky; top: 0; z-index: 40;
+    display: flex; align-items: center; gap: 14px;
+    padding: 12px clamp(16px, 4vw, 40px);
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: saturate(1.4) blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -.02em; }
+  .brand .mark { width: 22px; height: 22px; flex: none; }
+  .brand b { color: var(--ink); }
+  .brand .sharp { color: var(--accent); }
+  .topbar .spacer { flex: 1; }
+  .topbar nav.links { display: flex; gap: 4px; }
+  .topbar nav.links a { color: var(--ink-soft); font-size: 14px; font-weight: 500; padding: 6px 11px; border-radius: 8px; }
+  .topbar nav.links a:hover { background: var(--surface-2); text-decoration: none; color: var(--ink); }
+  @media (max-width: 720px) { .topbar nav.links { display: none; } }
+  .pill {
+    font-family: ui-monospace, monospace; font-size: 12px; font-weight: 600;
+    padding: 4px 9px; border-radius: 999px; border: 1px solid var(--border-strong);
+    color: var(--ink-soft); background: var(--surface); white-space: nowrap;
+  }
+  .pill.accent { color: #fff; background: var(--accent); border-color: transparent; }
+  :root[data-theme="dark"] .pill.accent { color: #180D12; }
+  :root[data-theme="light"] .pill.accent { color: #fff; }
+  @media (max-width: 820px) { .topbar .hide-sm { display: none; } }
+
+  /* ---- hero ---- */
+  .hero { padding: clamp(40px, 7vw, 84px) clamp(16px, 4vw, 40px) clamp(24px, 4vw, 40px); max-width: 1180px; margin: 0 auto; }
+  .eyebrow {
+    font-family: ui-monospace, monospace; font-size: 12.5px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin: 0 0 18px;
+  }
+  .hero h1 {
+    font-size: clamp(2.3rem, 6vw, 4rem); line-height: 1.02; letter-spacing: -.035em;
+    margin: 0 0 20px; font-weight: 800; text-wrap: balance; max-width: 16ch;
+  }
+  .hero h1 .g { color: var(--accent); }
+  .hero .lede { font-size: clamp(1.05rem, 2vw, 1.28rem); color: var(--ink-soft); max-width: 62ch; margin: 0 0 26px; line-height: 1.5; }
+  .stats { display: flex; flex-wrap: wrap; gap: 10px 28px; margin: 0 0 8px; padding: 0; list-style: none; }
+  .stats li { display: flex; flex-direction: column; }
+  .stats .v { font-family: ui-monospace, monospace; font-size: 1.5rem; font-weight: 700; color: var(--ink); letter-spacing: -.02em; }
+  .stats .k { font-size: 12.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+
+  /* ---- code showcase ---- */
+  .showcase { max-width: 1180px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px); }
+  .panels { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: stretch; }
+  @media (max-width: 860px) { .panels { grid-template-columns: 1fr; } }
+  .panel {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column;
+  }
+  .panel-head {
+    display: flex; align-items: center; gap: 8px; padding: 11px 15px;
+    border-bottom: 1px solid var(--border); font-family: ui-monospace, monospace; font-size: 12.5px; color: var(--muted);
+  }
+  .panel-head .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--border-strong); flex: none; }
+  .panel-head .lang { margin-left: auto; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; font-size: 11px; }
+  .panel-head .lang.cs { color: var(--kw); }
+  .panel-head .lang.html { color: var(--accent); }
+  pre { margin: 0; padding: 16px 18px; overflow-x: auto; font-size: 13px; line-height: 1.72; color: var(--ink); flex: 1; }
+  pre code { font-size: inherit; }
+  .tok-k { color: var(--kw); }
+  .tok-t { color: var(--ty); }
+  .tok-s { color: var(--str); }
+  .tok-n { color: var(--num); }
+  .tok-c { color: var(--muted); font-style: italic; }
+  .tok-m { color: var(--ink); font-weight: 600; }
+  .tok-v { color: var(--accent); font-weight: 600; }
+  .tok-p { color: var(--muted); }
+
+  /* ---- main layout ---- */
+  .wrap { max-width: 1180px; margin: 0 auto; padding: clamp(30px, 5vw, 52px) clamp(16px, 4vw, 40px) 80px; }
+  .layout { display: grid; grid-template-columns: 220px 1fr; gap: clamp(28px, 4vw, 56px); align-items: start; }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .sidenav { display: none; } }
+
+  .sidenav { position: sticky; top: 76px; align-self: start; max-height: calc(100vh - 96px); overflow-y: auto; padding-right: 6px; }
+  .sidenav .group { margin-bottom: 18px; }
+  .sidenav .group > span {
+    display: block; font-family: ui-monospace, monospace; font-size: 11px; text-transform: uppercase;
+    letter-spacing: .13em; color: var(--muted); margin: 0 0 8px; font-weight: 700;
+  }
+  .sidenav a { display: block; color: var(--ink-soft); padding: 4px 10px; border-radius: 7px; font-size: 14px; line-height: 1.4; }
+  .sidenav a code { font-size: 13px; color: inherit; }
+  .sidenav a:hover { background: var(--surface-2); text-decoration: none; color: var(--ink); }
+
+  .content { min-width: 0; }
+  .section { margin-bottom: 72px; scroll-margin-top: 80px; }
+  .section-eyebrow {
+    font-family: ui-monospace, monospace; font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin: 0 0 6px;
+  }
+  .section > h2.title { font-size: 1.55rem; letter-spacing: -.02em; color: var(--ink); font-weight: 750; margin: 0 0 10px; }
+  .section > h2.title { margin-bottom: 12px; }
+  .section > p.intro { color: var(--ink-soft); max-width: 68ch; margin: 0 0 30px; line-height: 1.7; }
+  .section > p.intro code { background: var(--surface-2); padding: 1px 6px; border-radius: 5px; font-size: .86em; color: var(--accent-ink); }
+
+  /* ---- feature block (learn by example) ---- */
+  .feature { margin-bottom: 44px; }
+  .feature h3 { font-size: 1.12rem; letter-spacing: -.01em; margin: 0 0 6px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .feature h3 .tag {
+    font-family: ui-monospace, monospace; font-size: 12px; color: var(--accent-ink); background: var(--accent-soft);
+    padding: 2px 8px; border-radius: 6px; font-weight: 700;
+  }
+  .feature > p { color: var(--ink-soft); margin: 0 0 16px; max-width: 70ch; line-height: 1.7; }
+  .feature > p code { background: var(--surface-2); padding: 1px 5px; border-radius: 4px; font-size: .85em; color: var(--accent-ink); }
+
+  .example {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+    background: var(--surface); box-shadow: var(--shadow-soft);
+  }
+  @media (max-width: 680px) { .example { grid-template-columns: 1fr; } }
+  .example .col { min-width: 0; display: flex; flex-direction: column; }
+  .example .col + .col { border-left: 1px solid var(--border); }
+  @media (max-width: 680px) { .example .col + .col { border-left: none; border-top: 1px solid var(--border); } }
+  .example .col-head {
+    font-family: ui-monospace, monospace; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--muted); padding: 8px 14px; border-bottom: 1px solid var(--border); background: var(--surface-2);
+    display: flex; align-items: center; gap: 7px;
+  }
+  .example .col-head.out { color: var(--accent-ink); }
+  .example .col-head .dotmini { width: 7px; height: 7px; border-radius: 50%; background: var(--border-strong); }
+  .example .col-head.out .dotmini { background: var(--accent); }
+  .example pre { padding: 13px 15px; font-size: 12.5px; line-height: 1.7; background: transparent; }
+  .example.stacked { grid-template-columns: 1fr; }
+  .example.stacked .col + .col { border-left: none; border-top: 1px solid var(--border); }
+
+  /* ---- live demo (Angular-Material style): rendered result + C#/Template tabs ---- */
+  .demo { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; background: var(--surface); box-shadow: var(--shadow-soft); margin-top: 6px; }
+  .demo-bar { display: flex; align-items: center; gap: 8px; padding: 9px 15px; font-family: ui-monospace, monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: var(--accent-ink); border-bottom: 1px solid var(--border); }
+  .demo-bar .dotmini { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+  .demo-preview { padding: 26px; background: var(--surface-2); display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .demo-tabs { display: flex; gap: 2px; padding: 0 8px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--surface); }
+  .demo-tab { font-family: ui-monospace, monospace; font-size: 12px; font-weight: 700; color: var(--muted); background: none; border: none; border-bottom: 2px solid transparent; padding: 10px 14px; cursor: pointer; letter-spacing: .03em; }
+  .demo-tab:hover { color: var(--ink); }
+  .demo-tab.is-active { color: var(--accent-ink); border-bottom-color: var(--accent); }
+  .demo-pane { display: none; }
+  .demo-pane.is-active { display: block; }
+  .demo-pane pre { font-size: 12.5px; line-height: 1.7; }
+
+  /* rendered-preview component styling — makes the live HTML look like real UI */
+  .demo-preview .product { max-width: 250px; border: 1px solid var(--border-strong); border-radius: 12px; overflow: hidden; background: var(--surface); box-shadow: var(--shadow-soft); }
+  .demo-preview .product img { width: 100%; height: 120px; display: block; background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 55%, transparent), color-mix(in srgb, var(--kw) 55%, transparent)); }
+  .demo-preview .product h3 { font-size: 15px; margin: 12px 14px 2px; }
+  .demo-preview .product .price { margin: 0 14px; color: var(--accent-ink); font-weight: 800; font-size: 15px; }
+  .demo-preview .product .badge { display: inline-block; margin: 8px 0 0 14px; background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 999px; }
+  .demo-preview .product button { margin: 12px 14px 14px; display: block; width: calc(100% - 28px); padding: 8px; border: none; border-radius: 8px; background: var(--ink); color: var(--bg); font-weight: 600; cursor: pointer; font-size: 13.5px; }
+
+  .demo-preview .orders { border-collapse: collapse; width: 100%; max-width: 440px; font-size: 13.5px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .demo-preview .orders th, .demo-preview .orders td { text-align: left; padding: 9px 13px; border-bottom: 1px solid var(--border); }
+  .demo-preview .orders tr:last-child td { border-bottom: none; }
+  .demo-preview .orders th { font-size: 10.5px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); background: var(--surface-2); }
+  .demo-preview .orders tr.backorder { background: color-mix(in srgb, var(--num) 13%, transparent); }
+
+  .demo-preview .feed { list-style: none; margin: 0; padding: 0; width: 100%; max-width: 360px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .demo-preview .feed li { padding: 12px 15px; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 3px; }
+  .demo-preview .feed li:last-child { border-bottom: none; }
+  .demo-preview .feed li.unread { border-left: 3px solid var(--accent); background: var(--accent-soft); }
+  .demo-preview .feed strong { font-size: 14px; }
+  .demo-preview .feed time { font-size: 12px; color: var(--muted); }
+
+  .demo-preview .alert { width: 100%; max-width: 420px; padding: 12px 16px; border-radius: 10px; font-size: 14px; font-weight: 600; }
+  .demo-preview .alert.success { background: color-mix(in srgb, var(--str) 15%, transparent); color: var(--str); }
+  .demo-preview .alert.info { background: color-mix(in srgb, var(--ty) 15%, transparent); color: var(--ty); }
+  .demo-preview .alert.warn { background: color-mix(in srgb, var(--num) 15%, transparent); color: var(--num); }
+
+  .demo-preview nav { display: inline-flex; gap: 6px; background: var(--surface); padding: 8px; border-radius: 11px; border: 1px solid var(--border); }
+  .demo-preview nav a { padding: 6px 13px; border-radius: 8px; font-size: 14px; color: var(--ink-soft); text-decoration: none; }
+  .demo-preview nav a:hover:not(.active) { background: var(--surface-2); text-decoration: none; }
+  .demo-preview nav a.active { background: var(--accent); color: #fff; }
+
+  /* generic rendered elements (hello world, lists, links, badges) */
+  .demo-preview h1 { font-size: 1.5rem; margin: 0; letter-spacing: -.02em; }
+  .demo-preview p { margin: 0; }
+  .demo-preview ul.list { list-style: disc; padding-left: 22px; margin: 0; text-align: left; }
+  .demo-preview ul.list li { padding: 2px 0; }
+  .demo-preview .vip { color: var(--accent); font-weight: 700; }
+  .demo-preview .badge { display: inline-block; background: var(--accent); color: #fff; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; }
+
+  /* advanced preview components: invoice, nested order list, dashboard */
+  .demo-preview .invoice { width: 100%; max-width: 460px; border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; background: var(--surface); font-size: 13.5px; text-align: left; box-shadow: var(--shadow-soft); }
+  .demo-preview .invoice header { display: flex; align-items: center; justify-content: space-between; }
+  .demo-preview .invoice h2 { font-size: 16px; margin: 0; }
+  .demo-preview .invoice .status { font-size: 10.5px; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: var(--surface-2); color: var(--muted); }
+  .demo-preview .invoice .status.paid { background: color-mix(in srgb, var(--str) 16%, transparent); color: var(--str); }
+  .demo-preview .invoice > p { margin: 3px 0; color: var(--muted); font-size: 12.5px; }
+  .demo-preview .invoice table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+  .demo-preview .invoice td { padding: 6px 0; border-top: 1px solid var(--border); }
+  .demo-preview .invoice td:nth-child(2) { color: var(--muted); }
+  .demo-preview .invoice td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+  .demo-preview .invoice .discount { color: var(--num); text-align: right; font-size: 13px; }
+  .demo-preview .invoice .total { text-align: right; font-weight: 800; font-size: 15px; color: var(--ink); }
+
+  .demo-preview .orderlist { width: 100%; max-width: 420px; text-align: left; display: flex; flex-direction: column; gap: 12px; }
+  .demo-preview .order { border: 1px solid var(--border); border-radius: 12px; padding: 12px 15px; background: var(--surface); }
+  .demo-preview .order h3 { font-size: 14px; margin: 0 0 8px; }
+  .demo-preview .order ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; font-size: 13.5px; }
+  .demo-preview .order li.gift { color: var(--accent-ink); font-weight: 600; }
+  .demo-preview .order .tag { margin-left: 8px; font-size: 11px; font-weight: 600; background: var(--accent-soft); color: var(--accent-ink); padding: 1px 8px; border-radius: 999px; }
+
+  .demo-preview .stats { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .demo-preview .stat { border: 1px solid var(--border); border-top: 3px solid var(--border-strong); border-radius: 12px; padding: 14px 16px; background: var(--surface); min-width: 120px; display: flex; flex-direction: column; gap: 4px; box-shadow: var(--shadow-soft); }
+  .demo-preview .stat.up { border-top-color: var(--str); }
+  .demo-preview .stat.down { border-top-color: var(--accent); }
+  .demo-preview .stat .label { font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .demo-preview .stat strong { font-size: 22px; letter-spacing: -.02em; }
+  .demo-preview .stat .trend { font-size: 12px; font-weight: 700; }
+  .demo-preview .stat.up .trend { color: var(--str); }
+  .demo-preview .stat.down .trend { color: var(--accent); }
+
+  /* extend-the-engine previews: avatar (custom pipe), tooltip button (custom directive) */
+  .demo-preview .avatar { display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; font-size: 15px; }
+  .demo-preview button[title] { padding: 9px 18px; border: 1px solid var(--border-strong); border-radius: 8px; background: var(--surface); font-weight: 600; font-size: 14px; cursor: help; }
+
+  /* benchmark table */
+  .bench-wrap { border: 1px solid var(--border); border-radius: 12px; overflow-x: auto; background: var(--surface); box-shadow: var(--shadow-soft); }
+  table.bench { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 480px; }
+  table.bench th, table.bench td { padding: 9px 14px; text-align: right; border-top: 1px solid var(--border); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  table.bench th { font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); background: var(--surface-2); border-top: none; }
+  table.bench td:first-child, table.bench th:first-child { text-align: left; font-variant-numeric: normal; }
+  table.bench tr.cat td { font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--accent-ink); background: var(--surface-2); font-weight: 700; text-align: left; }
+  table.bench tr.me td { background: var(--accent-soft); font-weight: 700; color: var(--ink); }
+  table.bench .fast { color: var(--str); font-weight: 700; }
+  .bench-meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 10px; }
+  .bench-meta .chip { font-family: ui-monospace, monospace; font-size: 12px; color: var(--ink-soft); background: var(--surface-2); border: 1px solid var(--border); padding: 5px 11px; border-radius: 999px; white-space: nowrap; }
+  .bench-meta .chip b { color: var(--ink); font-weight: 700; }
+  .bench-repro { font-size: 13px; color: var(--muted); margin: 0; }
+  .bench-repro code { background: var(--surface-2); padding: 1px 5px; border-radius: 4px; font-size: .92em; color: var(--accent-ink); }
+
+  /* ---- cheatsheet ---- */
+  .cheatsheet-wrap { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--surface); }
+  table.cheatsheet { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  table.cheatsheet td { padding: 10px 14px; border-top: 1px solid var(--border); vertical-align: top; color: var(--ink-soft); }
+  table.cheatsheet tr:first-child td { border-top: none; }
+  table.cheatsheet td.syn { font-family: ui-monospace, monospace; color: var(--accent-ink); white-space: nowrap; width: 42%; }
+  table.cheatsheet td.syn code { color: inherit; }
+  @media (max-width: 600px) { table.cheatsheet td.syn { white-space: normal; } }
+
+  /* ---- API reference cards ---- */
+  .type-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    box-shadow: var(--shadow-soft); overflow: hidden; margin-bottom: 20px;
+  }
+  .type-head { padding: 18px 22px 16px; border-bottom: 1px solid var(--border); }
+  .type-head .kind {
+    display: inline-block; font-family: ui-monospace, monospace; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .08em; color: var(--accent-ink);
+    background: var(--accent-soft); padding: 3px 9px; border-radius: 6px; margin-bottom: 12px;
+  }
+  .type-head h3 { margin: 0 0 8px; font-size: 1.4rem; letter-spacing: -.02em; }
+  .type-head h3 code { font-family: ui-monospace, monospace; font-size: 1.25rem; color: var(--ink); }
+  .type-head p { margin: 0; color: var(--ink-soft); max-width: 70ch; font-size: 15px; line-height: 1.65; }
+  .type-head p code { background: var(--surface-2); padding: 1px 6px; border-radius: 5px; font-size: .86em; color: var(--accent-ink); }
+
+  .members { padding: 4px 0; }
+  .member { padding: 20px 24px; border-top: 1px solid var(--border); }
+  .member:first-child { border-top: none; }
+  .member-head { display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+  .sig {
+    font-size: 13px; line-height: 1.6; color: var(--ink); background: var(--code-bg);
+    border: 1px solid var(--border); border-radius: 9px; padding: 8px 12px; overflow-x: auto;
+    flex: 1; min-width: 0; white-space: pre; scrollbar-width: thin;
+  }
+  .badge {
+    font-family: ui-monospace, monospace; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+    padding: 4px 8px; border-radius: 6px; white-space: nowrap; margin-top: 2px;
+    color: var(--muted); background: var(--surface-2); border: 1px solid var(--border);
+  }
+  .badge.prop { color: #1E874B; }
+  :root[data-theme="dark"] .badge.prop { color: #74D89E; }
+  .summary { margin: 0; color: var(--ink-soft); font-size: 14.5px; line-height: 1.65; }
+  .summary code { background: var(--surface-2); padding: 1px 5px; border-radius: 4px; font-size: .85em; color: var(--accent-ink); }
+  .summary a { border-bottom: 1px dotted currentColor; }
+
+  .callout {
+    margin: 8px 0 0; padding: 14px 18px; border-radius: 10px; font-size: 14px; line-height: 1.75; color: var(--ink-soft);
+    background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+  .callout p { margin: 0 0 11px; }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout code { background: color-mix(in srgb, var(--surface) 55%, transparent); padding: 1px 5px; border-radius: 4px; font-size: .86em; color: var(--accent-ink); }
+
+  /* how-it-works: pipeline strip + guarantee cards */
+  .pipeline { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 4px 0 26px; }
+  .pipeline .step { font-family: ui-monospace, monospace; font-size: 13px; font-weight: 600; padding: 9px 14px; border: 1px solid var(--border-strong); border-radius: 10px; background: var(--surface); }
+  .pipeline .step.out { background: var(--accent-soft); color: var(--accent-ink); border-color: transparent; }
+  .pipeline .arrow { color: var(--muted); font-weight: 700; }
+  .guarantees { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 640px) { .guarantees { grid-template-columns: 1fr; } }
+  .guarantees .g { border: 1px solid var(--border); border-radius: 12px; padding: 15px 17px; background: var(--surface); box-shadow: var(--shadow-soft); }
+  .guarantees .g b { display: block; margin-bottom: 5px; font-size: 14.5px; letter-spacing: -.01em; }
+  .guarantees .g span { color: var(--ink-soft); font-size: 13.5px; line-height: 1.6; }
+  .guarantees .g code { background: var(--surface-2); padding: 1px 5px; border-radius: 4px; font-size: .84em; color: var(--accent-ink); }
+
+  /* ---- dark code surfaces (templates / C# / signatures) on the white page ---- */
+  .panel, .example, .demo-tabs, .demo-pane, .sig {
+    background: #0F1320;
+    --ink: #E6EAF4;
+    --muted: #8A93AC;
+    --surface-2: #171B2B;
+    --kw: #A995FF;
+    --ty: #6E9BFF;
+    --str: #5FD08C;
+    --num: #E5A85F;
+    --accent: #FF9DB0;
+    --accent-ink: #FF9DB0;
+    --border: #262B40;
+  }
+
+  footer { border-top: 1px solid var(--border); padding: 28px clamp(16px,4vw,40px) 48px; max-width: 1180px; margin: 0 auto; color: var(--muted); font-size: 13.5px; display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; }
+  footer .mono { font-family: ui-monospace, monospace; }
+  footer .spacer { flex: 1; }
+  footer .brand b { color: var(--ink-soft); }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <span class="brand">
+    <svg class="mark" viewBox="0 0 100 100" aria-hidden="true" style="color: var(--accent)">
+      <path d="M50 7 L87 21 L81 67 L50 93 L19 67 L13 21 Z" fill="none" stroke="currentColor" stroke-width="6.5" stroke-linejoin="round"/>
+      <path d="M45 35 L31 50 L45 65 M55 35 L69 50 L55 65" fill="none" stroke="currentColor" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span><b>Ng</b><span class="sharp">Sharp</span></span>
+  </span>
+  <span class="spacer"></span>
+  <nav class="links" aria-label="Sections">
+    <a href="#start">Get started</a>
+    <a href="#guide">Guide</a>
+    <a href="#api">API</a>
+    <a href="#benchmarks">Benchmarks</a>
+  </nav>
+  <span class="pill hide-sm">net8.0 · netstandard2.1</span>
+  <span class="pill accent">v2.0.0</span>
+</header>
+
+<section class="hero">
+  <p class="eyebrow">Documentation</p>
+  <h1>Angular-style HTML templates, <span class="g">interpreted</span>.</h1>
+  <p class="lede">Bind a model into HTML with <code>{{ }}</code>, <code>@if</code>/<code>@for</code>, pipes, directives and server components. No runtime compilation — so it renders under Native AOT, trimming and serverless, where Razor-based engines can't.</p>
+  <ul class="stats">
+    <li><span class="v">interpreted</span><span class="k">no compile step</span></li>
+    <li><span class="v">0</span><span class="k">third-party deps</span></li>
+    <li><span class="v">300</span><span class="k">tests, golden-locked</span></li>
+    <li><span class="v">AOT</span><span class="k">+ trim verified</span></li>
+  </ul>
+</section>
+
+<section class="showcase">
+  <div class="demo">
+    <div class="demo-bar"><span class="dotmini"></span>Result</div>
+    <div class="demo-preview">
+      <ul class="list">
+        <li class="vip">ADA</li>
+        <li>LINUS</li>
+      </ul>
+    </div>
+    <div class="demo-tabs" role="tablist">
+      <button class="demo-tab is-active" data-tab="cs">C#</button>
+      <button class="demo-tab" data-tab="html">Template</button>
+    </div>
+    <div class="demo-pane is-active" data-pane="cs">
+<pre><code><span class="tok-k">var</span> html = <span class="tok-k">await</span> <span class="tok-t">HtmlBuilder</span>.<span class="tok-v">Default</span>.<span class="tok-m">BuildFromTemplateAsync</span>(template, <span class="tok-k">new</span> {
+    Users = <span class="tok-k">new</span>[] {
+        <span class="tok-k">new</span> { Name = <span class="tok-s">"Ada"</span>,   IsVip = <span class="tok-k">true</span>  },
+        <span class="tok-k">new</span> { Name = <span class="tok-s">"Linus"</span>, IsVip = <span class="tok-k">false</span> },
+    }
+});</code></pre>
+    </div>
+    <div class="demo-pane" data-pane="html">
+<pre><code><span class="tok-p">&lt;</span><span class="tok-t">ul</span><span class="tok-p">&gt;</span>
+  @for (Users)
+  {
+    <span class="tok-p">&lt;</span><span class="tok-t">li</span> [class.vip]=<span class="tok-s">"IsVip"</span><span class="tok-p">&gt;</span>{{ Name | upper }}<span class="tok-p">&lt;/</span><span class="tok-t">li</span><span class="tok-p">&gt;</span>
+  }
+<span class="tok-p">&lt;/</span><span class="tok-t">ul</span><span class="tok-p">&gt;</span></code></pre>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="layout">
+    <nav class="sidenav" aria-label="Documentation navigation">
+      <div class="group">
+        <span>Start</span>
+        <a href="#start">Get started</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#good-to-know">Good to know</a>
+      </div>
+      <div class="group">
+        <span>Guide · by example</span>
+        <a href="#interpolation">Interpolation &amp; pipes</a>
+        <a href="#conditionals">Conditionals</a>
+        <a href="#loops">Loops</a>
+        <a href="#bindings">Attribute bindings</a>
+        <a href="#components">Components &amp; directives</a>
+        <a href="#cookbook">Real-world examples</a>
+        <a href="#advanced">Putting it all together</a>
+        <a href="#cheatsheet">Syntax cheat sheet</a>
+      </div>
+      <div class="group">
+        <span>Performance</span>
+        <a href="#compile">Compile &amp; reuse</a>
+      </div>
+      <div class="group">
+        <span>API reference</span>
+        <a href="#HtmlBuilder"><code>HtmlBuilder</code></a>
+        <a href="#CompiledTemplate"><code>CompiledTemplate</code></a>
+        <a href="#NgElement"><code>NgElement</code></a>
+        <a href="#extensibility">Extend the engine</a>
+      </div>
+      <div class="group">
+        <span>Proof</span>
+        <a href="#benchmarks">Benchmarks</a>
+      </div>
+    </nav>
+
+    <main class="content">
+
+      <!-- GET STARTED -->
+      <section class="section" id="start">
+        <p class="section-eyebrow">Start</p>
+        <h2 class="title">Get started in a minute.</h2>
+        <p class="intro">Install the package, grab a builder, and render a template against any model. Zero configuration — the built-in pipes are already registered.</p>
+
+        <div class="feature">
+          <h3>1 · Install</h3>
+          <div class="example" style="grid-template-columns:1fr">
+            <div class="col">
+              <div class="col-head"><span class="dotmini"></span>terminal</div>
+<pre><code>dotnet add package NgSharp</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature">
+          <h3>2 · Render your first template</h3>
+          <div class="demo">
+            <div class="demo-bar"><span class="dotmini"></span>Result</div>
+            <div class="demo-preview">
+              <h1>Hello, Ada!</h1>
+            </div>
+            <div class="demo-tabs" role="tablist">
+              <button class="demo-tab is-active" data-tab="cs">C#</button>
+              <button class="demo-tab" data-tab="html">Template</button>
+            </div>
+            <div class="demo-pane is-active" data-pane="cs">
+<pre><code><span class="tok-k">using</span> NgSharp;
+
+<span class="tok-k">var</span> html = <span class="tok-k">await</span> <span class="tok-t">HtmlBuilder</span>.<span class="tok-v">Default</span>.<span class="tok-m">BuildFromTemplateAsync</span>(
+    template, <span class="tok-k">new</span> { Name = <span class="tok-s">"Ada"</span> });</code></pre>
+            </div>
+            <div class="demo-pane" data-pane="html">
+<pre><code><span class="tok-p">&lt;</span><span class="tok-t">h1</span><span class="tok-p">&gt;</span>Hello, {{ Name }}!<span class="tok-p">&lt;/</span><span class="tok-t">h1</span><span class="tok-p">&gt;</span></code></pre>
+            </div>
+          </div>
+          <p class="callout" style="margin-top:12px">The model can be any object, a <code>System.Text.Json.JsonElement</code>, or a pre-built <code>NgElement</code>. Values are HTML-escaped automatically.</p>
+        </div>
+      </section>
+
+      <!-- HOW IT WORKS -->
+      <section class="section" id="how-it-works">
+        <p class="section-eyebrow">Start</p>
+        <h2 class="title">How it works.</h2>
+        <p class="intro">NgSharp parses your template into an immutable AST once, then a stateless renderer walks that tree against your model. No code generation, no per-render state — which is where its guarantees come from.</p>
+
+        <div class="pipeline">
+          <span class="step">Template</span>
+          <span class="arrow">→</span>
+          <span class="step">Lexer + tree builder</span>
+          <span class="arrow">→</span>
+          <span class="step">Immutable AST</span>
+          <span class="arrow">→</span>
+          <span class="step">Stateless renderer + model</span>
+          <span class="arrow">→</span>
+          <span class="step out">HTML</span>
+        </div>
+
+        <div class="guarantees">
+          <div class="g"><b>Interpreted</b><span>No runtime code generation — nothing to Roslyn-compile or emit at first use, so it starts without the codegen cost Razor and Handlebars pay.</span></div>
+          <div class="g"><b>Immutable &amp; thread-safe</b><span>The AST never mutates and the renderer holds no state, so one <code>Compile</code>d template renders concurrently across threads.</span></div>
+          <div class="g"><b>AOT &amp; trim clean</b><span>On the <code>JsonElement</code> / <code>NgElement</code> path; the reflection-based <code>object</code> overload and component binding are opt-in.</span></div>
+          <div class="g"><b>Zero dependencies</b><span>Only System.Text.Json — in the shared framework on .NET 8+, a single package on netstandard2.1.</span></div>
+        </div>
+      </section>
+
+      <!-- GOOD TO KNOW -->
+      <section class="section" id="good-to-know">
+        <p class="section-eyebrow">Start</p>
+        <h2 class="title">Good to know.</h2>
+        <p class="intro">A handful of behaviours worth knowing before your first render — the things that would otherwise surprise you.</p>
+        <div class="type-card">
+          <div class="members">
+            <div class="member">
+              <p class="summary"><strong><code>HtmlBuilder.Default</code> is a fresh builder.</strong> Every access returns a new instance pre-loaded with the built-in pipes. Capture it once — <code>var builder = HtmlBuilder.Default;</code> — then register and render on that same instance; registering on one <code>Default</code> and rendering on another loses the registration.</p>
+            </div>
+            <div class="member">
+              <p class="summary"><strong>Output is verbatim.</strong> Rendering emits your template's whitespace exactly as written — newlines and indentation included, and correctly inside <code>&lt;pre&gt;</code> / <code>&lt;textarea&gt;</code>. Want it collapsed? Call the opt-in <code>HtmlBuilder.MinifyHtml</code> on the result yourself.</p>
+            </div>
+            <div class="member">
+              <p class="summary"><strong>Pipes use the current culture.</strong> <code>date</code>, <code>number</code> and <code>largeNumber</code> format with the thread's <code>CultureInfo</code> — set <code>CultureInfo.DefaultThreadCurrentCulture</code> for deterministic output. The sample outputs on this page are en-US.</p>
+            </div>
+            <div class="member">
+              <p class="summary"><strong>The expression language is small.</strong> Paths, indices, <code>.Count</code> / <code>.Length</code>, literals, <code>== != &lt; &gt; &lt;= &gt;=</code>, <code>&amp;&amp;</code>, <code>||</code>, ternary and pipes. No arithmetic, no <code>!</code>, no method calls; ordering comparisons are numeric. Test existence with a comparison — <code>[if]="Items.Count &gt; 0"</code>, not <code>[if]="Items"</code>.</p>
+            </div>
+            <div class="member">
+              <p class="summary"><strong>Truthiness is strict; misses are silent.</strong> Only a real boolean is truthy, and a path that doesn't resolve renders empty rather than throwing. Empty templates and unknown pipes <em>do</em> throw.</p>
+            </div>
+            <div class="member">
+              <p class="summary"><strong>Async is ergonomic, not concurrent.</strong> <code>BuildFromTemplateAsync</code> returns an already-completed <code>Task</code> — rendering is CPU-bound. <code>Compile(template).Render(model)</code> is the synchronous path.</p>
+            </div>
+            <div class="member">
+              <p class="summary"><strong>Components use reflection.</strong> Unlike pipes and directives, component <code>[prop]</code> binding is reflection-based and binds scalar properties only; preserve those members under trimming / Native AOT.</p>
+            </div>
+          </div>
+        </div>
+        <div class="callout" style="margin-top:4px">
+          <p><strong>Where it fits.</strong> Reach for NgSharp when you need HTML-correct, escaped output with a compile-free cold start and zero dependencies — Native AOT, trimming, serverless, short-lived processes.</p>
+
+          <p>For a full view engine, use Razor; for maximum warm-loop throughput on long-lived servers, Fluid / Handlebars / RazorLight are faster.</p>
+        </div>
+      </section>
+
+      <!-- GUIDE -->
+      <section class="section" id="guide" style="margin-bottom:22px">
+        <p class="section-eyebrow">Guide</p>
+        <h2 class="title">Learn the template syntax by example.</h2>
+        <p class="intro">Each block shows what NgSharp renders, with the template and the C# behind the tabs.</p>
+      </section>
+
+      <!-- INTERPOLATION -->
+      <section class="section" id="interpolation">
+        <div class="feature">
+          <h3>Interpolation &amp; pipes <span class="tag">{{ }}</span></h3>
+          <p>Write <code>{{ expression }}</code> to bind a value. Expressions support dotted paths, array indices, the computed members <code>.Count</code> / <code>.Length</code>, and <em>pipes</em> — transforms applied with <code>|</code> that chain left to right.</p>
+          <div class="demo">
+            <div class="demo-bar"><span class="dotmini"></span>Result</div>
+            <div class="demo-preview">
+              <p>ADA has 2 tags</p>
+              <p>Joined 2021</p>
+            </div>
+            <div class="demo-tabs" role="tablist">
+              <button class="demo-tab is-active" data-tab="cs">C#</button>
+              <button class="demo-tab" data-tab="html">Template</button>
+            </div>
+            <div class="demo-pane is-active" data-pane="cs">
+<pre><code><span class="tok-k">var</span> html = <span class="tok-k">await</span> builder.<span class="tok-m">BuildFromTemplateAsync</span>(template, <span class="tok-k">new</span> {
+    User = <span class="tok-k">new</span> { Name = <span class="tok-s">"ada"</span>, Tags = <span class="tok-k">new</span>[] { <span class="tok-s">"a"</span>, <span class="tok-s">"b"</span> }, Joined = <span class="tok-k">new</span> <span class="tok-t">DateTime</span>(2021, 6, 1) }
+});</code></pre>
+            </div>
+            <div class="demo-pane" data-pane="html">
+<pre><code><span class="tok-p">&lt;</span><span class="tok-t">p</span><span class="tok-p">&gt;</span>{{ User.Name | upper }} has
+   {{ User.Tags.Count }} tags<span class="tok-p">&lt;/</span><span class="tok-t">p</span><span class="tok-p">&gt;</span>
+<span class="tok-p">&lt;</span><span class="tok-t">p</span><span class="tok-p">&gt;</span>Joined {{ User.Joined | date:<span class="tok-s">'yyyy'</span> }}<span class="tok-p">&lt;/</span><span class="tok-t">p</span><span class="tok-p">&gt;</span></code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONDITIONALS -->
+      <section class="section" id="conditionals">
+        <div class="feature">
+          <h3>Conditionals <span class="tag">@if · @else · [if]</span></h3>
+          <p>Use the block form <code>@if (…) { } @else if (…) { } @else { }</code>, or the attribute form <code>[if]="expr"</code> to keep a single element. Conditions accept comparisons and <code>&amp;&amp;</code> / <code>||</code>; truthiness is strict — only a real boolean is truthy.</p>
+          <div class="demo">
+            <div class="demo-bar"><span class="dotmini"></span>Result <span style="opacity:.65;font-weight:600">— User = { IsAdmin: false, Age: 34 }</span></div>
+            <div class="demo-preview">
+              <span>member</span>
+            </div>
+            <div class="demo-tabs" role="tablist">
+              <button class="demo-tab is-active" data-tab="cs">C#</button>
+              <button class="demo-tab" data-tab="html">Template</button>
+            </div>
+            <div class="demo-pane is-active" data-pane="cs">
+<pre><code><span class="tok-k">var</span> html = <span class="tok-k">await</span> builder.<span class="tok-m">BuildFromTemplateAsync</span>(template, <span class="tok-k">new</span> {
+    User = <span class="tok-k">new</span> { IsAdmin = <span class="tok-k">false</span>, Age = 34 }
+});</code></pre>
+            </div>
+            <div class="demo-pane" data-pane="html">
+<pre><code><span class="tok-k">@if</span> (User.IsAdmin)
+{
+  <span class="tok-p">&lt;</span><span class="tok-t">b</span><span class="tok-p">&gt;</span>admin<span class="tok-p">&lt;/</span><span class="tok-t">b</span><span class="tok-p">&gt;</span>
+}
+<span class="tok-k">@else if</span> (User.Age &gt;= 18)
+{
+  <span class="tok-p">&lt;</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>member<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+}
+<span class="tok-k">@else</span>
+{
+  <span class="tok-p">&lt;</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>minor<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+}</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LOOPS -->
+      <section class="section" id="loops">
+        <div class="feature">
+          <h3>Loops <span class="tag">@for · [for] · [not-empty]</span></h3>
+          <p>Repeat a body once per item with <code>@for (Items) { }</code> — each item becomes the local context, and outer scope is still reachable. <code>[for]="Items"</code> repeats a single element; <code>[not-empty]="Items"</code> renders only when the collection is non-empty.</p>
+          <div class="demo">
+            <div class="demo-bar"><span class="dotmini"></span>Result</div>
+            <div class="demo-preview">
+              <ul class="list">
+                <li>Pen ×3</li>
+                <li>Book ×1</li>
+              </ul>
+            </div>
+            <div class="demo-tabs" role="tablist">
+              <button class="demo-tab is-active" data-tab="cs">C#</button>
+              <button class="demo-tab" data-tab="html">Template</button>
+            </div>
+            <div class="demo-pane is-active" data-pane="cs">
+<pre><code><span class="tok-k">var</span> html = <span class="tok-k">await</span> builder.<span class="tok-m">BuildFromTemplateAsync</span>(template, <span class="tok-k">new</span> {
+    Items = <span class="tok-k">new</span>[] {
+        <span class="tok-k">new</span> { Name = <span class="tok-s">"Pen"</span>,  Qty = 3 },
+        <span class="tok-k">new</span> { Name = <span class="tok-s">"Book"</span>, Qty = 1 },
+    }
+});</code></pre>
+            </div>
+            <div class="demo-pane" data-pane="html">
+<pre><code><span class="tok-p">&lt;</span><span class="tok-t">ul</span> [not-empty]=<span class="tok-s">"Items"</span><span class="tok-p">&gt;</span>
+  <span class="tok-k">@for</span> (Items)
+  {
+    <span class="tok-p">&lt;</span><span class="tok-t">li</span><span class="tok-p">&gt;</span>{{ Name }} ×{{ Qty }}<span class="tok-p">&lt;/</span><span class="tok-t">li</span><span class="tok-p">&gt;</span>
+  }
+<span class="tok-p">&lt;/</span><span class="tok-t">ul</span><span class="tok-p">&gt;</span></code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BINDINGS -->
+      <section class="section" id="bindings">
+        <div class="feature">
+          <h3>Attribute, class &amp; style bindings <span class="tag">[attr.] [class.] [style.] [html]</span></h3>
+          <p>Bind attributes from expressions. A null <code>[attr.x]</code> omits the attribute; <code>[class.name]</code> toggles a class when truthy; <code>[style.prop]</code> appends an inline style; <code>[html]</code> injects raw, unescaped HTML.</p>
+          <div class="demo">
+            <div class="demo-bar"><span class="dotmini"></span>Result</div>
+            <div class="demo-preview">
+              <a href="#" class="active" style="color: red">Home</a>
+            </div>
+            <div class="demo-tabs" role="tablist">
+              <button class="demo-tab is-active" data-tab="cs">C#</button>
+              <button class="demo-tab" data-tab="html">Template</button>
+            </div>
+            <div class="demo-pane is-active" data-pane="cs">
+<pre><code><span class="tok-k">var</span> html = <span class="tok-k">await</span> builder.<span class="tok-m">BuildFromTemplateAsync</span>(template, <span class="tok-k">new</span> {
+    Url = <span class="tok-s">"/home"</span>, IsActive = <span class="tok-k">true</span>, Color = <span class="tok-s">"red"</span>, Label = <span class="tok-s">"Home"</span>
+});</code></pre>
+            </div>
+            <div class="demo-pane" data-pane="html">
+<pre><code><span class="tok-p">&lt;</span><span class="tok-t">a</span> [attr.href]=<span class="tok-s">"Url"</span>
+   [class.active]=<span class="tok-s">"IsActive"</span>
+   [style.color]=<span class="tok-s">"Color"</span><span class="tok-p">&gt;</span>{{ Label }}<span class="tok-p">&lt;/</span><span class="tok-t">a</span><span class="tok-p">&gt;</span></code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- COMPONENTS & DIRECTIVES -->
+      <section class="section" id="components">
+        <div class="feature">
+          <h3>Components &amp; directives <span class="tag">&lt;my-component&gt; · [directive]</span></h3>
+          <p>A <em>component</em> is a class returning HTML for a custom element; a <em>directive</em> mutates a host element. Register either on the builder, then use it in any template.</p>
+          <div class="demo">
+            <div class="demo-bar"><span class="dotmini"></span>Result <span style="opacity:.65;font-weight:600">— Status = "live"</span></div>
+            <div class="demo-preview">
+              <span class="badge">live</span>
+            </div>
+            <div class="demo-tabs" role="tablist">
+              <button class="demo-tab is-active" data-tab="cs">C#</button>
+              <button class="demo-tab" data-tab="html">Template</button>
+            </div>
+            <div class="demo-pane is-active" data-pane="cs">
+<pre><code><span class="tok-k">public class</span> <span class="tok-t">Badge</span> : <span class="tok-t">IComponent</span>
+{
+    <span class="tok-k">public string</span> <span class="tok-v">ComponentName</span> =&gt; <span class="tok-s">"badge"</span>;
+    <span class="tok-k">public string</span> <span class="tok-v">Label</span> { <span class="tok-k">get</span>; <span class="tok-k">set</span>; }
+    <span class="tok-k">public string</span> <span class="tok-m">Render</span>() =&gt;
+        <span class="tok-s">$"&lt;span class='badge'&gt;{Label}&lt;/span&gt;"</span>;
+}
+
+builder.<span class="tok-m">RegisterComponent</span>&lt;<span class="tok-t">Badge</span>&gt;();</code></pre>
+            </div>
+            <div class="demo-pane" data-pane="html">
+<pre><code><span class="tok-p">&lt;</span><span class="tok-t">badge</span> [label]=<span class="tok-s">"Status"</span><span class="tok-p">&gt;&lt;/</span><span class="tok-t">badge</span><span class="tok-p">&gt;</span></code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- COOKBOOK -->
+      <section class="section" id="cookbook">
+        <p class="section-eyebrow">Guide · cookbook</p>
+        <h2 class="title">Real-world examples.</h2>
+        <p class="intro">Complete templates that combine several features. See the <strong>rendered result</strong>, then flip to the <strong>C#</strong> that produced it and the <strong>template</strong> itself.</p>
+
+        <div class="feature">
+          <h3>Product card <span class="tag">interpolation · [class.] · @if · [if] · pipe</span></h3>
+          <div class="demo">
+            <div class="demo-bar"><span class="dotmini"></span>Result</div>
+            <div class="demo-preview">
+              <article class="product sale">
+                <img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'/%3E" alt="Mechanical Keyboard">
+                <h3>Mechanical Keyboard</h3>
+                <p class="price">$129</p>
+                <span class="badge">-20%</span>
+                <button>Add to cart</button>
+              </article>
+            </div>
+            <div class="demo-tabs" role="tablist">
+              <button class="demo-tab is-active" data-tab="cs">C#</button>
+              <button class="demo-tab" data-tab="html">Template</button>
+            </div>
+            <div class="demo-pane is-active" data-pane="cs">
+<pre><code><span class="tok-k">var</span> html = <span class="tok-k">await</span> builder.<span class="tok-m">BuildFromTemplateAsync</span>(template, <span class="tok-k">new</span> {
+    Name = <span class="tok-s">"Mechanical Keyboard"</span>, ImageUrl = <span class="tok-s">"/img/kbd.jpg"</span>,
+    Price = 129, OnSale = <span class="tok-k">true</span>, Discount = 20, InStock = <span class="tok-k">true</span>
+});</code></pre>
+            </div>
+            <div class="demo-pane" data-pane="html">
+<pre><code><span class="tok-p">&lt;</span><span class="tok-t">article</span> <span class="tok-v">class</span>=<span class="tok-s">"product"</span> [class.sale]=<span class="tok-s">"OnSale"</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;</span><span class="tok-t">img</span> [attr.src]=<span class="tok-s">"ImageUrl"</span> [attr.alt]=<span class="tok-s">"Name"</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;</span><span class="tok-t">h3</span><span class="tok-p">&gt;</span>{{ Name }}<span class="tok-p">&lt;/</span><span class="tok-t">h3</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;</span><span class="tok-t">p</span> <span class="tok-v">class</span>=<span class="tok-s">"price"</span><span class="tok-p">&gt;</span>{{ Price | number:<span class="tok-s">'C0'</span> }}<span class="tok-p">&lt;/</span><span class="tok-t">p</span><span class="tok-p">&gt;</span>
+  <span class="tok-k">@if</span> (OnSale)
+  {
+    <span class="tok-p">&lt;</span><span class="tok-t">span</span> <span class="tok-v">class</span>=<span class="tok-s">"badge"</span><span class="tok-p">&gt;</span>-{{ Discount }}%<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+  }
+  <span class="tok-p">&lt;</span><span class="tok-t">button</span> [if]=<span class="tok-s">"InStock"</span><span class="tok-p">&gt;</span>Add to cart<span class="tok-p">&lt;/</span><span class="tok-t">button</span><span class="tok-p">&gt;</span>
+<span class="tok-p">&lt;/</span><span class="tok-t">article</span><span class="tok-p">&gt;</span></code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature">
+          <h3>Order table <span class="tag">@for · [class.] · pipe</span></h3>
+          <div class="demo">
+            <div class="demo-bar"><span class="dotmini"></span>Result</div>
+            <div class="demo-preview">
+              <table class="orders">
+                <thead><tr><th>Item</th><th>Qty</th><th>Total</th></tr></thead>
+                <tbody>
+                  <tr><td>Cable</td><td>2</td><td>$19.98</td></tr>
+                  <tr class="backorder"><td>Adapter</td><td>1</td><td>$12.50</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="demo-tabs" role="tablist">
+              <button class="demo-tab is-active" data-tab="cs">C#</button>
+              <button class="demo-tab" data-tab="html">Template</button>
+            </div>
+            <div class="demo-pane is-active" data-pane="cs">
+<pre><code><span class="tok-k">var</span> html = <span class="tok-k">await</span> builder.<span class="tok-m">BuildFromTemplateAsync</span>(template, <span class="tok-k">new</span> {
+    Lines = <span class="tok-k">new</span>[] {
+        <span class="tok-k">new</span> { Product = <span class="tok-s">"Cable"</span>,   Qty = 2, Total = 19.98<span class="tok-k">m</span>, Backordered = <span class="tok-k">false</span> },
+        <span class="tok-k">new</span> { Product = <span class="tok-s">"Adapter"</span>, Qty = 1, Total = 12.50<span class="tok-k">m</span>, Backordered = <span class="tok-k">true</span>  },
+    }
+});</code></pre>
+            </div>
+            <div class="demo-pane" data-pane="html">
+<pre><code><span class="tok-p">&lt;</span><span class="tok-t">table</span> <span class="tok-v">class</span>=<span class="tok-s">"orders"</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;</span><span class="tok-t">thead</span><span class="tok-p">&gt;&lt;</span><span class="tok-t">tr</span><span class="tok-p">&gt;&lt;</span><span class="tok-t">th</span><span class="tok-p">&gt;</span>Item<span class="tok-p">&lt;/</span><span class="tok-t">th</span><span class="tok-p">&gt;&lt;</span><span class="tok-t">th</span><span class="tok-p">&gt;</span>Qty<span class="tok-p">&lt;/</span><span class="tok-t">th</span><span class="tok-p">&gt;&lt;</span><span class="tok-t">th</span><span class="tok-p">&gt;</span>Total<span class="tok-p">&lt;/</span><span class="tok-t">th</span><span class="tok-p">&gt;&lt;/</span><span class="tok-t">tr</span><span class="tok-p">&gt;&lt;/</span><span class="tok-t">thead</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;</span><span class="tok-t">tbody</span><span class="tok-p">&gt;</span>
+    <span class="tok-k">@for</span> (Lines)
+    {
+      <span class="tok-p">&lt;</span><span class="tok-t">tr</span> [class.backorder]=<span class="tok-s">"Backordered"</span><span class="tok-p">&gt;</span>
+        <span class="tok-p">&lt;</span><span class="tok-t">td</span><span class="tok-p">&gt;</span>{{ Product }}<span class="tok-p">&lt;/</span><span class="tok-t">td</span><span class="tok-p">&gt;&lt;</span><span class="tok-t">td</span><span class="tok-p">&gt;</span>{{ Qty }}<span class="tok-p">&lt;/</span><span class="tok-t">td</span><span class="tok-p">&gt;</span>
+        <span class="tok-p">&lt;</span><span class="tok-t">td</span><span class="tok-p">&gt;</span>{{ Total | number:<span class="tok-s">'C2'</span> }}<span class="tok-p">&lt;/</span><span class="tok-t">td</span><span class="tok-p">&gt;</span>
+      <span class="tok-p">&lt;/</span><span class="tok-t">tr</span><span class="tok-p">&gt;</span>
+    }
+  <span class="tok-p">&lt;/</span><span class="tok-t">tbody</span><span class="tok-p">&gt;</span>
+<span class="tok-p">&lt;/</span><span class="tok-t">table</span><span class="tok-p">&gt;</span></code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature">
+          <h3>Notification feed <span class="tag">[not-empty] · @for · [class.] · date</span></h3>
+          <div class="demo">
+            <div class="demo-bar"><span class="dotmini"></span>Result</div>
+            <div class="demo-preview">
+              <ul class="feed">
+                <li class="unread"><strong>New login</strong><time>Jul 20, 09:15</time></li>
+                <li><strong>Payment received</strong><time>Jul 19, 18:40</time></li>
+              </ul>
+            </div>
+            <div class="demo-tabs" role="tablist">
+              <button class="demo-tab is-active" data-tab="cs">C#</button>
+              <button class="demo-tab" data-tab="html">Template</button>
+            </div>
+            <div class="demo-pane is-active" data-pane="cs">
+<pre><code><span class="tok-k">var</span> html = <span class="tok-k">await</span> builder.<span class="tok-m">BuildFromTemplateAsync</span>(template, <span class="tok-k">new</span> {
+    Items = <span class="tok-k">new</span>[] {
+        <span class="tok-k">new</span> { Title = <span class="tok-s">"New login"</span>,        At = <span class="tok-k">new</span> <span class="tok-t">DateTime</span>(2026,7,20, 9,15,0), Unread = <span class="tok-k">true</span>  },
+        <span class="tok-k">new</span> { Title = <span class="tok-s">"Payment received"</span>, At = <span class="tok-k">new</span> <span class="tok-t">DateTime</span>(2026,7,19,18,40,0), Unread = <span class="tok-k">false</span> },
+    }
+});</code></pre>
+            </div>
+            <div class="demo-pane" data-pane="html">
+<pre><code><span class="tok-p">&lt;</span><span class="tok-t">ul</span> <span class="tok-v">class</span>=<span class="tok-s">"feed"</span> [not-empty]=<span class="tok-s">"Items"</span><span class="tok-p">&gt;</span>
+  <span class="tok-k">@for</span> (Items)
+  {
+    <span class="tok-p">&lt;</span><span class="tok-t">li</span> [class.unread]=<span class="tok-s">"Unread"</span><span class="tok-p">&gt;</span>
+      <span class="tok-p">&lt;</span><span class="tok-t">strong</span><span class="tok-p">&gt;</span>{{ Title }}<span class="tok-p">&lt;/</span><span class="tok-t">strong</span><span class="tok-p">&gt;</span>
+      <span class="tok-p">&lt;</span><span class="tok-t">time</span><span class="tok-p">&gt;</span>{{ At | date:<span class="tok-s">'MMM d, HH:mm'</span> }}<span class="tok-p">&lt;/</span><span class="tok-t">time</span><span class="tok-p">&gt;</span>
+    <span class="tok-p">&lt;/</span><span class="tok-t">li</span><span class="tok-p">&gt;</span>
+  }
+<span class="tok-p">&lt;/</span><span class="tok-t">ul</span><span class="tok-p">&gt;</span></code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature">
+          <h3>Conditional banner <span class="tag">@if · @else if · @else · comparison</span></h3>
+          <div class="demo">
+            <div class="demo-bar"><span class="dotmini"></span>Result <span style="opacity:.65;font-weight:600">— Order.Status = "processing"</span></div>
+            <div class="demo-preview">
+              <div class="alert info">Preparing your order.</div>
+            </div>
+            <div class="demo-tabs" role="tablist">
+              <button class="demo-tab is-active" data-tab="cs">C#</button>
+              <button class="demo-tab" data-tab="html">Template</button>
+            </div>
+            <div class="demo-pane is-active" data-pane="cs">
+<pre><code><span class="tok-k">var</span> html = <span class="tok-k">await</span> builder.<span class="tok-m">BuildFromTemplateAsync</span>(template, <span class="tok-k">new</span> {
+    Order = <span class="tok-k">new</span> { Status = <span class="tok-s">"processing"</span> }
+});</code></pre>
+            </div>
+            <div class="demo-pane" data-pane="html">
+<pre><code><span class="tok-k">@if</span> (Order.Status == <span class="tok-s">"shipped"</span>)
+{
+  <span class="tok-p">&lt;</span><span class="tok-t">div</span> <span class="tok-v">class</span>=<span class="tok-s">"alert success"</span><span class="tok-p">&gt;</span>On its way 🚚<span class="tok-p">&lt;/</span><span class="tok-t">div</span><span class="tok-p">&gt;</span>
+}
+<span class="tok-k">@else if</span> (Order.Status == <span class="tok-s">"processing"</span>)
+{
+  <span class="tok-p">&lt;</span><span class="tok-t">div</span> <span class="tok-v">class</span>=<span class="tok-s">"alert info"</span><span class="tok-p">&gt;</span>Preparing your order.<span class="tok-p">&lt;/</span><span class="tok-t">div</span><span class="tok-p">&gt;</span>
+}
+<span class="tok-k">@else</span>
+{
+  <span class="tok-p">&lt;</span><span class="tok-t">div</span> <span class="tok-v">class</span>=<span class="tok-s">"alert warn"</span><span class="tok-p">&gt;</span>Payment pending.<span class="tok-p">&lt;/</span><span class="tok-t">div</span><span class="tok-p">&gt;</span>
+}</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature">
+          <h3>Nav with active link <span class="tag">@for · [attr.] · [class.]</span></h3>
+          <div class="demo">
+            <div class="demo-bar"><span class="dotmini"></span>Result</div>
+            <div class="demo-preview">
+              <nav>
+                <a href="#" class="active">Home</a>
+                <a href="#">Docs</a>
+                <a href="#">Blog</a>
+              </nav>
+            </div>
+            <div class="demo-tabs" role="tablist">
+              <button class="demo-tab is-active" data-tab="cs">C#</button>
+              <button class="demo-tab" data-tab="html">Template</button>
+            </div>
+            <div class="demo-pane is-active" data-pane="cs">
+<pre><code><span class="tok-k">var</span> html = <span class="tok-k">await</span> builder.<span class="tok-m">BuildFromTemplateAsync</span>(template, <span class="tok-k">new</span> {
+    Links = <span class="tok-k">new</span>[] {
+        <span class="tok-k">new</span> { Label = <span class="tok-s">"Home"</span>, Href = <span class="tok-s">"/"</span>,     Current = <span class="tok-k">true</span>  },
+        <span class="tok-k">new</span> { Label = <span class="tok-s">"Docs"</span>, Href = <span class="tok-s">"/docs"</span>, Current = <span class="tok-k">false</span> },
+        <span class="tok-k">new</span> { Label = <span class="tok-s">"Blog"</span>, Href = <span class="tok-s">"/blog"</span>, Current = <span class="tok-k">false</span> },
+    }
+});</code></pre>
+            </div>
+            <div class="demo-pane" data-pane="html">
+<pre><code><span class="tok-p">&lt;</span><span class="tok-t">nav</span><span class="tok-p">&gt;</span>
+  <span class="tok-k">@for</span> (Links)
+  {
+    <span class="tok-p">&lt;</span><span class="tok-t">a</span> [attr.href]=<span class="tok-s">"Href"</span> [class.active]=<span class="tok-s">"Current"</span><span class="tok-p">&gt;</span>{{ Label }}<span class="tok-p">&lt;/</span><span class="tok-t">a</span><span class="tok-p">&gt;</span>
+  }
+<span class="tok-p">&lt;/</span><span class="tok-t">nav</span><span class="tok-p">&gt;</span></code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ADVANCED -->
+      <section class="section" id="advanced">
+        <p class="section-eyebrow">Guide · advanced</p>
+        <h2 class="title">Putting it all together.</h2>
+        <p class="intro">Where the engine earns its keep: nested loops that reach outer scope, conditionals and pipes inside iterations, computed <code>.Count</code>, and state-driven <code>[class.]</code> bindings — the kind of document you actually ship.</p>
+
+        <div class="feature">
+          <h3>Invoice document <span class="tag">@for · @if · [class.] · nested object · pipes</span></h3>
+          <div class="demo">
+            <div class="demo-bar"><span class="dotmini"></span>Result</div>
+            <div class="demo-preview">
+              <div class="invoice">
+                <header>
+                  <h2>Invoice INV-2042</h2>
+                  <span class="status paid">PAID</span>
+                </header>
+                <p>Billed to Acme Corp · Jul 15, 2026</p>
+                <table>
+                  <tr><td>License · Pro</td><td>3 × $49.00</td><td>$147.00</td></tr>
+                  <tr><td>Onboarding</td><td>1 × $200.00</td><td>$200.00</td></tr>
+                </table>
+                <p class="discount">Discount: −$20.00</p>
+                <p class="total">Total: $327.00</p>
+              </div>
+            </div>
+            <div class="demo-tabs" role="tablist">
+              <button class="demo-tab is-active" data-tab="cs">C#</button>
+              <button class="demo-tab" data-tab="html">Template</button>
+            </div>
+            <div class="demo-pane is-active" data-pane="cs">
+<pre><code><span class="tok-k">var</span> html = <span class="tok-k">await</span> builder.<span class="tok-m">BuildFromTemplateAsync</span>(template, <span class="tok-k">new</span> {
+    Number = <span class="tok-s">"INV-2042"</span>, Status = <span class="tok-s">"paid"</span>, IsPaid = <span class="tok-k">true</span>,
+    Customer = <span class="tok-k">new</span> { Name = <span class="tok-s">"Acme Corp"</span> },
+    IssuedAt = <span class="tok-k">new</span> <span class="tok-t">DateTime</span>(2026, 7, 15),
+    Lines = <span class="tok-k">new</span>[] {
+        <span class="tok-k">new</span> { Product = <span class="tok-s">"License · Pro"</span>, Qty = 3, UnitPrice = 49<span class="tok-k">m</span>,  LineTotal = 147<span class="tok-k">m</span> },
+        <span class="tok-k">new</span> { Product = <span class="tok-s">"Onboarding"</span>,    Qty = 1, UnitPrice = 200<span class="tok-k">m</span>, LineTotal = 200<span class="tok-k">m</span> },
+    },
+    Discount = 20<span class="tok-k">m</span>, Total = 327<span class="tok-k">m</span>
+});</code></pre>
+            </div>
+            <div class="demo-pane" data-pane="html">
+<pre><code><span class="tok-p">&lt;</span><span class="tok-t">div</span> <span class="tok-v">class</span>=<span class="tok-s">"invoice"</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;</span><span class="tok-t">header</span><span class="tok-p">&gt;</span>
+    <span class="tok-p">&lt;</span><span class="tok-t">h2</span><span class="tok-p">&gt;</span>Invoice {{ Number }}<span class="tok-p">&lt;/</span><span class="tok-t">h2</span><span class="tok-p">&gt;</span>
+    <span class="tok-p">&lt;</span><span class="tok-t">span</span> <span class="tok-v">class</span>=<span class="tok-s">"status"</span> [class.paid]=<span class="tok-s">"IsPaid"</span><span class="tok-p">&gt;</span>{{ Status | upper }}<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;/</span><span class="tok-t">header</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;</span><span class="tok-t">p</span><span class="tok-p">&gt;</span>Billed to {{ Customer.Name }} · {{ IssuedAt | date:<span class="tok-s">'MMM d, yyyy'</span> }}<span class="tok-p">&lt;/</span><span class="tok-t">p</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;</span><span class="tok-t">table</span><span class="tok-p">&gt;</span>
+    <span class="tok-k">@for</span> (Lines)
+    {
+      <span class="tok-p">&lt;</span><span class="tok-t">tr</span><span class="tok-p">&gt;</span>
+        <span class="tok-p">&lt;</span><span class="tok-t">td</span><span class="tok-p">&gt;</span>{{ Product }}<span class="tok-p">&lt;/</span><span class="tok-t">td</span><span class="tok-p">&gt;</span>
+        <span class="tok-p">&lt;</span><span class="tok-t">td</span><span class="tok-p">&gt;</span>{{ Qty }} × {{ UnitPrice | number:<span class="tok-s">'C2'</span> }}<span class="tok-p">&lt;/</span><span class="tok-t">td</span><span class="tok-p">&gt;</span>
+        <span class="tok-p">&lt;</span><span class="tok-t">td</span><span class="tok-p">&gt;</span>{{ LineTotal | number:<span class="tok-s">'C2'</span> }}<span class="tok-p">&lt;/</span><span class="tok-t">td</span><span class="tok-p">&gt;</span>
+      <span class="tok-p">&lt;/</span><span class="tok-t">tr</span><span class="tok-p">&gt;</span>
+    }
+  <span class="tok-p">&lt;/</span><span class="tok-t">table</span><span class="tok-p">&gt;</span>
+  <span class="tok-k">@if</span> (Discount &gt; 0)
+  {
+    <span class="tok-p">&lt;</span><span class="tok-t">p</span> <span class="tok-v">class</span>=<span class="tok-s">"discount"</span><span class="tok-p">&gt;</span>Discount: −{{ Discount | number:<span class="tok-s">'C2'</span> }}<span class="tok-p">&lt;/</span><span class="tok-t">p</span><span class="tok-p">&gt;</span>
+  }
+  <span class="tok-p">&lt;</span><span class="tok-t">p</span> <span class="tok-v">class</span>=<span class="tok-s">"total"</span><span class="tok-p">&gt;</span>Total: {{ Total | number:<span class="tok-s">'C2'</span> }}<span class="tok-p">&lt;/</span><span class="tok-t">p</span><span class="tok-p">&gt;</span>
+<span class="tok-p">&lt;/</span><span class="tok-t">div</span><span class="tok-p">&gt;</span></code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature">
+          <h3>Nested orders <span class="tag">@for in @for · outer scope · .Count · nested @if</span></h3>
+          <div class="demo">
+            <div class="demo-bar"><span class="dotmini"></span>Result</div>
+            <div class="demo-preview">
+              <div class="orderlist">
+                <section class="order">
+                  <h3>Order #1001 — 2 items</h3>
+                  <ul>
+                    <li>Keyboard — $129</li>
+                    <li class="gift">Mug — $15<span class="tag">🎁 gift for Sam</span></li>
+                  </ul>
+                </section>
+                <section class="order">
+                  <h3>Order #1002 — 1 items</h3>
+                  <ul>
+                    <li>Cable — $9</li>
+                  </ul>
+                </section>
+              </div>
+            </div>
+            <div class="demo-tabs" role="tablist">
+              <button class="demo-tab is-active" data-tab="cs">C#</button>
+              <button class="demo-tab" data-tab="html">Template</button>
+            </div>
+            <div class="demo-pane is-active" data-pane="cs">
+<pre><code><span class="tok-k">var</span> html = <span class="tok-k">await</span> builder.<span class="tok-m">BuildFromTemplateAsync</span>(template, <span class="tok-k">new</span> {
+    Orders = <span class="tok-k">new</span>[] {
+        <span class="tok-k">new</span> { Id = 1001, Items = <span class="tok-k">new</span>[] {
+            <span class="tok-k">new</span> { Name = <span class="tok-s">"Keyboard"</span>, Price = 129, IsGift = <span class="tok-k">false</span>, Recipient = (<span class="tok-k">string</span>)<span class="tok-k">null</span> },
+            <span class="tok-k">new</span> { Name = <span class="tok-s">"Mug"</span>,      Price = 15,  IsGift = <span class="tok-k">true</span>,  Recipient = <span class="tok-s">"Sam"</span> },
+        }},
+        <span class="tok-k">new</span> { Id = 1002, Items = <span class="tok-k">new</span>[] {
+            <span class="tok-k">new</span> { Name = <span class="tok-s">"Cable"</span>, Price = 9, IsGift = <span class="tok-k">false</span>, Recipient = (<span class="tok-k">string</span>)<span class="tok-k">null</span> },
+        }},
+    }
+});</code></pre>
+            </div>
+            <div class="demo-pane" data-pane="html">
+<pre><code><span class="tok-p">&lt;</span><span class="tok-t">div</span> <span class="tok-v">class</span>=<span class="tok-s">"orderlist"</span> [not-empty]=<span class="tok-s">"Orders"</span><span class="tok-p">&gt;</span>
+  <span class="tok-k">@for</span> (Orders)
+  {
+    <span class="tok-p">&lt;</span><span class="tok-t">section</span> <span class="tok-v">class</span>=<span class="tok-s">"order"</span><span class="tok-p">&gt;</span>
+      <span class="tok-p">&lt;</span><span class="tok-t">h3</span><span class="tok-p">&gt;</span>Order #{{ Id }} — {{ Items.Count }} items<span class="tok-p">&lt;/</span><span class="tok-t">h3</span><span class="tok-p">&gt;</span>
+      <span class="tok-p">&lt;</span><span class="tok-t">ul</span><span class="tok-p">&gt;</span>
+        <span class="tok-k">@for</span> (Items)
+        {
+          <span class="tok-p">&lt;</span><span class="tok-t">li</span> [class.gift]=<span class="tok-s">"IsGift"</span><span class="tok-p">&gt;</span>
+            {{ Name }} — {{ Price | number:<span class="tok-s">'C0'</span> }}
+            <span class="tok-k">@if</span> (IsGift)
+            {
+              <span class="tok-p">&lt;</span><span class="tok-t">span</span> <span class="tok-v">class</span>=<span class="tok-s">"tag"</span><span class="tok-p">&gt;</span>🎁 gift for {{ Recipient }}<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+            }
+          <span class="tok-p">&lt;/</span><span class="tok-t">li</span><span class="tok-p">&gt;</span>
+        }
+      <span class="tok-p">&lt;/</span><span class="tok-t">ul</span><span class="tok-p">&gt;</span>
+    <span class="tok-p">&lt;/</span><span class="tok-t">section</span><span class="tok-p">&gt;</span>
+  }
+<span class="tok-p">&lt;/</span><span class="tok-t">div</span><span class="tok-p">&gt;</span></code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature">
+          <h3>Metrics dashboard <span class="tag">@for · largeNumber · @if / @else if · [class.] state</span></h3>
+          <div class="demo">
+            <div class="demo-bar"><span class="dotmini"></span>Result</div>
+            <div class="demo-preview">
+              <div class="stats">
+                <div class="stat up"><span class="label">Revenue</span><strong>1.2M</strong><span class="trend">▲ 12%</span></div>
+                <div class="stat up"><span class="label">Signups</span><strong>8.4K</strong><span class="trend">▲ 4%</span></div>
+                <div class="stat down"><span class="label">Churn</span><strong>320</strong><span class="trend">▼ 2%</span></div>
+              </div>
+            </div>
+            <div class="demo-tabs" role="tablist">
+              <button class="demo-tab is-active" data-tab="cs">C#</button>
+              <button class="demo-tab" data-tab="html">Template</button>
+            </div>
+            <div class="demo-pane is-active" data-pane="cs">
+<pre><code><span class="tok-k">var</span> html = <span class="tok-k">await</span> builder.<span class="tok-m">BuildFromTemplateAsync</span>(template, <span class="tok-k">new</span> {
+    Metrics = <span class="tok-k">new</span>[] {
+        <span class="tok-k">new</span> { Label = <span class="tok-s">"Revenue"</span>, Value = 1200000, TrendUp = <span class="tok-k">true</span>,  TrendDown = <span class="tok-k">false</span>, Change = <span class="tok-s">"12%"</span> },
+        <span class="tok-k">new</span> { Label = <span class="tok-s">"Signups"</span>, Value = 8400,    TrendUp = <span class="tok-k">true</span>,  TrendDown = <span class="tok-k">false</span>, Change = <span class="tok-s">"4%"</span>  },
+        <span class="tok-k">new</span> { Label = <span class="tok-s">"Churn"</span>,   Value = 320,     TrendUp = <span class="tok-k">false</span>, TrendDown = <span class="tok-k">true</span>,  Change = <span class="tok-s">"2%"</span>  },
+    }
+});</code></pre>
+            </div>
+            <div class="demo-pane" data-pane="html">
+<pre><code><span class="tok-p">&lt;</span><span class="tok-t">div</span> <span class="tok-v">class</span>=<span class="tok-s">"stats"</span><span class="tok-p">&gt;</span>
+  <span class="tok-k">@for</span> (Metrics)
+  {
+    <span class="tok-p">&lt;</span><span class="tok-t">div</span> <span class="tok-v">class</span>=<span class="tok-s">"stat"</span> [class.up]=<span class="tok-s">"TrendUp"</span> [class.down]=<span class="tok-s">"TrendDown"</span><span class="tok-p">&gt;</span>
+      <span class="tok-p">&lt;</span><span class="tok-t">span</span> <span class="tok-v">class</span>=<span class="tok-s">"label"</span><span class="tok-p">&gt;</span>{{ Label }}<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+      <span class="tok-p">&lt;</span><span class="tok-t">strong</span><span class="tok-p">&gt;</span>{{ Value | largeNumber }}<span class="tok-p">&lt;/</span><span class="tok-t">strong</span><span class="tok-p">&gt;</span>
+      <span class="tok-k">@if</span> (TrendUp)
+      {
+        <span class="tok-p">&lt;</span><span class="tok-t">span</span> <span class="tok-v">class</span>=<span class="tok-s">"trend"</span><span class="tok-p">&gt;</span>▲ {{ Change }}<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+      }
+      <span class="tok-k">@else if</span> (TrendDown)
+      {
+        <span class="tok-p">&lt;</span><span class="tok-t">span</span> <span class="tok-v">class</span>=<span class="tok-s">"trend"</span><span class="tok-p">&gt;</span>▼ {{ Change }}<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+      }
+    <span class="tok-p">&lt;/</span><span class="tok-t">div</span><span class="tok-p">&gt;</span>
+  }
+<span class="tok-p">&lt;/</span><span class="tok-t">div</span><span class="tok-p">&gt;</span></code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHEATSHEET -->
+      <section class="section" id="cheatsheet">
+        <div class="feature">
+          <h3>Syntax cheat sheet</h3>
+          <p>Every construct at a glance.</p>
+          <div class="cheatsheet-wrap">
+            <table class="cheatsheet">
+              <tr><td class="syn"><code>{{ expr }}</code></td><td>Interpolation — writes the escaped value of an expression.</td></tr>
+              <tr><td class="syn"><code>{{ expr | pipe:arg }}</code></td><td>Pipe — transforms a value (pipes chain left to right).</td></tr>
+              <tr><td class="syn"><code>@if · @else if · @else</code></td><td>Block conditional.</td></tr>
+              <tr><td class="syn"><code>[if]="expr"</code></td><td>Keeps a single element when the condition is truthy.</td></tr>
+              <tr><td class="syn"><code>@for (Items) { … }</code></td><td>Repeats a body once per item.</td></tr>
+              <tr><td class="syn"><code>[for]="Items"</code></td><td>Repeats a single element.</td></tr>
+              <tr><td class="syn"><code>[not-empty]="Items"</code></td><td>Renders only when the collection is non-empty.</td></tr>
+              <tr><td class="syn"><code>[attr.name]="expr"</code></td><td>Sets an attribute (null omits it).</td></tr>
+              <tr><td class="syn"><code>[class.name]="expr"</code></td><td>Toggles a class when truthy.</td></tr>
+              <tr><td class="syn"><code>[style.prop]="expr"</code></td><td>Appends an inline style.</td></tr>
+              <tr><td class="syn"><code>[html]="expr"</code></td><td>Injects raw, unescaped HTML.</td></tr>
+              <tr><td class="syn"><code>== != &lt; &gt; &lt;= &gt;= &amp;&amp; || ?:</code></td><td>Operators usable inside conditions.</td></tr>
+              <tr><td class="syn"><code>&lt;my-component [prop]="e"&gt;</code></td><td>Renders a registered component.</td></tr>
+              <tr><td class="syn"><code>[directive]="expr"</code></td><td>Applies a registered custom directive.</td></tr>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- COMPILE -->
+      <section class="section" id="compile">
+        <p class="section-eyebrow">Performance</p>
+        <h2 class="title">Compile once, render many.</h2>
+        <p class="intro">Parsing is the bulk of a one-shot render. When you render the same template repeatedly, compile it once: NgSharp parses the AST <em>and</em> folds its static skeleton — text, comments and fixed-attribute tags — into precomputed constants (a partial-evaluation pass, no code generation), so each render pays only for the data-dependent parts.</p>
+        <p class="intro">The result is immutable and the renderer stateless, so a compiled template is safe to render concurrently. This is the warm path measured in the <a href="#benchmarks">benchmarks</a> below.</p>
+        <div class="feature">
+          <div class="example">
+            <div class="col">
+              <div class="col-head"><span class="dotmini"></span>C#</div>
+<pre><code><span class="tok-k">var</span> tpl = <span class="tok-t">HtmlBuilder</span>.<span class="tok-v">Default</span>.<span class="tok-m">Compile</span>(
+    <span class="tok-s">"&lt;li&gt;{{ Name }}&lt;/li&gt;"</span>);
+
+<span class="tok-k">foreach</span> (<span class="tok-k">var</span> user <span class="tok-k">in</span> users)
+    output.<span class="tok-m">Append</span>(tpl.<span class="tok-m">Render</span>(user));</code></pre>
+            </div>
+            <div class="col">
+              <div class="col-head out"><span class="dotmini"></span>note</div>
+<pre><code><span class="tok-c">// Parse the template's AST once,</span>
+<span class="tok-c">// render it N times with N models.</span>
+<span class="tok-c">// Render(object | JsonElement</span>
+<span class="tok-c">//        | NgElement) available.</span></code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- API REFERENCE -->
+      <section class="section" id="api" style="margin-bottom:20px">
+        <p class="section-eyebrow">API reference</p>
+        <h2 class="title">The public surface, in full.</h2>
+        <p class="intro">Every public type is documented with XML comments, so the same descriptions surface in your IDE's IntelliSense.</p>
+      </section>
+
+      <section class="section" id="HtmlBuilder">
+        <div class="type-card">
+          <div class="type-head">
+            <span class="kind">class</span>
+            <h3><code>HtmlBuilder</code></h3>
+            <p>The entry point: registers pipes/directives/components and renders templates. <code>HtmlBuilder.Default</code> comes pre-loaded with the built-in pipes.</p>
+          </div>
+          <div class="members">
+            <div class="member">
+              <div class="member-head"><code class="sig"><span class="tok-k">static</span> <span class="tok-t">HtmlBuilder</span> <span class="tok-v">Default</span> { <span class="tok-k">get</span>; }</code><span class="badge prop">property</span></div>
+              <p class="summary">A new builder pre-loaded with the built-in pipes (<code>date</code>, <code>number</code>, <code>largeNumber</code>, <code>upper</code>, <code>image</code>).</p>
+            </div>
+            <div class="member">
+              <div class="member-head"><code class="sig"><span class="tok-t">Task</span>&lt;<span class="tok-k">string</span>&gt; <span class="tok-m">BuildFromTemplateAsync</span>(<span class="tok-k">string</span> template, <span class="tok-k">object</span> | <span class="tok-t">JsonElement</span> | <span class="tok-t">NgElement</span> model)</code><span class="badge">3 overloads</span></div>
+              <p class="summary">Renders a template against a model. The <code>object</code> overload reads it directly via reflection (honors <code>[JsonPropertyName]</code>/<code>[JsonIgnore]</code>, not custom converters); the <code>JsonElement</code> overload is reflection-free with full System.Text.Json fidelity (AOT / trim); the <code>NgElement</code> overload is the hot-path opt-in.</p>
+            </div>
+            <div class="member">
+              <div class="member-head"><code class="sig"><span class="tok-t">CompiledTemplate</span> <span class="tok-m">Compile</span>(<span class="tok-k">string</span> template)</code><span class="badge">method</span></div>
+              <p class="summary">Parses the AST once and returns a reusable <a href="#CompiledTemplate">CompiledTemplate</a> (parse-once / render-many).</p>
+            </div>
+            <div class="member">
+              <div class="member-head"><code class="sig"><span class="tok-k">void</span> <span class="tok-m">RegisterPipe</span>&lt;<span class="tok-t">T</span>&gt;() · <span class="tok-m">RegisterComponent</span>&lt;<span class="tok-t">T</span>&gt;() · <span class="tok-m">RegisterDirective</span>&lt;<span class="tok-t">T</span>&gt;()</code><span class="badge">methods</span></div>
+              <p class="summary">Registers a pipe / component / directive. Each <code>T</code> is instantiated via its parameterless constructor.</p>
+            </div>
+            <div class="member">
+              <div class="member-head"><code class="sig"><span class="tok-t">IReadOnlyDictionary</span>&lt;<span class="tok-k">string</span>, …&gt; <span class="tok-v">Pipes</span> · <span class="tok-v">Directives</span> · <span class="tok-v">Components</span></code><span class="badge prop">properties</span></div>
+              <p class="summary">The registered extensions, keyed by name.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="CompiledTemplate">
+        <div class="type-card">
+          <div class="type-head">
+            <span class="kind">sealed class</span>
+            <h3><code>CompiledTemplate</code></h3>
+            <p>A template parsed once and rendered many times, from <code>HtmlBuilder.Compile</code>. Immutable AST + stateless renderer — safe to render concurrently.</p>
+          </div>
+          <div class="members">
+            <div class="member">
+              <div class="member-head"><code class="sig"><span class="tok-k">string</span> <span class="tok-m">Render</span>(<span class="tok-k">object</span> | <span class="tok-t">JsonElement</span> | <span class="tok-t">NgElement</span> model)</code><span class="badge">3 overloads</span></div>
+              <p class="summary">Renders the compiled template against a model — same three model kinds as <code>BuildFromTemplateAsync</code>.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="NgElement">
+        <div class="type-card">
+          <div class="type-head">
+            <span class="kind">class</span>
+            <h3><code>NgElement</code></h3>
+            <p>The data model — a lightweight, read-only JSON value tree. Usually built for you; construct one directly for the hot path or to inspect data.</p>
+          </div>
+          <div class="members">
+            <div class="member">
+              <div class="member-head"><code class="sig"><span class="tok-k">static</span> <span class="tok-t">NgElement</span> <span class="tok-m">FromJson</span>(<span class="tok-t">JsonElement</span> json) · <span class="tok-m">FromObject</span>(<span class="tok-k">object</span> value)</code><span class="badge">factories</span></div>
+              <p class="summary"><code>FromJson</code> is reflection-free (AOT / trim safe); <code>FromObject</code> walks a CLR object via reflection — the fastest path, skipping the JSON round-trip.</p>
+            </div>
+            <div class="member">
+              <div class="member-head"><code class="sig"><span class="tok-t">NgElement</span> <span class="tok-m">SelectToken</span>(<span class="tok-k">string</span> path)</code><span class="badge">method</span></div>
+              <p class="summary">Resolves a path — property names, dotted paths, array indices (<code>"Items[0].Name"</code>), and the computed <code>.Count</code> / <code>.Length</code>.</p>
+            </div>
+            <div class="member">
+              <div class="member-head"><code class="sig"><span class="tok-k">string</span> <span class="tok-m">GetString</span>() · <span class="tok-k">int?</span> <span class="tok-m">GetInt</span>() · <span class="tok-k">double?</span> <span class="tok-m">GetDouble</span>() · <span class="tok-k">bool?</span> <span class="tok-m">GetBoolean</span>() · <span class="tok-t">DateTime?</span> <span class="tok-m">GetDateTime</span>() · …</code><span class="badge">getters</span></div>
+              <p class="summary">Typed accessors for the leaf value (also <code>GetLong</code>, <code>GetDecimal</code>, <code>GetFloat</code>); each returns null when not convertible.</p>
+            </div>
+            <div class="member">
+              <div class="member-head"><code class="sig"><span class="tok-k">object</span> <span class="tok-v">Value</span> · <span class="tok-t">JsonValueKind</span> <span class="tok-v">ValueKind</span> · <span class="tok-v">Children</span> · <span class="tok-v">Properties</span> · <span class="tok-k">int</span> <span class="tok-v">Count</span> · <span class="tok-v">Length</span> · <span class="tok-k">string</span> <span class="tok-v">Path</span></code><span class="badge prop">properties</span></div>
+              <p class="summary">The scalar value and kind, the child/property collections, the computed <code>Count</code> / <code>Length</code>, and the full dotted <code>Path</code>.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="extensibility">
+        <p class="section-eyebrow">API reference · extend</p>
+        <h2 class="title">Extend the engine.</h2>
+        <p class="intro">Three interfaces grow the template language: <code>IPipe</code> (value transforms), <code>IDirective</code> (host-element mutations) and <code>IComponent</code> (server components). Implement one, register it, use it.</p>
+        <p class="intro">Pipes and directives are plain interface calls (reflection-free); component property binding uses reflection, so preserve those members under trimming / Native AOT.</p>
+
+        <div class="feature">
+          <h3>Custom pipe <span class="tag">IPipe</span></h3>
+          <div class="demo">
+            <div class="demo-bar"><span class="dotmini"></span>Result</div>
+            <div class="demo-preview">
+              <span class="avatar">AL</span>
+            </div>
+            <div class="demo-tabs" role="tablist">
+              <button class="demo-tab is-active" data-tab="cs">C#</button>
+              <button class="demo-tab" data-tab="html">Template</button>
+            </div>
+            <div class="demo-pane is-active" data-pane="cs">
+<pre><code><span class="tok-k">public class</span> <span class="tok-t">InitialsPipe</span> : <span class="tok-t">IPipe</span>
+{
+    <span class="tok-k">public string</span> <span class="tok-v">PipeName</span> =&gt; <span class="tok-s">"initials"</span>;
+
+    <span class="tok-k">public string</span> <span class="tok-m">Transform</span>(<span class="tok-k">string</span> tag, <span class="tok-t">NgElement</span> value, <span class="tok-k">string</span> arg)
+    {
+        <span class="tok-k">var</span> name = value.<span class="tok-m">GetString</span>() ?? <span class="tok-s">""</span>;
+        <span class="tok-k">return string</span>.<span class="tok-m">Concat</span>(name.<span class="tok-m">Split</span>(<span class="tok-s">' '</span>)
+            .<span class="tok-m">Where</span>(p =&gt; p.Length &gt; 0)
+            .<span class="tok-m">Select</span>(p =&gt; <span class="tok-k">char</span>.<span class="tok-m">ToUpper</span>(p[0])));
+    }
+}
+
+builder.<span class="tok-m">RegisterPipe</span>&lt;<span class="tok-t">InitialsPipe</span>&gt;();</code></pre>
+            </div>
+            <div class="demo-pane" data-pane="html">
+<pre><code><span class="tok-p">&lt;</span><span class="tok-t">span</span> <span class="tok-v">class</span>=<span class="tok-s">"avatar"</span><span class="tok-p">&gt;</span>{{ Name | initials }}<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+
+<span class="tok-c">// Name = "Ada Lovelace"</span></code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature">
+          <h3>Custom directive <span class="tag">IDirective</span></h3>
+          <div class="demo">
+            <div class="demo-bar"><span class="dotmini"></span>Result <span style="opacity:.65;font-weight:600">— hover the button</span></div>
+            <div class="demo-preview">
+              <button title="Ctrl+S">Save</button>
+            </div>
+            <div class="demo-tabs" role="tablist">
+              <button class="demo-tab is-active" data-tab="cs">C#</button>
+              <button class="demo-tab" data-tab="html">Template</button>
+            </div>
+            <div class="demo-pane is-active" data-pane="cs">
+<pre><code><span class="tok-k">public class</span> <span class="tok-t">TooltipDirective</span> : <span class="tok-t">IDirective</span>
+{
+    <span class="tok-k">public string</span> <span class="tok-v">DirectiveName</span> =&gt; <span class="tok-s">"tooltip"</span>;
+
+    <span class="tok-k">public void</span> <span class="tok-m">Apply</span>(<span class="tok-t">DirectiveElement</span> el, <span class="tok-t">NgElement</span> content)
+    {
+        <span class="tok-k">var</span> text = content.<span class="tok-m">GetString</span>();
+        <span class="tok-k">if</span> (!<span class="tok-k">string</span>.<span class="tok-m">IsNullOrEmpty</span>(text))
+            el.<span class="tok-m">SetAttribute</span>(<span class="tok-s">"title"</span>, text);
+    }
+}
+
+builder.<span class="tok-m">RegisterDirective</span>&lt;<span class="tok-t">TooltipDirective</span>&gt;();</code></pre>
+            </div>
+            <div class="demo-pane" data-pane="html">
+<pre><code><span class="tok-p">&lt;</span><span class="tok-t">button</span> [tooltip]=<span class="tok-s">"Hint"</span><span class="tok-p">&gt;</span>Save<span class="tok-p">&lt;/</span><span class="tok-t">button</span><span class="tok-p">&gt;</span>
+
+<span class="tok-c">// Hint = "Ctrl+S"  →  renders &lt;button title="Ctrl+S"&gt;Save&lt;/button&gt;</span></code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="type-card">
+          <div class="type-head">
+            <span class="kind">reference</span>
+            <h3><code>IPipe</code> · <code>IDirective</code> · <code>IComponent</code></h3>
+            <p>The three contracts, and the built-in pipes registered on every <code>HtmlBuilder.Default</code>.</p>
+          </div>
+          <div class="members">
+            <div class="member">
+              <div class="member-head"><code class="sig"><span class="tok-t">IPipe</span> : <span class="tok-k">string</span> <span class="tok-v">PipeName</span> · <span class="tok-k">string</span> <span class="tok-m">Transform</span>(<span class="tok-k">string</span> tag, <span class="tok-t">NgElement</span> value, <span class="tok-k">string</span> arg)</code><span class="badge">interface</span></div>
+              <p class="summary">A value transform for <code>{{ value | pipeName }}</code>.</p>
+            </div>
+            <div class="member">
+              <div class="member-head"><code class="sig"><span class="tok-t">IDirective</span> : <span class="tok-k">string</span> <span class="tok-v">DirectiveName</span> · <span class="tok-k">void</span> <span class="tok-m">Apply</span>(<span class="tok-t">DirectiveElement</span> el, <span class="tok-t">NgElement</span> content)</code><span class="badge">interface</span></div>
+              <p class="summary">Mutates a host element via <code>[directive]="expr"</code>. <code>DirectiveElement</code> exposes <code>TagName</code>, <code>GetAttribute</code>, <code>SetAttribute</code>, <code>RemoveAttribute</code>.</p>
+            </div>
+            <div class="member">
+              <div class="member-head"><code class="sig"><span class="tok-t">IComponent</span> : <span class="tok-k">string</span> <span class="tok-v">ComponentName</span> · <span class="tok-k">string</span> <span class="tok-m">Render</span>()</code><span class="badge">interface</span></div>
+              <p class="summary">A server component for <code>&lt;component-name&gt;</code>; its writable properties are bound from <code>[prop]</code> attributes.</p>
+            </div>
+            <div class="member">
+              <div class="member-head"><code class="sig"><span class="tok-c">// built-in pipes · HtmlBuilder.Default</span></code><span class="badge">pipes</span></div>
+              <p class="summary"><code>date</code> · <code>number</code> · <code>largeNumber</code> · <code>upper</code> · <code>image</code>. Register your own with <code>RegisterPipe&lt;T&gt;()</code>.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BENCHMARKS -->
+      <section class="section" id="benchmarks">
+        <p class="section-eyebrow">Benchmarks</p>
+        <h2 class="title">Honest numbers.</h2>
+        <p class="intro">The same template rendered by six .NET engines — <strong>cold</strong> (first parse + render) and <strong>warm</strong> (pre-parsed, render only). Lower is better. NgSharp <em>interprets</em> templates, so it does no runtime code generation — that is the whole trade-off below.</p>
+
+        <div class="callout" style="margin: 0 0 16px">
+          <p><strong>What's measured.</strong> The same logical document in each engine's own dialect, rendering <strong>byte-identical output</strong> — a product catalogue of <strong>8 categories × 12 products (96 items)</strong> with nested loops, several fields per item, and two conditionals.</p>
+
+          <p>This is a real page, not a one-liner. The NgSharp template and its model:</p>
+        </div>
+        <div class="demo" style="margin-bottom: 22px">
+          <div class="demo-bar"><span class="dotmini"></span>The benchmarked document</div>
+          <div class="demo-tabs" role="tablist">
+            <button class="demo-tab is-active" data-tab="tpl">Template</button>
+            <button class="demo-tab" data-tab="model">Model</button>
+          </div>
+          <div class="demo-pane is-active" data-pane="tpl">
+<pre><code><span class="tok-p">&lt;</span><span class="tok-t">div</span> <span class="tok-v">class</span>=<span class="tok-s">"catalog"</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;</span><span class="tok-t">header</span><span class="tok-p">&gt;</span>
+    <span class="tok-p">&lt;</span><span class="tok-t">h1</span><span class="tok-p">&gt;</span>{{ Title }}<span class="tok-p">&lt;/</span><span class="tok-t">h1</span><span class="tok-p">&gt;</span>
+    <span class="tok-p">&lt;</span><span class="tok-t">p</span> <span class="tok-v">class</span>=<span class="tok-s">"meta"</span><span class="tok-p">&gt;</span>{{ TotalProducts }} products<span class="tok-p">&lt;/</span><span class="tok-t">p</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;/</span><span class="tok-t">header</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;</span><span class="tok-t">section</span> [for]=<span class="tok-s">"Categories"</span><span class="tok-p">&gt;</span>
+    <span class="tok-p">&lt;</span><span class="tok-t">h2</span><span class="tok-p">&gt;</span>{{ Name }} ({{ Count }})<span class="tok-p">&lt;/</span><span class="tok-t">h2</span><span class="tok-p">&gt;</span>
+    <span class="tok-p">&lt;</span><span class="tok-t">ul</span><span class="tok-p">&gt;</span>
+      <span class="tok-p">&lt;</span><span class="tok-t">li</span> [for]=<span class="tok-s">"Products"</span><span class="tok-p">&gt;</span>
+        <span class="tok-p">&lt;</span><span class="tok-t">span</span> <span class="tok-v">class</span>=<span class="tok-s">"name"</span><span class="tok-p">&gt;</span>{{ Name }}<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+        <span class="tok-p">&lt;</span><span class="tok-t">span</span> <span class="tok-v">class</span>=<span class="tok-s">"sku"</span><span class="tok-p">&gt;</span>{{ Sku }}<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+        <span class="tok-p">&lt;</span><span class="tok-t">span</span> <span class="tok-v">class</span>=<span class="tok-s">"price"</span><span class="tok-p">&gt;</span>{{ Price }}€<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+        <span class="tok-p">&lt;</span><span class="tok-t">span</span> [if]=<span class="tok-s">"InStock == true"</span> <span class="tok-v">class</span>=<span class="tok-s">"ok"</span><span class="tok-p">&gt;</span>in stock<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+        <span class="tok-p">&lt;</span><span class="tok-t">span</span> [if]=<span class="tok-s">"OnSale == true"</span> <span class="tok-v">class</span>=<span class="tok-s">"sale"</span><span class="tok-p">&gt;</span>sale<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+        <span class="tok-p">&lt;</span><span class="tok-t">span</span> <span class="tok-v">class</span>=<span class="tok-s">"rating"</span><span class="tok-p">&gt;</span>{{ Rating }}/5<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+      <span class="tok-p">&lt;/</span><span class="tok-t">li</span><span class="tok-p">&gt;</span>
+    <span class="tok-p">&lt;/</span><span class="tok-t">ul</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;/</span><span class="tok-t">section</span><span class="tok-p">&gt;</span>
+<span class="tok-p">&lt;/</span><span class="tok-t">div</span><span class="tok-p">&gt;</span></code></pre>
+          </div>
+          <div class="demo-pane" data-pane="model">
+<pre><code><span class="tok-k">new</span> <span class="tok-t">PageModel</span> {
+    Title = <span class="tok-s">"Product Catalogue"</span>,
+    TotalProducts = 96,
+    Categories = [   <span class="tok-c">// 8 categories, each with 12 products</span>
+        <span class="tok-k">new</span> <span class="tok-t">Category</span> { Name = <span class="tok-s">"Category 0"</span>, Count = 12, Products = [
+            <span class="tok-k">new</span> <span class="tok-t">Product</span> { Name = <span class="tok-s">"Product 0-0"</span>, Sku = <span class="tok-s">"SKU-000"</span>,
+                Price = 10, InStock = <span class="tok-k">false</span>, OnSale = <span class="tok-k">true</span>, Rating = 1 },
+            <span class="tok-c">// … 11 more products …</span>
+        ]},
+        <span class="tok-c">// … 7 more categories …</span>
+    ]
+};</code></pre>
+          </div>
+        </div>
+
+        <div class="bench-wrap">
+          <table class="bench">
+            <tr><th>Engine</th><th>Mean</th><th>Allocated</th><th>vs NgSharp</th></tr>
+            <tr class="cat"><td colspan="4">Cold — first parse + render</td></tr>
+            <tr class="me"><td>NgSharp</td><td>78 µs</td><td>181 KB</td><td>1.00×</td></tr>
+            <tr><td>Fluid</td><td class="fast">57 µs</td><td>61 KB</td><td>0.73×</td></tr>
+            <tr><td>Stubble</td><td>81 µs</td><td>193 KB</td><td>1.04×</td></tr>
+            <tr><td>Scriban</td><td>176 µs</td><td>265 KB</td><td>2.25×</td></tr>
+            <tr><td>Handlebars.Net</td><td>9,829 µs</td><td>382 KB</td><td>126×</td></tr>
+            <tr><td>RazorLight</td><td>31,467 µs</td><td>3.4 MB</td><td>402×</td></tr>
+            <tr class="cat"><td colspan="4">Warm — pre-parsed, render only</td></tr>
+            <tr class="me"><td>NgSharp</td><td>47 µs</td><td>158 KB</td><td>1.00×</td></tr>
+            <tr><td>RazorLight</td><td class="fast">37 µs</td><td>98 KB</td><td>0.78×</td></tr>
+            <tr><td>Fluid</td><td>48 µs</td><td>53 KB</td><td>1.01×</td></tr>
+            <tr><td>Handlebars.Net</td><td>50 µs</td><td>90 KB</td><td>1.05×</td></tr>
+            <tr><td>Scriban</td><td>155 µs</td><td>242 KB</td><td>3.28×</td></tr>
+          </table>
+        </div>
+
+        <div class="callout" style="margin-top:16px">
+          <p><strong>The honest read.</strong> NgSharp's structural edge is cold start against engines that <em>compile to code</em> — RazorLight and Handlebars pay a large codegen cost up front (<strong>~125–400× NgSharp's</strong>), which is exactly what hurts in serverless, Native AOT and short-lived processes.</p>
+
+          <p>Among the lean interpreters it starts faster than Stubble and Scriban, and trails only Fluid — while compiling nothing.</p>
+        </div>
+        <div class="callout" style="margin-top:10px">
+          <p>Warm — steady-state render of a fresh model — NgSharp (47 µs) lands second, ahead of Fluid (48 µs) and Handlebars (50 µs) and behind only RazorLight's compiled delegate (37 µs); Scriban (155 µs) trails.</p>
+
+          <p>Two choices get it there with no codegen: <code>Compile()</code> folds the static skeleton once (partial evaluation), and the data context is a flat, dictionary-free node array — cheap to build, cheap to scan.</p>
+
+          <p>RazorLight stays a touch quicker in steady state, but pays for it with a cold start <strong>hundreds of times slower</strong>; NgSharp keeps zero codegen, Native-AOT / trim safety and zero third-party dependencies.</p>
+        </div>
+        <div class="bench-meta">
+          <span class="chip"><b>BenchmarkDotNet</b> 0.15.2</span>
+          <span class="chip"><b>Apple M1 Max</b> · 10 cores</span>
+          <span class="chip"><b>.NET</b> 10.0.9</span>
+          <span class="chip"><b>10</b> iterations · <b>5</b> warmups</span>
+        </div>
+        <p class="section-eyebrow" style="margin-top:40px">Full-feature document</p>
+        <div class="callout">
+          <p>The comparison above is capped at what <em>all six</em> engines share — nested loops, truthy
+          conditionals, plain interpolation. This second one drops that ceiling: a company org chart
+          <strong>four levels deep</strong> (departments → teams → members → tasks, ~530 nodes) that uses
+          <strong>everything NgSharp does</strong>.</p>
+
+          <p>Of the six, only <strong>Handlebars</strong> and <strong>RazorLight</strong> can reach the same
+          output — Handlebars by registering <strong>nine custom C# helpers</strong>, RazorLight because it
+          <em>is</em> Razor (full C#). Both <em>compile to code</em>; NgSharp interprets. A genuine
+          three-way head-to-head, all rendering <strong>byte-identical</strong> HTML.</p>
+        </div>
+
+        <div class="bench-meta">
+          <span class="chip">pipes <b>upper · date · number · largeNumber</b></span>
+          <span class="chip">bindings <b>[class] [attr] [style] [html]</b></span>
+          <span class="chip"><b>@if / @else if / @else</b> · ternary</span>
+          <span class="chip">operators <b>&amp;&amp; · || · == · &gt;= · &gt;</b></span>
+          <span class="chip"><b>[for]</b> × 4 · <b>[not-empty]</b></span>
+          <span class="chip"><b>.Count</b> · custom component</span>
+        </div>
+
+        <div class="bench-wrap" style="margin-top:12px">
+          <table class="bench">
+            <tr><th>Engine</th><th>Mean</th><th>Allocated</th><th>vs NgSharp</th></tr>
+            <tr class="cat"><td colspan="4">Cold — build from scratch + render</td></tr>
+            <tr class="me"><td>NgSharp</td><td class="fast">595 µs</td><td>910 KB</td><td>1.00×</td></tr>
+            <tr><td>Handlebars.Net</td><td>24,078 µs</td><td>1.5 MB</td><td>40.5×</td></tr>
+            <tr><td>RazorLight</td><td>67,613 µs</td><td>7.1 MB</td><td>114×</td></tr>
+            <tr class="cat"><td colspan="4">Warm — prepared once, render only</td></tr>
+            <tr class="me"><td>NgSharp · prebuilt context</td><td class="fast">305 µs</td><td>481 KB</td><td>0.63×</td></tr>
+            <tr><td>RazorLight</td><td class="fast">354 µs</td><td>481 KB</td><td>0.73×</td></tr>
+            <tr><td>Handlebars.Net</td><td class="fast">398 µs</td><td>483 KB</td><td>0.83×</td></tr>
+            <tr class="me"><td>NgSharp · fresh model</td><td>482 µs</td><td>839 KB</td><td>1.00×</td></tr>
+          </table>
+        </div>
+
+        <div class="callout" style="margin-top:16px">
+          <p><strong>The honest read.</strong> Cold, <strong>NgSharp is 40–114× faster</strong> — both
+          rivals compile, and RazorLight emits a full Roslyn assembly (allocating <strong>7 MB</strong>),
+          exactly the codegen tax that hurts in serverless / AOT / short-lived processes.</p>
+
+          <p>Warm, the two compiled delegates edge NgSharp's fresh-model path (RazorLight 354, Handlebars 398
+          vs 482 µs) by reading your object directly — but reusing a prebuilt <code>NgElement</code> context
+          (<strong>305 µs</strong>) makes NgSharp <strong>the fastest of the three</strong>. Its warm render
+          breaks down as parse ≈ 113 µs (once), model → tree ≈ 177 µs, pure render ≈ 305 µs
+          (<strong>~0.6 µs/node</strong> across four pipes, four binding kinds, block conditionals, a ternary
+          and a component).</p>
+
+          <p>NgSharp writes it in <em>one interpreted, native template</em>; Handlebars needs nine registered
+          helpers, RazorLight needs the Roslyn compiler.</p>
+        </div>
+
+        <div class="demo" style="margin-top:20px">
+          <div class="demo-bar"><span class="dotmini"></span>The showcase document — same byte-identical output, two engines</div>
+          <div class="demo-tabs" role="tablist">
+            <button class="demo-tab is-active" data-tab="ng">NgSharp</button>
+            <button class="demo-tab" data-tab="hb">Handlebars</button>
+            <button class="demo-tab" data-tab="rz">RazorLight</button>
+            <button class="demo-tab" data-tab="mdl">Model</button>
+          </div>
+          <div class="demo-pane is-active" data-pane="ng">
+<pre><code><span class="tok-c">&lt;!-- one native template: pipes, [bindings], @if/ternary, [for], [not-empty], component --&gt;</span>
+<span class="tok-p">&lt;</span><span class="tok-t">article</span> <span class="tok-v">class</span>=<span class="tok-s">"company"</span> [attr.data-headcount]=<span class="tok-s">"Headcount"</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;</span><span class="tok-t">h1</span><span class="tok-p">&gt;</span>{{ Name | upper }}<span class="tok-p">&lt;/</span><span class="tok-t">h1</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;</span><span class="tok-t">div</span> [html]=<span class="tok-s">"LogoHtml"</span><span class="tok-p">&gt;&lt;/</span><span class="tok-t">div</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;</span><span class="tok-t">p</span><span class="tok-p">&gt;</span>{{ FoundedAt | date:<span class="tok-s">'yyyy'</span> }} · {{ Headcount | largeNumber }} · {{ Departments.Count }} depts<span class="tok-p">&lt;/</span><span class="tok-t">p</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;</span><span class="tok-t">section</span> <span class="tok-v">class</span>=<span class="tok-s">"dept"</span> [for]=<span class="tok-s">"Departments"</span> [class.core]=<span class="tok-s">"IsCore"</span> [attr.data-budget]=<span class="tok-s">"Budget"</span><span class="tok-p">&gt;</span>
+    <span class="tok-p">&lt;</span><span class="tok-t">h2</span> [style.color]=<span class="tok-s">"ThemeColor"</span><span class="tok-p">&gt;</span>{{ Name }}<span class="tok-p">&lt;/</span><span class="tok-t">h2</span><span class="tok-p">&gt;</span>
+    <span class="tok-p">&lt;</span><span class="tok-t">p</span><span class="tok-p">&gt;</span>Budget {{ Budget | number:<span class="tok-s">'C0'</span> }}<span class="tok-p">&lt;/</span><span class="tok-t">p</span><span class="tok-p">&gt;</span>
+    <span class="tok-k">@if</span> (IsCore) { <span class="tok-p">&lt;</span><span class="tok-t">span</span> <span class="tok-v">class</span>=<span class="tok-s">"badge"</span><span class="tok-p">&gt;</span>core<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span> }
+    <span class="tok-p">&lt;</span><span class="tok-t">div</span> [for]=<span class="tok-s">"Teams"</span><span class="tok-p">&gt;</span>
+      <span class="tok-p">&lt;</span><span class="tok-t">h3</span><span class="tok-p">&gt;</span>{{ Name }} — {{ Members.Count }} members<span class="tok-p">&lt;/</span><span class="tok-t">h3</span><span class="tok-p">&gt;</span>
+      <span class="tok-p">&lt;</span><span class="tok-t">ul</span> [not-empty]=<span class="tok-s">"Members"</span><span class="tok-p">&gt;</span>
+        <span class="tok-p">&lt;</span><span class="tok-t">li</span> <span class="tok-v">class</span>=<span class="tok-s">"member"</span> [for]=<span class="tok-s">"Members"</span> [class.lead]=<span class="tok-s">"IsLead"</span> [class.remote]=<span class="tok-s">"IsRemote"</span><span class="tok-p">&gt;</span>
+          <span class="tok-p">&lt;</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>{{ Name | upper }}<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+          <span class="tok-p">&lt;</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>{{ Salary | number:<span class="tok-s">'C0'</span> }}<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+          <span class="tok-p">&lt;</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>joined {{ JoinedAt | date:<span class="tok-s">'yyyy-MM-dd'</span> }}<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+          <span class="tok-k">@if</span> (Age &gt;= 40) { senior } <span class="tok-k">@else if</span> (Age &gt;= 25) { mid } <span class="tok-k">@else</span> { junior }
+          <span class="tok-p">&lt;</span><span class="tok-t">span</span> [if]=<span class="tok-s">"IsLead &amp;&amp; IsRemote"</span><span class="tok-p">&gt;</span>remote lead<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+          <span class="tok-p">&lt;</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>{{ IsRemote == true ? RemoteLabel : OnsiteLabel }}<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+          <span class="tok-p">&lt;</span><span class="tok-t">span</span> [html]=<span class="tok-s">"StatusHtml"</span><span class="tok-p">&gt;&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+          <span class="tok-p">&lt;</span><span class="tok-t">ul</span> [not-empty]=<span class="tok-s">"Tasks"</span><span class="tok-p">&gt;</span>
+            <span class="tok-p">&lt;</span><span class="tok-t">li</span> <span class="tok-v">class</span>=<span class="tok-s">"task"</span> [for]=<span class="tok-s">"Tasks"</span> [class.done]=<span class="tok-s">"Done"</span><span class="tok-p">&gt;</span>
+              {{ Title }} · {{ Priority | upper }}
+              <span class="tok-p">&lt;</span><span class="tok-t">span</span> [if]=<span class="tok-s">"Priority == 'high'"</span><span class="tok-p">&gt;</span>urgent<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+              <span class="tok-p">&lt;</span><span class="tok-t">span</span> [if]=<span class="tok-s">"Points &gt; 5 || Done == true"</span><span class="tok-p">&gt;</span>{{ Points }} pts<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+            <span class="tok-p">&lt;/</span><span class="tok-t">li</span><span class="tok-p">&gt;</span>
+          <span class="tok-p">&lt;/</span><span class="tok-t">ul</span><span class="tok-p">&gt;</span>
+        <span class="tok-p">&lt;/</span><span class="tok-t">li</span><span class="tok-p">&gt;</span>
+      <span class="tok-p">&lt;/</span><span class="tok-t">ul</span><span class="tok-p">&gt;</span>
+    <span class="tok-p">&lt;/</span><span class="tok-t">div</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;/</span><span class="tok-t">section</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;</span><span class="tok-t">headcount-badge</span> [total]=<span class="tok-s">"Headcount"</span><span class="tok-p">&gt;&lt;/</span><span class="tok-t">headcount-badge</span><span class="tok-p">&gt;</span>
+<span class="tok-p">&lt;/</span><span class="tok-t">article</span><span class="tok-p">&gt;</span></code></pre>
+          </div>
+          <div class="demo-pane" data-pane="hb">
+<pre><code><span class="tok-c">// same output — but every operator, pipe and the component becomes a {{helper}}</span>
+<span class="tok-p">&lt;</span><span class="tok-t">article</span> <span class="tok-v">class</span>=<span class="tok-s">"company"</span> <span class="tok-v">data-headcount</span>=<span class="tok-s">"{{Headcount}}"</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;</span><span class="tok-t">h1</span><span class="tok-p">&gt;</span>{{<span class="tok-k">upper</span> Name}}<span class="tok-p">&lt;/</span><span class="tok-t">h1</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;</span><span class="tok-t">div</span><span class="tok-p">&gt;</span>{{{LogoHtml}}}<span class="tok-p">&lt;/</span><span class="tok-t">div</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;</span><span class="tok-t">p</span><span class="tok-p">&gt;</span>{{<span class="tok-k">date</span> FoundedAt <span class="tok-s">"yyyy"</span>}} · {{<span class="tok-k">largeNumber</span> Headcount}} · {{Departments.Count}} depts<span class="tok-p">&lt;/</span><span class="tok-t">p</span><span class="tok-p">&gt;</span>
+  {{<span class="tok-k">#each</span> Departments}}
+    <span class="tok-p">&lt;</span><span class="tok-t">section</span> <span class="tok-v">class</span>=<span class="tok-s">"dept{{#if IsCore}} core{{/if}}"</span> <span class="tok-v">data-budget</span>=<span class="tok-s">"{{Budget}}"</span><span class="tok-p">&gt;</span>
+      <span class="tok-p">&lt;</span><span class="tok-t">h2</span> <span class="tok-v">style</span>=<span class="tok-s">"color: {{ThemeColor}}"</span><span class="tok-p">&gt;</span>{{Name}}<span class="tok-p">&lt;/</span><span class="tok-t">h2</span><span class="tok-p">&gt;</span>
+      <span class="tok-p">&lt;</span><span class="tok-t">p</span><span class="tok-p">&gt;</span>Budget {{{<span class="tok-k">num</span> Budget <span class="tok-s">"C0"</span>}}}<span class="tok-p">&lt;/</span><span class="tok-t">p</span><span class="tok-p">&gt;</span>
+      {{<span class="tok-k">#if</span> IsCore}}<span class="tok-p">&lt;</span><span class="tok-t">span</span> <span class="tok-v">class</span>=<span class="tok-s">"badge"</span><span class="tok-p">&gt;</span>core<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>{{<span class="tok-k">/if</span>}}
+      {{<span class="tok-k">#each</span> Teams}}
+        <span class="tok-p">&lt;</span><span class="tok-t">div</span><span class="tok-p">&gt;</span>
+          <span class="tok-p">&lt;</span><span class="tok-t">h3</span><span class="tok-p">&gt;</span>{{Name}} — {{Members.Count}} members<span class="tok-p">&lt;/</span><span class="tok-t">h3</span><span class="tok-p">&gt;</span>
+          {{<span class="tok-k">#if</span> Members.Count}}<span class="tok-p">&lt;</span><span class="tok-t">ul</span><span class="tok-p">&gt;</span>
+            {{<span class="tok-k">#each</span> Members}}
+              <span class="tok-p">&lt;</span><span class="tok-t">li</span> <span class="tok-v">class</span>=<span class="tok-s">"member{{#if IsLead}} lead{{/if}}{{#if IsRemote}} remote{{/if}}"</span><span class="tok-p">&gt;</span>
+                <span class="tok-p">&lt;</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>{{<span class="tok-k">upper</span> Name}}<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+                <span class="tok-p">&lt;</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>{{{<span class="tok-k">num</span> Salary <span class="tok-s">"C0"</span>}}}<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+                <span class="tok-p">&lt;</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>joined {{<span class="tok-k">date</span> JoinedAt <span class="tok-s">"yyyy-MM-dd"</span>}}<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+                {{<span class="tok-k">#if</span> (<span class="tok-k">gte</span> Age 40)}}senior{{<span class="tok-k">else</span>}}{{<span class="tok-k">#if</span> (<span class="tok-k">gte</span> Age 25)}}mid{{<span class="tok-k">else</span>}}junior{{<span class="tok-k">/if</span>}}{{<span class="tok-k">/if</span>}}
+                {{<span class="tok-k">#if</span> (<span class="tok-k">and</span> IsLead IsRemote)}}<span class="tok-p">&lt;</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>remote lead<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>{{<span class="tok-k">/if</span>}}
+                <span class="tok-p">&lt;</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>{{<span class="tok-k">#if</span> IsRemote}}{{RemoteLabel}}{{<span class="tok-k">else</span>}}{{OnsiteLabel}}{{<span class="tok-k">/if</span>}}<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+                <span class="tok-p">&lt;</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>{{{StatusHtml}}}<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+                {{<span class="tok-k">#if</span> Tasks.Count}}<span class="tok-p">&lt;</span><span class="tok-t">ul</span><span class="tok-p">&gt;</span>{{<span class="tok-k">#each</span> Tasks}}
+                  <span class="tok-p">&lt;</span><span class="tok-t">li</span> <span class="tok-v">class</span>=<span class="tok-s">"task{{#if Done}} done{{/if}}"</span><span class="tok-p">&gt;</span>
+                    {{Title}} · {{<span class="tok-k">upper</span> Priority}}
+                    {{<span class="tok-k">#if</span> (<span class="tok-k">eq</span> Priority <span class="tok-s">"high"</span>)}}urgent{{<span class="tok-k">/if</span>}}
+                    {{<span class="tok-k">#if</span> (<span class="tok-k">or</span> (<span class="tok-k">gt</span> Points 5) Done)}}{{Points}} pts{{<span class="tok-k">/if</span>}}
+                  <span class="tok-p">&lt;/</span><span class="tok-t">li</span><span class="tok-p">&gt;</span>{{<span class="tok-k">/each</span>}}<span class="tok-p">&lt;/</span><span class="tok-t">ul</span><span class="tok-p">&gt;</span>{{<span class="tok-k">/if</span>}}
+              <span class="tok-p">&lt;/</span><span class="tok-t">li</span><span class="tok-p">&gt;</span>
+            {{<span class="tok-k">/each</span>}}
+          <span class="tok-p">&lt;/</span><span class="tok-t">ul</span><span class="tok-p">&gt;</span>{{<span class="tok-k">/if</span>}}
+        <span class="tok-p">&lt;/</span><span class="tok-t">div</span><span class="tok-p">&gt;</span>
+      {{<span class="tok-k">/each</span>}}
+    <span class="tok-p">&lt;/</span><span class="tok-t">section</span><span class="tok-p">&gt;</span>
+  {{<span class="tok-k">/each</span>}}
+  <span class="tok-p">&lt;</span><span class="tok-t">footer</span><span class="tok-p">&gt;</span>Total headcount: {{Headcount}}<span class="tok-p">&lt;/</span><span class="tok-t">footer</span><span class="tok-p">&gt;</span>
+<span class="tok-p">&lt;/</span><span class="tok-t">article</span><span class="tok-p">&gt;</span>
+
+<span class="tok-c">// + registered once in C#, because Handlebars has no operators/formatting built in:</span>
+hb.<span class="tok-m">RegisterHelper</span>(<span class="tok-s">"gte"</span>, (c, a) =&gt; <span class="tok-m">ToNum</span>(a[0]) &gt;= <span class="tok-m">ToNum</span>(a[1]));
+<span class="tok-c">// …and gt, eq, and, or, upper, num, date, largeNumber — nine helpers total</span></code></pre>
+          </div>
+          <div class="demo-pane" data-pane="rz">
+<pre><code><span class="tok-c">// full C# — no helpers needed — but every render compiles a Roslyn assembly</span>
+<span class="tok-p">&lt;</span><span class="tok-t">article</span> <span class="tok-v">class</span>=<span class="tok-s">"company"</span> <span class="tok-v">data-headcount</span>=<span class="tok-s">"@Model.Headcount"</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;</span><span class="tok-t">h1</span><span class="tok-p">&gt;</span>@Model.Name.<span class="tok-m">ToUpper</span>()<span class="tok-p">&lt;/</span><span class="tok-t">h1</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;</span><span class="tok-t">div</span><span class="tok-p">&gt;</span>@<span class="tok-m">Raw</span>(Model.LogoHtml)<span class="tok-p">&lt;/</span><span class="tok-t">div</span><span class="tok-p">&gt;</span>
+  <span class="tok-p">&lt;</span><span class="tok-t">p</span><span class="tok-p">&gt;</span>Founded @Model.FoundedAt.<span class="tok-m">ToString</span>(<span class="tok-s">"yyyy"</span>) · @Model.Headcount · @Model.Departments.Count depts<span class="tok-p">&lt;/</span><span class="tok-t">p</span><span class="tok-p">&gt;</span>
+  <span class="tok-k">@foreach</span> (<span class="tok-k">var</span> d <span class="tok-k">in</span> Model.Departments)
+  {
+    <span class="tok-p">&lt;</span><span class="tok-t">section</span> <span class="tok-v">class</span>=<span class="tok-s">"dept@(d.IsCore ? " core" : "")"</span> <span class="tok-v">data-budget</span>=<span class="tok-s">"@d.Budget"</span><span class="tok-p">&gt;</span>
+      <span class="tok-p">&lt;</span><span class="tok-t">h2</span> <span class="tok-v">style</span>=<span class="tok-s">"color: @d.ThemeColor"</span><span class="tok-p">&gt;</span>@d.Name<span class="tok-p">&lt;/</span><span class="tok-t">h2</span><span class="tok-p">&gt;</span>
+      <span class="tok-p">&lt;</span><span class="tok-t">p</span><span class="tok-p">&gt;</span>Budget @<span class="tok-m">Raw</span>(d.Budget.<span class="tok-m">ToString</span>(<span class="tok-s">"C0"</span>))<span class="tok-p">&lt;/</span><span class="tok-t">p</span><span class="tok-p">&gt;</span>
+      <span class="tok-k">@if</span> (d.IsCore) { <span class="tok-p">&lt;</span><span class="tok-t">span</span> <span class="tok-v">class</span>=<span class="tok-s">"badge"</span><span class="tok-p">&gt;</span>core<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span> }
+      <span class="tok-k">@foreach</span> (<span class="tok-k">var</span> t <span class="tok-k">in</span> d.Teams)
+      {
+        <span class="tok-p">&lt;</span><span class="tok-t">div</span><span class="tok-p">&gt;</span>
+          <span class="tok-p">&lt;</span><span class="tok-t">h3</span><span class="tok-p">&gt;</span>@t.Name — @t.Members.Count members<span class="tok-p">&lt;/</span><span class="tok-t">h3</span><span class="tok-p">&gt;</span>
+          <span class="tok-k">@if</span> (t.Members.Count &gt; 0)
+          {
+            <span class="tok-p">&lt;</span><span class="tok-t">ul</span><span class="tok-p">&gt;</span>
+            <span class="tok-k">@foreach</span> (<span class="tok-k">var</span> m <span class="tok-k">in</span> t.Members)
+            {
+              <span class="tok-p">&lt;</span><span class="tok-t">li</span> <span class="tok-v">class</span>=<span class="tok-s">"member@(m.IsLead ? " lead" : "")@(m.IsRemote ? " remote" : "")"</span><span class="tok-p">&gt;</span>
+                <span class="tok-p">&lt;</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>@m.Name.<span class="tok-m">ToUpper</span>()<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+                <span class="tok-p">&lt;</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>@<span class="tok-m">Raw</span>(m.Salary.<span class="tok-m">ToString</span>(<span class="tok-s">"C0"</span>))<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+                <span class="tok-p">&lt;</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>joined @m.JoinedAt.<span class="tok-m">ToString</span>(<span class="tok-s">"yyyy-MM-dd"</span>)<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+                <span class="tok-k">@if</span> (m.Age &gt;= 40) { senior } <span class="tok-k">else if</span> (m.Age &gt;= 25) { mid } <span class="tok-k">else</span> { junior }
+                <span class="tok-k">@if</span> (m.IsLead &amp;&amp; m.IsRemote) { <span class="tok-p">&lt;</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>remote lead<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span> }
+                <span class="tok-p">&lt;</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>@(m.IsRemote ? m.RemoteLabel : m.OnsiteLabel)<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+                <span class="tok-p">&lt;</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>@<span class="tok-m">Raw</span>(m.StatusHtml)<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>
+                <span class="tok-k">@if</span> (m.Tasks.Count &gt; 0)
+                {
+                  <span class="tok-p">&lt;</span><span class="tok-t">ul</span><span class="tok-p">&gt;</span>
+                  <span class="tok-k">@foreach</span> (<span class="tok-k">var</span> k <span class="tok-k">in</span> m.Tasks)
+                  {
+                    <span class="tok-p">&lt;</span><span class="tok-t">li</span> <span class="tok-v">class</span>=<span class="tok-s">"task@(k.Done ? " done" : "")"</span><span class="tok-p">&gt;</span>
+                      @k.Title · @k.Priority.<span class="tok-m">ToUpper</span>()
+                      <span class="tok-k">@if</span> (k.Priority == <span class="tok-s">"high"</span>) { <span class="tok-p">&lt;</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>urgent<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span> }
+                      <span class="tok-k">@if</span> (k.Points &gt; 5 || k.Done) { <span class="tok-p">&lt;</span><span class="tok-t">span</span><span class="tok-p">&gt;</span>@k.Points pts<span class="tok-p">&lt;/</span><span class="tok-t">span</span><span class="tok-p">&gt;</span> }
+                    <span class="tok-p">&lt;/</span><span class="tok-t">li</span><span class="tok-p">&gt;</span>
+                  }
+                  <span class="tok-p">&lt;/</span><span class="tok-t">ul</span><span class="tok-p">&gt;</span>
+                }
+              <span class="tok-p">&lt;/</span><span class="tok-t">li</span><span class="tok-p">&gt;</span>
+            }
+            <span class="tok-p">&lt;/</span><span class="tok-t">ul</span><span class="tok-p">&gt;</span>
+          }
+        <span class="tok-p">&lt;/</span><span class="tok-t">div</span><span class="tok-p">&gt;</span>
+      }
+    <span class="tok-p">&lt;/</span><span class="tok-t">section</span><span class="tok-p">&gt;</span>
+  }
+  <span class="tok-p">&lt;</span><span class="tok-t">footer</span><span class="tok-p">&gt;</span>Total headcount: @Model.Headcount<span class="tok-p">&lt;/</span><span class="tok-t">footer</span><span class="tok-p">&gt;</span>
+<span class="tok-p">&lt;/</span><span class="tok-t">article</span><span class="tok-p">&gt;</span></code></pre>
+          </div>
+          <div class="demo-pane" data-pane="mdl">
+<pre><code><span class="tok-k">var</span> company = <span class="tok-k">new</span> <span class="tok-t">Company</span>
+{
+    Name = <span class="tok-s">"Contoso"</span>, LogoHtml = <span class="tok-s">"&lt;svg …/&gt;"</span>, Headcount = 100,
+    FoundedAt = <span class="tok-k">new</span> <span class="tok-t">DateTime</span>(2009, 6, 1),
+    Departments =                       <span class="tok-c">// 5 depts × 4 teams × 5 members × 4 tasks = 400 tasks</span>
+    [
+        <span class="tok-k">new</span> <span class="tok-t">Department</span> { Name = <span class="tok-s">"Department 0"</span>, Budget = 250000<span class="tok-k">m</span>, IsCore = <span class="tok-k">true</span>, ThemeColor = <span class="tok-s">"#1E47B5"</span>,
+            Teams = [
+                <span class="tok-k">new</span> <span class="tok-t">Team</span> { Name = <span class="tok-s">"Team 0-0"</span>, Members = [
+                    <span class="tok-k">new</span> <span class="tok-t">Member</span> { Name = <span class="tok-s">"Person 000"</span>, Role = <span class="tok-s">"Engineer"</span>, Salary = 55000<span class="tok-k">m</span>, Age = 22,
+                        IsLead = <span class="tok-k">true</span>, IsRemote = <span class="tok-k">false</span>, JoinedAt = …, StatusHtml = <span class="tok-s">"&lt;b&gt;active&lt;/b&gt;"</span>,
+                        RemoteLabel = <span class="tok-s">"remote"</span>, OnsiteLabel = <span class="tok-s">"on-site"</span>,
+                        Tasks = [
+                            <span class="tok-k">new</span> <span class="tok-t">TaskItem</span> { Title = <span class="tok-s">"Task 0-0-0-0"</span>, Priority = <span class="tok-s">"high"</span>, Done = <span class="tok-k">true</span>, Points = 1 },
+                            <span class="tok-c">// … 3 more tasks …</span>
+                        ]},
+                    <span class="tok-c">// … 4 more members …</span>
+                ]},
+                <span class="tok-c">// … 3 more teams …</span>
+            ]},
+        <span class="tok-c">// … 4 more departments …</span>
+    ]
+};</code></pre>
+          </div>
+        </div>
+
+        <p class="bench-repro">Numbers vary with template, model and hardware — run <code>src/NgSharp.Benchmark</code> (<code>--filter *Showcase*</code> for this run) to measure on yours.</p>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<footer>
+  <span class="brand"><b>Ng</b><span class="sharp">Sharp</span></span>
+  <span class="mono">v2.0.0 · net8.0 · netstandard2.1 · zero third-party deps on .NET 8+</span>
+  <span class="spacer"></span>
+  <span>Generated from the public API &amp; XML documentation comments</span>
+</footer>
+
+<script>
+  // Angular-Material-style demo tabs: switch the C# / Template source panes within each demo.
+  document.querySelectorAll('.demo-tab').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      var demo = tab.closest('.demo');
+      var name = tab.getAttribute('data-tab');
+      demo.querySelectorAll('.demo-tab').forEach(function (t) {
+        t.classList.toggle('is-active', t === tab);
+      });
+      demo.querySelectorAll('.demo-pane').forEach(function (p) {
+        p.classList.toggle('is-active', p.getAttribute('data-pane') === name);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

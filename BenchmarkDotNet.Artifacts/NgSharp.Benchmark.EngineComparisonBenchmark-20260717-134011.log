@@ -1,0 +1,1419 @@
+// Validating benchmarks:
+// ***** BenchmarkRunner: Start   *****
+// ***** Found 12 benchmark(s) in total *****
+// ***** Building 1 exe(s) in Parallel: Start   *****
+// start dotnet  restore /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /p:Deterministic=true /p:Optimize=true /p:ArtifactsPath="/Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/" /p:OutDir="/Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/bin/Release/net9.0/" /p:OutputPath="/Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/bin/Release/net9.0/" /p:PublishDir="/Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/publish/" in /Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1
+// command took 9.89 sec and exited with 0
+// start dotnet  build -c Release --no-restore /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /p:Deterministic=true /p:Optimize=true /p:ArtifactsPath="/Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/" /p:OutDir="/Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/bin/Release/net9.0/" /p:OutputPath="/Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/bin/Release/net9.0/" /p:PublishDir="/Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/publish/" --output "/Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/bin/Release/net9.0/" in /Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1
+// command took 3.86 sec and exited with 0
+// ***** Done, took 00:00:13 (13.89 sec)   *****
+// Found 12 benchmarks:
+//   EngineComparisonBenchmark.NgSharp_Cold: Job-XPUURG(IterationCount=10, WarmupCount=5)
+//   EngineComparisonBenchmark.RazorLight_Cold: Job-XPUURG(IterationCount=10, WarmupCount=5)
+//   EngineComparisonBenchmark.Handlebars_Cold: Job-XPUURG(IterationCount=10, WarmupCount=5)
+//   EngineComparisonBenchmark.Scriban_Cold: Job-XPUURG(IterationCount=10, WarmupCount=5)
+//   EngineComparisonBenchmark.Stubble_Cold: Job-XPUURG(IterationCount=10, WarmupCount=5)
+//   EngineComparisonBenchmark.Fluid_Cold: Job-XPUURG(IterationCount=10, WarmupCount=5)
+//   EngineComparisonBenchmark.NgSharp_Warm: Job-XPUURG(IterationCount=10, WarmupCount=5)
+//   EngineComparisonBenchmark.NgSharp_Warm_Prebuilt: Job-XPUURG(IterationCount=10, WarmupCount=5)
+//   EngineComparisonBenchmark.RazorLight_Warm: Job-XPUURG(IterationCount=10, WarmupCount=5)
+//   EngineComparisonBenchmark.Handlebars_Warm: Job-XPUURG(IterationCount=10, WarmupCount=5)
+//   EngineComparisonBenchmark.Scriban_Warm: Job-XPUURG(IterationCount=10, WarmupCount=5)
+//   EngineComparisonBenchmark.Fluid_Warm: Job-XPUURG(IterationCount=10, WarmupCount=5)
+
+// **************************
+// Benchmark: EngineComparisonBenchmark.NgSharp_Cold: Job-XPUURG(IterationCount=10, WarmupCount=5)
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet NgSharp.Benchmark-Job-XPUURG-1.dll --anonymousPipes 139 140 --benchmarkName NgSharp.Benchmark.EngineComparisonBenchmark.NgSharp_Cold --job "IterationCount=10, WarmupCount=5" --benchmarkId 0 in /Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/bin/Release/net9.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: Job-XPUURG(IterationCount=10, WarmupCount=5)
+
+OverheadJitting  1: 1 op, 119958.00 ns, 119.9580 us/op
+WorkloadJitting  1: 1 op, 15170084.00 ns, 15.1701 ms/op
+
+OverheadJitting  2: 16 op, 595666.00 ns, 37.2291 us/op
+WorkloadJitting  2: 16 op, 2124500.00 ns, 132.7813 us/op
+
+WorkloadPilot    1: 16 op, 1454375.00 ns, 90.8984 us/op
+WorkloadPilot    2: 32 op, 2566250.00 ns, 80.1953 us/op
+WorkloadPilot    3: 64 op, 5605708.00 ns, 87.5892 us/op
+WorkloadPilot    4: 128 op, 12940709.00 ns, 101.0993 us/op
+WorkloadPilot    5: 256 op, 23268334.00 ns, 90.8919 us/op
+WorkloadPilot    6: 512 op, 46810708.00 ns, 91.4272 us/op
+WorkloadPilot    7: 1024 op, 118359667.00 ns, 115.5856 us/op
+WorkloadPilot    8: 2048 op, 213506875.00 ns, 104.2514 us/op
+WorkloadPilot    9: 4096 op, 512846500.00 ns, 125.2067 us/op
+
+OverheadWarmup   1: 4096 op, 13375.00 ns, 3.2654 ns/op
+OverheadWarmup   2: 4096 op, 11959.00 ns, 2.9197 ns/op
+OverheadWarmup   3: 4096 op, 11459.00 ns, 2.7976 ns/op
+OverheadWarmup   4: 4096 op, 11000.00 ns, 2.6855 ns/op
+OverheadWarmup   5: 4096 op, 11750.00 ns, 2.8687 ns/op
+OverheadWarmup   6: 4096 op, 11208.00 ns, 2.7363 ns/op
+OverheadWarmup   7: 4096 op, 11709.00 ns, 2.8586 ns/op
+OverheadWarmup   8: 4096 op, 11667.00 ns, 2.8484 ns/op
+
+OverheadActual   1: 4096 op, 11375.00 ns, 2.7771 ns/op
+OverheadActual   2: 4096 op, 11958.00 ns, 2.9194 ns/op
+OverheadActual   3: 4096 op, 11250.00 ns, 2.7466 ns/op
+OverheadActual   4: 4096 op, 11916.00 ns, 2.9092 ns/op
+OverheadActual   5: 4096 op, 63250.00 ns, 15.4419 ns/op
+OverheadActual   6: 4096 op, 12250.00 ns, 2.9907 ns/op
+OverheadActual   7: 4096 op, 11583.00 ns, 2.8279 ns/op
+OverheadActual   8: 4096 op, 12042.00 ns, 2.9399 ns/op
+OverheadActual   9: 4096 op, 13584.00 ns, 3.3164 ns/op
+OverheadActual  10: 4096 op, 11750.00 ns, 2.8687 ns/op
+OverheadActual  11: 4096 op, 12375.00 ns, 3.0212 ns/op
+OverheadActual  12: 4096 op, 11458.00 ns, 2.7974 ns/op
+OverheadActual  13: 4096 op, 11333.00 ns, 2.7668 ns/op
+OverheadActual  14: 4096 op, 12167.00 ns, 2.9705 ns/op
+OverheadActual  15: 4096 op, 11250.00 ns, 2.7466 ns/op
+
+WorkloadWarmup   1: 4096 op, 439107250.00 ns, 107.2039 us/op
+WorkloadWarmup   2: 4096 op, 344888667.00 ns, 84.2013 us/op
+WorkloadWarmup   3: 4096 op, 191208833.00 ns, 46.6818 us/op
+WorkloadWarmup   4: 4096 op, 185604459.00 ns, 45.3136 us/op
+WorkloadWarmup   5: 4096 op, 167106166.00 ns, 40.7974 us/op
+
+// BeforeActualRun
+WorkloadActual   1: 4096 op, 147743583.00 ns, 36.0702 us/op
+WorkloadActual   2: 4096 op, 128467083.00 ns, 31.3640 us/op
+WorkloadActual   3: 4096 op, 113680333.00 ns, 27.7540 us/op
+WorkloadActual   4: 4096 op, 118319542.00 ns, 28.8866 us/op
+WorkloadActual   5: 4096 op, 115256666.00 ns, 28.1388 us/op
+WorkloadActual   6: 4096 op, 111281334.00 ns, 27.1683 us/op
+WorkloadActual   7: 4096 op, 112469417.00 ns, 27.4584 us/op
+WorkloadActual   8: 4096 op, 114882917.00 ns, 28.0476 us/op
+WorkloadActual   9: 4096 op, 120063959.00 ns, 29.3125 us/op
+WorkloadActual  10: 4096 op, 117228542.00 ns, 28.6202 us/op
+
+// AfterActualRun
+WorkloadResult   1: 4096 op, 113668417.00 ns, 27.7511 us/op
+WorkloadResult   2: 4096 op, 118307626.00 ns, 28.8837 us/op
+WorkloadResult   3: 4096 op, 115244750.00 ns, 28.1359 us/op
+WorkloadResult   4: 4096 op, 111269418.00 ns, 27.1654 us/op
+WorkloadResult   5: 4096 op, 112457501.00 ns, 27.4554 us/op
+WorkloadResult   6: 4096 op, 114871001.00 ns, 28.0447 us/op
+WorkloadResult   7: 4096 op, 120052043.00 ns, 29.3096 us/op
+WorkloadResult   8: 4096 op, 117216626.00 ns, 28.6173 us/op
+// GC:  37 3 0 236931680 4096
+// Threading:  0 0 4096
+
+// AfterAll
+// Benchmark Process 90421 has exited with code 0.
+
+Mean = 28.170 μs, StdErr = 0.258 μs (0.91%), N = 8, StdDev = 0.729 μs
+Min = 27.165 μs, Q1 = 27.677 μs, Median = 28.090 μs, Q3 = 28.684 μs, Max = 29.310 μs
+IQR = 1.007 μs, LowerFence = 26.167 μs, UpperFence = 30.194 μs
+ConfidenceInterval = [26.777 μs; 29.564 μs] (CI 99.9%), Margin = 1.394 μs (4.95% of Mean)
+Skewness = 0.15, Kurtosis = 1.46, MValue = 2
+
+// ** Remained 11 (91,7 %) benchmark(s) to run. Estimated finish 2026-07-17 13:41 (0h 1m from now) **
+// **************************
+// Benchmark: EngineComparisonBenchmark.RazorLight_Cold: Job-XPUURG(IterationCount=10, WarmupCount=5)
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet NgSharp.Benchmark-Job-XPUURG-1.dll --anonymousPipes 139 140 --benchmarkName NgSharp.Benchmark.EngineComparisonBenchmark.RazorLight_Cold --job "IterationCount=10, WarmupCount=5" --benchmarkId 1 in /Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/bin/Release/net9.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: Job-XPUURG(IterationCount=10, WarmupCount=5)
+
+OverheadJitting  1: 1 op, 115875.00 ns, 115.8750 us/op
+WorkloadJitting  1: 1 op, 39577250.00 ns, 39.5773 ms/op
+
+WorkloadPilot    1: 2 op, 66443917.00 ns, 33.2220 ms/op
+WorkloadPilot    2: 3 op, 83013583.00 ns, 27.6712 ms/op
+WorkloadPilot    3: 4 op, 115524167.00 ns, 28.8810 ms/op
+WorkloadPilot    4: 5 op, 131164583.00 ns, 26.2329 ms/op
+WorkloadPilot    5: 6 op, 163478958.00 ns, 27.2465 ms/op
+WorkloadPilot    6: 7 op, 168997708.00 ns, 24.1425 ms/op
+WorkloadPilot    7: 8 op, 184945375.00 ns, 23.1182 ms/op
+WorkloadPilot    8: 9 op, 243473500.00 ns, 27.0526 ms/op
+WorkloadPilot    9: 10 op, 244394958.00 ns, 24.4395 ms/op
+WorkloadPilot   10: 11 op, 255556833.00 ns, 23.2324 ms/op
+WorkloadPilot   11: 12 op, 267150541.00 ns, 22.2625 ms/op
+WorkloadPilot   12: 13 op, 297452958.00 ns, 22.8810 ms/op
+WorkloadPilot   13: 14 op, 313542625.00 ns, 22.3959 ms/op
+WorkloadPilot   14: 15 op, 428513000.00 ns, 28.5675 ms/op
+WorkloadPilot   15: 16 op, 508309708.00 ns, 31.7694 ms/op
+
+WorkloadWarmup   1: 16 op, 368326875.00 ns, 23.0204 ms/op
+WorkloadWarmup   2: 16 op, 358596292.00 ns, 22.4123 ms/op
+WorkloadWarmup   3: 16 op, 342862167.00 ns, 21.4289 ms/op
+WorkloadWarmup   4: 16 op, 368477792.00 ns, 23.0299 ms/op
+WorkloadWarmup   5: 16 op, 339952458.00 ns, 21.2470 ms/op
+
+// BeforeActualRun
+WorkloadActual   1: 16 op, 337666250.00 ns, 21.1041 ms/op
+WorkloadActual   2: 16 op, 413323792.00 ns, 25.8327 ms/op
+WorkloadActual   3: 16 op, 447960458.00 ns, 27.9975 ms/op
+WorkloadActual   4: 16 op, 467845291.00 ns, 29.2403 ms/op
+WorkloadActual   5: 16 op, 392803917.00 ns, 24.5502 ms/op
+WorkloadActual   6: 16 op, 407543333.00 ns, 25.4715 ms/op
+WorkloadActual   7: 16 op, 360575125.00 ns, 22.5359 ms/op
+WorkloadActual   8: 16 op, 348882583.00 ns, 21.8052 ms/op
+WorkloadActual   9: 16 op, 350559250.00 ns, 21.9100 ms/op
+WorkloadActual  10: 16 op, 345848417.00 ns, 21.6155 ms/op
+
+// AfterActualRun
+WorkloadResult   1: 16 op, 337666250.00 ns, 21.1041 ms/op
+WorkloadResult   2: 16 op, 413323792.00 ns, 25.8327 ms/op
+WorkloadResult   3: 16 op, 447960458.00 ns, 27.9975 ms/op
+WorkloadResult   4: 16 op, 467845291.00 ns, 29.2403 ms/op
+WorkloadResult   5: 16 op, 392803917.00 ns, 24.5502 ms/op
+WorkloadResult   6: 16 op, 407543333.00 ns, 25.4715 ms/op
+WorkloadResult   7: 16 op, 360575125.00 ns, 22.5359 ms/op
+WorkloadResult   8: 16 op, 348882583.00 ns, 21.8052 ms/op
+WorkloadResult   9: 16 op, 350559250.00 ns, 21.9100 ms/op
+WorkloadResult  10: 16 op, 345848417.00 ns, 21.6155 ms/op
+// GC:  7 2 0 45429768 16
+// Threading:  226 0 16
+
+// AfterAll
+// Benchmark Process 90668 has exited with code 0.
+
+Mean = 24.206 ms, StdErr = 0.908 ms (3.75%), N = 10, StdDev = 2.872 ms
+Min = 21.104 ms, Q1 = 21.831 ms, Median = 23.543 ms, Q3 = 25.742 ms, Max = 29.240 ms
+IQR = 3.911 ms, LowerFence = 15.965 ms, UpperFence = 31.609 ms
+ConfidenceInterval = [19.864 ms; 28.549 ms] (CI 99.9%), Margin = 4.342 ms (17.94% of Mean)
+Skewness = 0.47, Kurtosis = 1.56, MValue = 2
+
+// ** Remained 10 (83,3 %) benchmark(s) to run. Estimated finish 2026-07-17 13:42 (0h 1m from now) **
+// **************************
+// Benchmark: EngineComparisonBenchmark.Handlebars_Cold: Job-XPUURG(IterationCount=10, WarmupCount=5)
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet NgSharp.Benchmark-Job-XPUURG-1.dll --anonymousPipes 139 140 --benchmarkName NgSharp.Benchmark.EngineComparisonBenchmark.Handlebars_Cold --job "IterationCount=10, WarmupCount=5" --benchmarkId 2 in /Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/bin/Release/net9.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: Job-XPUURG(IterationCount=10, WarmupCount=5)
+
+OverheadJitting  1: 1 op, 130542.00 ns, 130.5420 us/op
+WorkloadJitting  1: 1 op, 17008291.00 ns, 17.0083 ms/op
+
+OverheadJitting  2: 16 op, 505583.00 ns, 31.5989 us/op
+WorkloadJitting  2: 16 op, 37453500.00 ns, 2.3408 ms/op
+
+WorkloadPilot    1: 16 op, 34491208.00 ns, 2.1557 ms/op
+WorkloadPilot    2: 32 op, 77145167.00 ns, 2.4108 ms/op
+WorkloadPilot    3: 64 op, 154846583.00 ns, 2.4195 ms/op
+WorkloadPilot    4: 128 op, 333302958.00 ns, 2.6039 ms/op
+WorkloadPilot    5: 256 op, 614966750.00 ns, 2.4022 ms/op
+
+OverheadWarmup   1: 256 op, 4042.00 ns, 15.7891 ns/op
+OverheadWarmup   2: 256 op, 1583.00 ns, 6.1836 ns/op
+OverheadWarmup   3: 256 op, 1917.00 ns, 7.4883 ns/op
+OverheadWarmup   4: 256 op, 1708.00 ns, 6.6719 ns/op
+OverheadWarmup   5: 256 op, 1667.00 ns, 6.5117 ns/op
+OverheadWarmup   6: 256 op, 1583.00 ns, 6.1836 ns/op
+OverheadWarmup   7: 256 op, 1250.00 ns, 4.8828 ns/op
+OverheadWarmup   8: 256 op, 1500.00 ns, 5.8594 ns/op
+OverheadWarmup   9: 256 op, 1667.00 ns, 6.5117 ns/op
+OverheadWarmup  10: 256 op, 1500.00 ns, 5.8594 ns/op
+
+OverheadActual   1: 256 op, 1500.00 ns, 5.8594 ns/op
+OverheadActual   2: 256 op, 2000.00 ns, 7.8125 ns/op
+OverheadActual   3: 256 op, 1750.00 ns, 6.8359 ns/op
+OverheadActual   4: 256 op, 1959.00 ns, 7.6523 ns/op
+OverheadActual   5: 256 op, 1666.00 ns, 6.5078 ns/op
+OverheadActual   6: 256 op, 1708.00 ns, 6.6719 ns/op
+OverheadActual   7: 256 op, 1375.00 ns, 5.3711 ns/op
+OverheadActual   8: 256 op, 1750.00 ns, 6.8359 ns/op
+OverheadActual   9: 256 op, 1833.00 ns, 7.1602 ns/op
+OverheadActual  10: 256 op, 1459.00 ns, 5.6992 ns/op
+OverheadActual  11: 256 op, 1708.00 ns, 6.6719 ns/op
+OverheadActual  12: 256 op, 1708.00 ns, 6.6719 ns/op
+OverheadActual  13: 256 op, 1958.00 ns, 7.6484 ns/op
+OverheadActual  14: 256 op, 1625.00 ns, 6.3477 ns/op
+OverheadActual  15: 256 op, 1709.00 ns, 6.6758 ns/op
+OverheadActual  16: 256 op, 1917.00 ns, 7.4883 ns/op
+OverheadActual  17: 256 op, 1542.00 ns, 6.0234 ns/op
+OverheadActual  18: 256 op, 1416.00 ns, 5.5313 ns/op
+OverheadActual  19: 256 op, 1291.00 ns, 5.0430 ns/op
+OverheadActual  20: 256 op, 1458.00 ns, 5.6953 ns/op
+
+WorkloadWarmup   1: 256 op, 655881416.00 ns, 2.5620 ms/op
+WorkloadWarmup   2: 256 op, 644571125.00 ns, 2.5179 ms/op
+WorkloadWarmup   3: 256 op, 631616375.00 ns, 2.4673 ms/op
+WorkloadWarmup   4: 256 op, 635793208.00 ns, 2.4836 ms/op
+WorkloadWarmup   5: 256 op, 573837750.00 ns, 2.2416 ms/op
+
+// BeforeActualRun
+WorkloadActual   1: 256 op, 549952583.00 ns, 2.1483 ms/op
+WorkloadActual   2: 256 op, 533953500.00 ns, 2.0858 ms/op
+WorkloadActual   3: 256 op, 500979500.00 ns, 1.9570 ms/op
+WorkloadActual   4: 256 op, 503049291.00 ns, 1.9650 ms/op
+WorkloadActual   5: 256 op, 496295584.00 ns, 1.9387 ms/op
+WorkloadActual   6: 256 op, 504007333.00 ns, 1.9688 ms/op
+WorkloadActual   7: 256 op, 654759625.00 ns, 2.5577 ms/op
+WorkloadActual   8: 256 op, 534686291.00 ns, 2.0886 ms/op
+WorkloadActual   9: 256 op, 552209542.00 ns, 2.1571 ms/op
+WorkloadActual  10: 256 op, 552902667.00 ns, 2.1598 ms/op
+
+// AfterActualRun
+WorkloadResult   1: 256 op, 549950875.00 ns, 2.1482 ms/op
+WorkloadResult   2: 256 op, 533951792.00 ns, 2.0857 ms/op
+WorkloadResult   3: 256 op, 500977792.00 ns, 1.9569 ms/op
+WorkloadResult   4: 256 op, 503047583.00 ns, 1.9650 ms/op
+WorkloadResult   5: 256 op, 496293876.00 ns, 1.9386 ms/op
+WorkloadResult   6: 256 op, 504005625.00 ns, 1.9688 ms/op
+WorkloadResult   7: 256 op, 534684583.00 ns, 2.0886 ms/op
+WorkloadResult   8: 256 op, 552207834.00 ns, 2.1571 ms/op
+WorkloadResult   9: 256 op, 552900959.00 ns, 2.1598 ms/op
+// GC:  6 3 0 38841792 256
+// Threading:  0 0 256
+
+// AfterAll
+// Benchmark Process 90971 has exited with code 0.
+
+Mean = 2.052 ms, StdErr = 0.031 ms (1.53%), N = 9, StdDev = 0.094 ms
+Min = 1.939 ms, Q1 = 1.965 ms, Median = 2.086 ms, Q3 = 2.148 ms, Max = 2.160 ms
+IQR = 0.183 ms, LowerFence = 1.690 ms, UpperFence = 2.423 ms
+ConfidenceInterval = [1.894 ms; 2.210 ms] (CI 99.9%), Margin = 0.158 ms (7.70% of Mean)
+Skewness = -0.02, Kurtosis = 0.99, MValue = 3.6
+
+// ** Remained 9 (75,0 %) benchmark(s) to run. Estimated finish 2026-07-17 13:42 (0h 1m from now) **
+// **************************
+// Benchmark: EngineComparisonBenchmark.Scriban_Cold: Job-XPUURG(IterationCount=10, WarmupCount=5)
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet NgSharp.Benchmark-Job-XPUURG-1.dll --anonymousPipes 139 140 --benchmarkName NgSharp.Benchmark.EngineComparisonBenchmark.Scriban_Cold --job "IterationCount=10, WarmupCount=5" --benchmarkId 3 in /Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/bin/Release/net9.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: Job-XPUURG(IterationCount=10, WarmupCount=5)
+
+OverheadJitting  1: 1 op, 288208.00 ns, 288.2080 us/op
+WorkloadJitting  1: 1 op, 23146667.00 ns, 23.1467 ms/op
+
+OverheadJitting  2: 16 op, 497083.00 ns, 31.0677 us/op
+WorkloadJitting  2: 16 op, 2299500.00 ns, 143.7188 us/op
+
+WorkloadPilot    1: 16 op, 1389375.00 ns, 86.8359 us/op
+WorkloadPilot    2: 32 op, 2576417.00 ns, 80.5130 us/op
+WorkloadPilot    3: 64 op, 5184834.00 ns, 81.0130 us/op
+WorkloadPilot    4: 128 op, 10077042.00 ns, 78.7269 us/op
+WorkloadPilot    5: 256 op, 23138250.00 ns, 90.3838 us/op
+WorkloadPilot    6: 512 op, 46161292.00 ns, 90.1588 us/op
+WorkloadPilot    7: 1024 op, 151764417.00 ns, 148.2074 us/op
+WorkloadPilot    8: 2048 op, 207742709.00 ns, 101.4369 us/op
+WorkloadPilot    9: 4096 op, 363114959.00 ns, 88.6511 us/op
+WorkloadPilot   10: 8192 op, 580174083.00 ns, 70.8220 us/op
+
+OverheadWarmup   1: 8192 op, 25041.00 ns, 3.0568 ns/op
+OverheadWarmup   2: 8192 op, 21583.00 ns, 2.6346 ns/op
+OverheadWarmup   3: 8192 op, 23250.00 ns, 2.8381 ns/op
+OverheadWarmup   4: 8192 op, 23083.00 ns, 2.8177 ns/op
+OverheadWarmup   5: 8192 op, 23416.00 ns, 2.8584 ns/op
+OverheadWarmup   6: 8192 op, 23417.00 ns, 2.8585 ns/op
+OverheadWarmup   7: 8192 op, 23125.00 ns, 2.8229 ns/op
+
+OverheadActual   1: 8192 op, 22792.00 ns, 2.7822 ns/op
+OverheadActual   2: 8192 op, 25458.00 ns, 3.1077 ns/op
+OverheadActual   3: 8192 op, 135000.00 ns, 16.4795 ns/op
+OverheadActual   4: 8192 op, 22875.00 ns, 2.7924 ns/op
+OverheadActual   5: 8192 op, 23458.00 ns, 2.8635 ns/op
+OverheadActual   6: 8192 op, 23041.00 ns, 2.8126 ns/op
+OverheadActual   7: 8192 op, 23459.00 ns, 2.8636 ns/op
+OverheadActual   8: 8192 op, 24666.00 ns, 3.0110 ns/op
+OverheadActual   9: 8192 op, 23250.00 ns, 2.8381 ns/op
+OverheadActual  10: 8192 op, 25333.00 ns, 3.0924 ns/op
+OverheadActual  11: 8192 op, 23625.00 ns, 2.8839 ns/op
+OverheadActual  12: 8192 op, 23459.00 ns, 2.8636 ns/op
+OverheadActual  13: 8192 op, 23334.00 ns, 2.8484 ns/op
+OverheadActual  14: 8192 op, 23333.00 ns, 2.8483 ns/op
+OverheadActual  15: 8192 op, 31292.00 ns, 3.8198 ns/op
+
+WorkloadWarmup   1: 8192 op, 393279208.00 ns, 48.0077 us/op
+WorkloadWarmup   2: 8192 op, 260345042.00 ns, 31.7804 us/op
+WorkloadWarmup   3: 8192 op, 197126792.00 ns, 24.0633 us/op
+WorkloadWarmup   4: 8192 op, 177203041.00 ns, 21.6312 us/op
+WorkloadWarmup   5: 8192 op, 166636375.00 ns, 20.3414 us/op
+
+// BeforeActualRun
+WorkloadActual   1: 8192 op, 167291292.00 ns, 20.4213 us/op
+WorkloadActual   2: 8192 op, 172612833.00 ns, 21.0709 us/op
+WorkloadActual   3: 8192 op, 178081000.00 ns, 21.7384 us/op
+WorkloadActual   4: 8192 op, 183808583.00 ns, 22.4376 us/op
+WorkloadActual   5: 8192 op, 184929875.00 ns, 22.5744 us/op
+WorkloadActual   6: 8192 op, 175682875.00 ns, 21.4457 us/op
+WorkloadActual   7: 8192 op, 169205833.00 ns, 20.6550 us/op
+WorkloadActual   8: 8192 op, 168543333.00 ns, 20.5741 us/op
+WorkloadActual   9: 8192 op, 178431875.00 ns, 21.7812 us/op
+WorkloadActual  10: 8192 op, 164660875.00 ns, 20.1002 us/op
+
+// AfterActualRun
+WorkloadResult   1: 8192 op, 167267833.00 ns, 20.4184 us/op
+WorkloadResult   2: 8192 op, 172589374.00 ns, 21.0680 us/op
+WorkloadResult   3: 8192 op, 178057541.00 ns, 21.7355 us/op
+WorkloadResult   4: 8192 op, 183785124.00 ns, 22.4347 us/op
+WorkloadResult   5: 8192 op, 184906416.00 ns, 22.5716 us/op
+WorkloadResult   6: 8192 op, 175659416.00 ns, 21.4428 us/op
+WorkloadResult   7: 8192 op, 169182374.00 ns, 20.6521 us/op
+WorkloadResult   8: 8192 op, 168519874.00 ns, 20.5713 us/op
+WorkloadResult   9: 8192 op, 178408416.00 ns, 21.7784 us/op
+WorkloadResult  10: 8192 op, 164637416.00 ns, 20.0973 us/op
+// GC:  60 5 0 379494432 8192
+// Threading:  0 0 8192
+
+// AfterAll
+// Benchmark Process 91382 has exited with code 0.
+
+Mean = 21.277 μs, StdErr = 0.270 μs (1.27%), N = 10, StdDev = 0.854 μs
+Min = 20.097 μs, Q1 = 20.591 μs, Median = 21.255 μs, Q3 = 21.768 μs, Max = 22.572 μs
+IQR = 1.176 μs, LowerFence = 18.827 μs, UpperFence = 23.532 μs
+ConfidenceInterval = [19.986 μs; 22.568 μs] (CI 99.9%), Margin = 1.291 μs (6.07% of Mean)
+Skewness = 0.17, Kurtosis = 1.43, MValue = 3.2
+
+// ** Remained 8 (66,7 %) benchmark(s) to run. Estimated finish 2026-07-17 13:42 (0h 1m from now) **
+// **************************
+// Benchmark: EngineComparisonBenchmark.Stubble_Cold: Job-XPUURG(IterationCount=10, WarmupCount=5)
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet NgSharp.Benchmark-Job-XPUURG-1.dll --anonymousPipes 139 140 --benchmarkName NgSharp.Benchmark.EngineComparisonBenchmark.Stubble_Cold --job "IterationCount=10, WarmupCount=5" --benchmarkId 4 in /Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/bin/Release/net9.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: Job-XPUURG(IterationCount=10, WarmupCount=5)
+
+OverheadJitting  1: 1 op, 124709.00 ns, 124.7090 us/op
+WorkloadJitting  1: 1 op, 10885250.00 ns, 10.8853 ms/op
+
+OverheadJitting  2: 16 op, 519666.00 ns, 32.4791 us/op
+WorkloadJitting  2: 16 op, 1045542.00 ns, 65.3464 us/op
+
+WorkloadPilot    1: 16 op, 210542.00 ns, 13.1589 us/op
+WorkloadPilot    2: 32 op, 356375.00 ns, 11.1367 us/op
+WorkloadPilot    3: 64 op, 615209.00 ns, 9.6126 us/op
+WorkloadPilot    4: 128 op, 1191666.00 ns, 9.3099 us/op
+WorkloadPilot    5: 256 op, 2497583.00 ns, 9.7562 us/op
+WorkloadPilot    6: 512 op, 5328833.00 ns, 10.4079 us/op
+WorkloadPilot    7: 1024 op, 15624542.00 ns, 15.2583 us/op
+WorkloadPilot    8: 2048 op, 21992833.00 ns, 10.7387 us/op
+WorkloadPilot    9: 4096 op, 59386667.00 ns, 14.4987 us/op
+WorkloadPilot   10: 8192 op, 85803625.00 ns, 10.4741 us/op
+WorkloadPilot   11: 16384 op, 43818666.00 ns, 2.6745 us/op
+WorkloadPilot   12: 32768 op, 86527584.00 ns, 2.6406 us/op
+WorkloadPilot   13: 65536 op, 175146417.00 ns, 2.6725 us/op
+WorkloadPilot   14: 131072 op, 369067375.00 ns, 2.8158 us/op
+WorkloadPilot   15: 262144 op, 757927875.00 ns, 2.8913 us/op
+
+OverheadWarmup   1: 262144 op, 686958.00 ns, 2.6205 ns/op
+OverheadWarmup   2: 262144 op, 778708.00 ns, 2.9705 ns/op
+OverheadWarmup   3: 262144 op, 691666.00 ns, 2.6385 ns/op
+OverheadWarmup   4: 262144 op, 681750.00 ns, 2.6007 ns/op
+OverheadWarmup   5: 262144 op, 699625.00 ns, 2.6689 ns/op
+OverheadWarmup   6: 262144 op, 724125.00 ns, 2.7623 ns/op
+OverheadWarmup   7: 262144 op, 786833.00 ns, 3.0015 ns/op
+OverheadWarmup   8: 262144 op, 699666.00 ns, 2.6690 ns/op
+
+OverheadActual   1: 262144 op, 715625.00 ns, 2.7299 ns/op
+OverheadActual   2: 262144 op, 702084.00 ns, 2.6782 ns/op
+OverheadActual   3: 262144 op, 731208.00 ns, 2.7893 ns/op
+OverheadActual   4: 262144 op, 704292.00 ns, 2.6867 ns/op
+OverheadActual   5: 262144 op, 700708.00 ns, 2.6730 ns/op
+OverheadActual   6: 262144 op, 703042.00 ns, 2.6819 ns/op
+OverheadActual   7: 262144 op, 702333.00 ns, 2.6792 ns/op
+OverheadActual   8: 262144 op, 700750.00 ns, 2.6731 ns/op
+OverheadActual   9: 262144 op, 696792.00 ns, 2.6581 ns/op
+OverheadActual  10: 262144 op, 697542.00 ns, 2.6609 ns/op
+OverheadActual  11: 262144 op, 694500.00 ns, 2.6493 ns/op
+OverheadActual  12: 262144 op, 680334.00 ns, 2.5953 ns/op
+OverheadActual  13: 262144 op, 702125.00 ns, 2.6784 ns/op
+OverheadActual  14: 262144 op, 701416.00 ns, 2.6757 ns/op
+OverheadActual  15: 262144 op, 701292.00 ns, 2.6752 ns/op
+
+WorkloadWarmup   1: 262144 op, 694365750.00 ns, 2.6488 us/op
+WorkloadWarmup   2: 262144 op, 667148625.00 ns, 2.5450 us/op
+WorkloadWarmup   3: 262144 op, 666218084.00 ns, 2.5414 us/op
+WorkloadWarmup   4: 262144 op, 665298375.00 ns, 2.5379 us/op
+WorkloadWarmup   5: 262144 op, 681547167.00 ns, 2.5999 us/op
+
+// BeforeActualRun
+WorkloadActual   1: 262144 op, 721655208.00 ns, 2.7529 us/op
+WorkloadActual   2: 262144 op, 678701959.00 ns, 2.5890 us/op
+WorkloadActual   3: 262144 op, 673820000.00 ns, 2.5704 us/op
+WorkloadActual   4: 262144 op, 672928417.00 ns, 2.5670 us/op
+WorkloadActual   5: 262144 op, 667487042.00 ns, 2.5463 us/op
+WorkloadActual   6: 262144 op, 667033625.00 ns, 2.5445 us/op
+WorkloadActual   7: 262144 op, 664200041.00 ns, 2.5337 us/op
+WorkloadActual   8: 262144 op, 680500375.00 ns, 2.5959 us/op
+WorkloadActual   9: 262144 op, 698473792.00 ns, 2.6645 us/op
+WorkloadActual  10: 262144 op, 673539750.00 ns, 2.5694 us/op
+
+// AfterActualRun
+WorkloadResult   1: 262144 op, 678000543.00 ns, 2.5864 us/op
+WorkloadResult   2: 262144 op, 673118584.00 ns, 2.5677 us/op
+WorkloadResult   3: 262144 op, 672227001.00 ns, 2.5643 us/op
+WorkloadResult   4: 262144 op, 666785626.00 ns, 2.5436 us/op
+WorkloadResult   5: 262144 op, 666332209.00 ns, 2.5419 us/op
+WorkloadResult   6: 262144 op, 663498625.00 ns, 2.5310 us/op
+WorkloadResult   7: 262144 op, 679798959.00 ns, 2.5932 us/op
+WorkloadResult   8: 262144 op, 672838334.00 ns, 2.5667 us/op
+// GC:  260 3 0 1631584256 262144
+// Threading:  0 0 262144
+
+// AfterAll
+// Benchmark Process 91579 has exited with code 0.
+
+Mean = 2.562 μs, StdErr = 0.008 μs (0.30%), N = 8, StdDev = 0.022 μs
+Min = 2.531 μs, Q1 = 2.543 μs, Median = 2.566 μs, Q3 = 2.572 μs, Max = 2.593 μs
+IQR = 0.029 μs, LowerFence = 2.499 μs, UpperFence = 2.616 μs
+ConfidenceInterval = [2.520 μs; 2.604 μs] (CI 99.9%), Margin = 0.042 μs (1.63% of Mean)
+Skewness = 0.03, Kurtosis = 1.38, MValue = 2
+
+// ** Remained 7 (58,3 %) benchmark(s) to run. Estimated finish 2026-07-17 13:42 (0h 1m from now) **
+// **************************
+// Benchmark: EngineComparisonBenchmark.Fluid_Cold: Job-XPUURG(IterationCount=10, WarmupCount=5)
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet NgSharp.Benchmark-Job-XPUURG-1.dll --anonymousPipes 108 109 --benchmarkName NgSharp.Benchmark.EngineComparisonBenchmark.Fluid_Cold --job "IterationCount=10, WarmupCount=5" --benchmarkId 5 in /Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/bin/Release/net9.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: Job-XPUURG(IterationCount=10, WarmupCount=5)
+
+OverheadJitting  1: 1 op, 113375.00 ns, 113.3750 us/op
+WorkloadJitting  1: 1 op, 12072958.00 ns, 12.0730 ms/op
+
+OverheadJitting  2: 16 op, 473417.00 ns, 29.5886 us/op
+WorkloadJitting  2: 16 op, 1358792.00 ns, 84.9245 us/op
+
+WorkloadPilot    1: 16 op, 591750.00 ns, 36.9844 us/op
+WorkloadPilot    2: 32 op, 1079666.00 ns, 33.7396 us/op
+WorkloadPilot    3: 64 op, 2343542.00 ns, 36.6178 us/op
+WorkloadPilot    4: 128 op, 4632334.00 ns, 36.1901 us/op
+WorkloadPilot    5: 256 op, 8630750.00 ns, 33.7139 us/op
+WorkloadPilot    6: 512 op, 17503500.00 ns, 34.1865 us/op
+WorkloadPilot    7: 1024 op, 52324375.00 ns, 51.0980 us/op
+WorkloadPilot    8: 2048 op, 97521625.00 ns, 47.6180 us/op
+WorkloadPilot    9: 4096 op, 113074625.00 ns, 27.6061 us/op
+WorkloadPilot   10: 8192 op, 84144417.00 ns, 10.2715 us/op
+WorkloadPilot   11: 16384 op, 80213166.00 ns, 4.8958 us/op
+WorkloadPilot   12: 32768 op, 155641708.00 ns, 4.7498 us/op
+WorkloadPilot   13: 65536 op, 310189416.00 ns, 4.7331 us/op
+WorkloadPilot   14: 131072 op, 626969875.00 ns, 4.7834 us/op
+
+OverheadWarmup   1: 131072 op, 342084.00 ns, 2.6099 ns/op
+OverheadWarmup   2: 131072 op, 345125.00 ns, 2.6331 ns/op
+OverheadWarmup   3: 131072 op, 341458.00 ns, 2.6051 ns/op
+OverheadWarmup   4: 131072 op, 354208.00 ns, 2.7024 ns/op
+OverheadWarmup   5: 131072 op, 347959.00 ns, 2.6547 ns/op
+
+OverheadActual   1: 131072 op, 356833.00 ns, 2.7224 ns/op
+OverheadActual   2: 131072 op, 476041.00 ns, 3.6319 ns/op
+OverheadActual   3: 131072 op, 336458.00 ns, 2.5670 ns/op
+OverheadActual   4: 131072 op, 343459.00 ns, 2.6204 ns/op
+OverheadActual   5: 131072 op, 340541.00 ns, 2.5981 ns/op
+OverheadActual   6: 131072 op, 340666.00 ns, 2.5991 ns/op
+OverheadActual   7: 131072 op, 341833.00 ns, 2.6080 ns/op
+OverheadActual   8: 131072 op, 337208.00 ns, 2.5727 ns/op
+OverheadActual   9: 131072 op, 353458.00 ns, 2.6967 ns/op
+OverheadActual  10: 131072 op, 347666.00 ns, 2.6525 ns/op
+OverheadActual  11: 131072 op, 343625.00 ns, 2.6217 ns/op
+OverheadActual  12: 131072 op, 355625.00 ns, 2.7132 ns/op
+OverheadActual  13: 131072 op, 346792.00 ns, 2.6458 ns/op
+OverheadActual  14: 131072 op, 388208.00 ns, 2.9618 ns/op
+OverheadActual  15: 131072 op, 353791.00 ns, 2.6992 ns/op
+
+WorkloadWarmup   1: 131072 op, 627842625.00 ns, 4.7901 us/op
+WorkloadWarmup   2: 131072 op, 622866209.00 ns, 4.7521 us/op
+WorkloadWarmup   3: 131072 op, 623653875.00 ns, 4.7581 us/op
+WorkloadWarmup   4: 131072 op, 632948625.00 ns, 4.8290 us/op
+WorkloadWarmup   5: 131072 op, 616627292.00 ns, 4.7045 us/op
+
+// BeforeActualRun
+WorkloadActual   1: 131072 op, 635190625.00 ns, 4.8461 us/op
+WorkloadActual   2: 131072 op, 636378667.00 ns, 4.8552 us/op
+WorkloadActual   3: 131072 op, 656668875.00 ns, 5.0100 us/op
+WorkloadActual   4: 131072 op, 626320959.00 ns, 4.7784 us/op
+WorkloadActual   5: 131072 op, 619121792.00 ns, 4.7235 us/op
+WorkloadActual   6: 131072 op, 621665709.00 ns, 4.7429 us/op
+WorkloadActual   7: 131072 op, 633265583.00 ns, 4.8314 us/op
+WorkloadActual   8: 131072 op, 617766125.00 ns, 4.7132 us/op
+WorkloadActual   9: 131072 op, 620253875.00 ns, 4.7322 us/op
+WorkloadActual  10: 131072 op, 638891125.00 ns, 4.8744 us/op
+
+// AfterActualRun
+WorkloadResult   1: 131072 op, 634843833.00 ns, 4.8435 us/op
+WorkloadResult   2: 131072 op, 636031875.00 ns, 4.8525 us/op
+WorkloadResult   3: 131072 op, 656322083.00 ns, 5.0073 us/op
+WorkloadResult   4: 131072 op, 625974167.00 ns, 4.7758 us/op
+WorkloadResult   5: 131072 op, 618775000.00 ns, 4.7209 us/op
+WorkloadResult   6: 131072 op, 621318917.00 ns, 4.7403 us/op
+WorkloadResult   7: 131072 op, 632918791.00 ns, 4.8288 us/op
+WorkloadResult   8: 131072 op, 617419333.00 ns, 4.7105 us/op
+WorkloadResult   9: 131072 op, 619907083.00 ns, 4.7295 us/op
+WorkloadResult  10: 131072 op, 638544333.00 ns, 4.8717 us/op
+// GC:  102 1 0 643842144 131072
+// Threading:  0 0 131072
+
+// AfterAll
+// Benchmark Process 91994 has exited with code 0.
+
+Mean = 4.808 μs, StdErr = 0.029 μs (0.61%), N = 10, StdDev = 0.092 μs
+Min = 4.711 μs, Q1 = 4.732 μs, Median = 4.802 μs, Q3 = 4.850 μs, Max = 5.007 μs
+IQR = 0.118 μs, LowerFence = 4.555 μs, UpperFence = 5.027 μs
+ConfidenceInterval = [4.669 μs; 4.947 μs] (CI 99.9%), Margin = 0.139 μs (2.90% of Mean)
+Skewness = 0.75, Kurtosis = 2.51, MValue = 2
+
+// ** Remained 6 (50,0 %) benchmark(s) to run. Estimated finish 2026-07-17 13:42 (0h 1m from now) **
+// **************************
+// Benchmark: EngineComparisonBenchmark.NgSharp_Warm: Job-XPUURG(IterationCount=10, WarmupCount=5)
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet NgSharp.Benchmark-Job-XPUURG-1.dll --anonymousPipes 108 109 --benchmarkName NgSharp.Benchmark.EngineComparisonBenchmark.NgSharp_Warm --job "IterationCount=10, WarmupCount=5" --benchmarkId 6 in /Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/bin/Release/net9.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: Job-XPUURG(IterationCount=10, WarmupCount=5)
+
+OverheadJitting  1: 1 op, 118167.00 ns, 118.1670 us/op
+WorkloadJitting  1: 1 op, 573500.00 ns, 573.5000 us/op
+
+OverheadJitting  2: 16 op, 434083.00 ns, 27.1302 us/op
+WorkloadJitting  2: 16 op, 916792.00 ns, 57.2995 us/op
+
+WorkloadPilot    1: 16 op, 318208.00 ns, 19.8880 us/op
+WorkloadPilot    2: 32 op, 580583.00 ns, 18.1432 us/op
+WorkloadPilot    3: 64 op, 1008958.00 ns, 15.7650 us/op
+WorkloadPilot    4: 128 op, 1951625.00 ns, 15.2471 us/op
+WorkloadPilot    5: 256 op, 4055875.00 ns, 15.8433 us/op
+WorkloadPilot    6: 512 op, 8654000.00 ns, 16.9023 us/op
+WorkloadPilot    7: 1024 op, 16874333.00 ns, 16.4788 us/op
+WorkloadPilot    8: 2048 op, 35128792.00 ns, 17.1527 us/op
+WorkloadPilot    9: 4096 op, 91203417.00 ns, 22.2665 us/op
+WorkloadPilot   10: 8192 op, 195295708.00 ns, 23.8398 us/op
+WorkloadPilot   11: 16384 op, 317795584.00 ns, 19.3967 us/op
+WorkloadPilot   12: 32768 op, 191588750.00 ns, 5.8468 us/op
+WorkloadPilot   13: 65536 op, 352214666.00 ns, 5.3744 us/op
+WorkloadPilot   14: 131072 op, 735339875.00 ns, 5.6102 us/op
+
+OverheadWarmup   1: 131072 op, 336459.00 ns, 2.5670 ns/op
+OverheadWarmup   2: 131072 op, 355542.00 ns, 2.7126 ns/op
+OverheadWarmup   3: 131072 op, 358500.00 ns, 2.7351 ns/op
+OverheadWarmup   4: 131072 op, 342833.00 ns, 2.6156 ns/op
+OverheadWarmup   5: 131072 op, 336417.00 ns, 2.5667 ns/op
+OverheadWarmup   6: 131072 op, 347167.00 ns, 2.6487 ns/op
+OverheadWarmup   7: 131072 op, 337458.00 ns, 2.5746 ns/op
+
+OverheadActual   1: 131072 op, 345500.00 ns, 2.6360 ns/op
+OverheadActual   2: 131072 op, 342417.00 ns, 2.6124 ns/op
+OverheadActual   3: 131072 op, 341792.00 ns, 2.6077 ns/op
+OverheadActual   4: 131072 op, 344916.00 ns, 2.6315 ns/op
+OverheadActual   5: 131072 op, 340541.00 ns, 2.5981 ns/op
+OverheadActual   6: 131072 op, 355042.00 ns, 2.7088 ns/op
+OverheadActual   7: 131072 op, 343666.00 ns, 2.6220 ns/op
+OverheadActual   8: 131072 op, 345708.00 ns, 2.6375 ns/op
+OverheadActual   9: 131072 op, 339667.00 ns, 2.5915 ns/op
+OverheadActual  10: 131072 op, 350250.00 ns, 2.6722 ns/op
+OverheadActual  11: 131072 op, 350833.00 ns, 2.6766 ns/op
+OverheadActual  12: 131072 op, 336708.00 ns, 2.5689 ns/op
+OverheadActual  13: 131072 op, 368042.00 ns, 2.8079 ns/op
+OverheadActual  14: 131072 op, 339750.00 ns, 2.5921 ns/op
+OverheadActual  15: 131072 op, 424958.00 ns, 3.2422 ns/op
+
+WorkloadWarmup   1: 131072 op, 715603583.00 ns, 5.4596 us/op
+WorkloadWarmup   2: 131072 op, 712438917.00 ns, 5.4355 us/op
+WorkloadWarmup   3: 131072 op, 705065833.00 ns, 5.3792 us/op
+WorkloadWarmup   4: 131072 op, 700842000.00 ns, 5.3470 us/op
+WorkloadWarmup   5: 131072 op, 697354208.00 ns, 5.3204 us/op
+
+// BeforeActualRun
+WorkloadActual   1: 131072 op, 697996209.00 ns, 5.3253 us/op
+WorkloadActual   2: 131072 op, 702119708.00 ns, 5.3567 us/op
+WorkloadActual   3: 131072 op, 717320209.00 ns, 5.4727 us/op
+WorkloadActual   4: 131072 op, 704414875.00 ns, 5.3743 us/op
+WorkloadActual   5: 131072 op, 736640625.00 ns, 5.6201 us/op
+WorkloadActual   6: 131072 op, 1002362000.00 ns, 7.6474 us/op
+WorkloadActual   7: 131072 op, 773336625.00 ns, 5.9001 us/op
+WorkloadActual   8: 131072 op, 699609625.00 ns, 5.3376 us/op
+WorkloadActual   9: 131072 op, 698741208.00 ns, 5.3310 us/op
+WorkloadActual  10: 131072 op, 750355000.00 ns, 5.7248 us/op
+
+// AfterActualRun
+WorkloadResult   1: 131072 op, 697651293.00 ns, 5.3227 us/op
+WorkloadResult   2: 131072 op, 701774792.00 ns, 5.3541 us/op
+WorkloadResult   3: 131072 op, 716975293.00 ns, 5.4701 us/op
+WorkloadResult   4: 131072 op, 704069959.00 ns, 5.3716 us/op
+WorkloadResult   5: 131072 op, 736295709.00 ns, 5.6175 us/op
+WorkloadResult   6: 131072 op, 772991709.00 ns, 5.8975 us/op
+WorkloadResult   7: 131072 op, 699264709.00 ns, 5.3350 us/op
+WorkloadResult   8: 131072 op, 698396292.00 ns, 5.3283 us/op
+WorkloadResult   9: 131072 op, 750010084.00 ns, 5.7221 us/op
+// GC:  95 0 0 598886656 131072
+// Threading:  0 0 131072
+
+// AfterAll
+// Benchmark Process 92411 has exited with code 0.
+
+Mean = 5.491 μs, StdErr = 0.069 μs (1.26%), N = 9, StdDev = 0.208 μs
+Min = 5.323 μs, Q1 = 5.335 μs, Median = 5.372 μs, Q3 = 5.617 μs, Max = 5.897 μs
+IQR = 0.283 μs, LowerFence = 4.911 μs, UpperFence = 6.041 μs
+ConfidenceInterval = [5.141 μs; 5.841 μs] (CI 99.9%), Margin = 0.350 μs (6.38% of Mean)
+Skewness = 0.79, Kurtosis = 1.95, MValue = 2
+
+// ** Remained 5 (41,7 %) benchmark(s) to run. Estimated finish 2026-07-17 13:42 (0h 0m from now) **
+// **************************
+// Benchmark: EngineComparisonBenchmark.NgSharp_Warm_Prebuilt: Job-XPUURG(IterationCount=10, WarmupCount=5)
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet NgSharp.Benchmark-Job-XPUURG-1.dll --anonymousPipes 108 109 --benchmarkName NgSharp.Benchmark.EngineComparisonBenchmark.NgSharp_Warm_Prebuilt --job "IterationCount=10, WarmupCount=5" --benchmarkId 7 in /Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/bin/Release/net9.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: Job-XPUURG(IterationCount=10, WarmupCount=5)
+
+OverheadJitting  1: 1 op, 130333.00 ns, 130.3330 us/op
+WorkloadJitting  1: 1 op, 534167.00 ns, 534.1670 us/op
+
+OverheadJitting  2: 16 op, 465333.00 ns, 29.0833 us/op
+WorkloadJitting  2: 16 op, 735000.00 ns, 45.9375 us/op
+
+WorkloadPilot    1: 16 op, 187292.00 ns, 11.7058 us/op
+WorkloadPilot    2: 32 op, 300667.00 ns, 9.3958 us/op
+WorkloadPilot    3: 64 op, 551708.00 ns, 8.6204 us/op
+WorkloadPilot    4: 128 op, 1063083.00 ns, 8.3053 us/op
+WorkloadPilot    5: 256 op, 2049917.00 ns, 8.0075 us/op
+WorkloadPilot    6: 512 op, 4354834.00 ns, 8.5055 us/op
+WorkloadPilot    7: 1024 op, 9514958.00 ns, 9.2920 us/op
+WorkloadPilot    8: 2048 op, 18552167.00 ns, 9.0587 us/op
+WorkloadPilot    9: 4096 op, 37698458.00 ns, 9.2037 us/op
+WorkloadPilot   10: 8192 op, 91816625.00 ns, 11.2081 us/op
+WorkloadPilot   11: 16384 op, 220629125.00 ns, 13.4661 us/op
+WorkloadPilot   12: 32768 op, 153655375.00 ns, 4.6892 us/op
+WorkloadPilot   13: 65536 op, 173849000.00 ns, 2.6527 us/op
+WorkloadPilot   14: 131072 op, 348156458.00 ns, 2.6562 us/op
+WorkloadPilot   15: 262144 op, 692676083.00 ns, 2.6423 us/op
+
+OverheadWarmup   1: 262144 op, 719084.00 ns, 2.7431 ns/op
+OverheadWarmup   2: 262144 op, 669958.00 ns, 2.5557 ns/op
+OverheadWarmup   3: 262144 op, 699541.00 ns, 2.6685 ns/op
+OverheadWarmup   4: 262144 op, 698292.00 ns, 2.6638 ns/op
+OverheadWarmup   5: 262144 op, 691042.00 ns, 2.6361 ns/op
+OverheadWarmup   6: 262144 op, 700709.00 ns, 2.6730 ns/op
+OverheadWarmup   7: 262144 op, 710416.00 ns, 2.7100 ns/op
+OverheadWarmup   8: 262144 op, 685917.00 ns, 2.6166 ns/op
+
+OverheadActual   1: 262144 op, 681458.00 ns, 2.5996 ns/op
+OverheadActual   2: 262144 op, 698250.00 ns, 2.6636 ns/op
+OverheadActual   3: 262144 op, 670250.00 ns, 2.5568 ns/op
+OverheadActual   4: 262144 op, 708375.00 ns, 2.7022 ns/op
+OverheadActual   5: 262144 op, 684375.00 ns, 2.6107 ns/op
+OverheadActual   6: 262144 op, 674458.00 ns, 2.5729 ns/op
+OverheadActual   7: 262144 op, 702750.00 ns, 2.6808 ns/op
+OverheadActual   8: 262144 op, 718667.00 ns, 2.7415 ns/op
+OverheadActual   9: 262144 op, 689875.00 ns, 2.6317 ns/op
+OverheadActual  10: 262144 op, 695917.00 ns, 2.6547 ns/op
+OverheadActual  11: 262144 op, 717791.00 ns, 2.7382 ns/op
+OverheadActual  12: 262144 op, 670958.00 ns, 2.5595 ns/op
+OverheadActual  13: 262144 op, 695208.00 ns, 2.6520 ns/op
+OverheadActual  14: 262144 op, 712041.00 ns, 2.7162 ns/op
+OverheadActual  15: 262144 op, 711167.00 ns, 2.7129 ns/op
+
+WorkloadWarmup   1: 262144 op, 703176416.00 ns, 2.6824 us/op
+WorkloadWarmup   2: 262144 op, 705703625.00 ns, 2.6920 us/op
+WorkloadWarmup   3: 262144 op, 691168833.00 ns, 2.6366 us/op
+WorkloadWarmup   4: 262144 op, 696196292.00 ns, 2.6558 us/op
+WorkloadWarmup   5: 262144 op, 696285334.00 ns, 2.6561 us/op
+
+// BeforeActualRun
+WorkloadActual   1: 262144 op, 692777458.00 ns, 2.6427 us/op
+WorkloadActual   2: 262144 op, 694109666.00 ns, 2.6478 us/op
+WorkloadActual   3: 262144 op, 816327666.00 ns, 3.1140 us/op
+WorkloadActual   4: 262144 op, 826124333.00 ns, 3.1514 us/op
+WorkloadActual   5: 262144 op, 721518416.00 ns, 2.7524 us/op
+WorkloadActual   6: 262144 op, 693938041.00 ns, 2.6472 us/op
+WorkloadActual   7: 262144 op, 698168625.00 ns, 2.6633 us/op
+WorkloadActual   8: 262144 op, 691208042.00 ns, 2.6367 us/op
+WorkloadActual   9: 262144 op, 694073167.00 ns, 2.6477 us/op
+WorkloadActual  10: 262144 op, 727931208.00 ns, 2.7768 us/op
+
+// AfterActualRun
+WorkloadResult   1: 262144 op, 692081541.00 ns, 2.6401 us/op
+WorkloadResult   2: 262144 op, 693413749.00 ns, 2.6452 us/op
+WorkloadResult   3: 262144 op, 720822499.00 ns, 2.7497 us/op
+WorkloadResult   4: 262144 op, 693242124.00 ns, 2.6445 us/op
+WorkloadResult   5: 262144 op, 697472708.00 ns, 2.6606 us/op
+WorkloadResult   6: 262144 op, 690512125.00 ns, 2.6341 us/op
+WorkloadResult   7: 262144 op, 693377250.00 ns, 2.6450 us/op
+WorkloadResult   8: 262144 op, 727235291.00 ns, 2.7742 us/op
+// GC:  85 0 0 536932144 262144
+// Threading:  0 0 262144
+
+// AfterAll
+// Benchmark Process 92909 has exited with code 0.
+
+Mean = 2.674 μs, StdErr = 0.019 μs (0.73%), N = 8, StdDev = 0.055 μs
+Min = 2.634 μs, Q1 = 2.643 μs, Median = 2.645 μs, Q3 = 2.683 μs, Max = 2.774 μs
+IQR = 0.040 μs, LowerFence = 2.584 μs, UpperFence = 2.742 μs
+ConfidenceInterval = [2.569 μs; 2.779 μs] (CI 99.9%), Margin = 0.105 μs (3.94% of Mean)
+Skewness = 0.93, Kurtosis = 1.89, MValue = 2
+
+// ** Remained 4 (33,3 %) benchmark(s) to run. Estimated finish 2026-07-17 13:42 (0h 0m from now) **
+// **************************
+// Benchmark: EngineComparisonBenchmark.RazorLight_Warm: Job-XPUURG(IterationCount=10, WarmupCount=5)
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet NgSharp.Benchmark-Job-XPUURG-1.dll --anonymousPipes 108 109 --benchmarkName NgSharp.Benchmark.EngineComparisonBenchmark.RazorLight_Warm --job "IterationCount=10, WarmupCount=5" --benchmarkId 8 in /Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/bin/Release/net9.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: Job-XPUURG(IterationCount=10, WarmupCount=5)
+
+OverheadJitting  1: 1 op, 116250.00 ns, 116.2500 us/op
+WorkloadJitting  1: 1 op, 457875.00 ns, 457.8750 us/op
+
+OverheadJitting  2: 16 op, 450292.00 ns, 28.1433 us/op
+WorkloadJitting  2: 16 op, 746708.00 ns, 46.6693 us/op
+
+WorkloadPilot    1: 16 op, 214792.00 ns, 13.4245 us/op
+WorkloadPilot    2: 32 op, 337375.00 ns, 10.5430 us/op
+WorkloadPilot    3: 64 op, 576834.00 ns, 9.0130 us/op
+WorkloadPilot    4: 128 op, 1080542.00 ns, 8.4417 us/op
+WorkloadPilot    5: 256 op, 2132625.00 ns, 8.3306 us/op
+WorkloadPilot    6: 512 op, 4162083.00 ns, 8.1291 us/op
+WorkloadPilot    7: 1024 op, 8478958.00 ns, 8.2802 us/op
+WorkloadPilot    8: 2048 op, 16166875.00 ns, 7.8940 us/op
+WorkloadPilot    9: 4096 op, 34490708.00 ns, 8.4206 us/op
+WorkloadPilot   10: 8192 op, 82007834.00 ns, 10.0107 us/op
+WorkloadPilot   11: 16384 op, 164870167.00 ns, 10.0629 us/op
+WorkloadPilot   12: 32768 op, 325491292.00 ns, 9.9332 us/op
+WorkloadPilot   13: 65536 op, 219740458.00 ns, 3.3530 us/op
+WorkloadPilot   14: 131072 op, 200862125.00 ns, 1.5325 us/op
+WorkloadPilot   15: 262144 op, 400571750.00 ns, 1.5281 us/op
+WorkloadPilot   16: 524288 op, 831410500.00 ns, 1.5858 us/op
+
+OverheadWarmup   1: 524288 op, 1375709.00 ns, 2.6240 ns/op
+OverheadWarmup   2: 524288 op, 1376417.00 ns, 2.6253 ns/op
+OverheadWarmup   3: 524288 op, 1353833.00 ns, 2.5822 ns/op
+OverheadWarmup   4: 524288 op, 1479417.00 ns, 2.8218 ns/op
+OverheadWarmup   5: 524288 op, 1382250.00 ns, 2.6364 ns/op
+
+OverheadActual   1: 524288 op, 1410541.00 ns, 2.6904 ns/op
+OverheadActual   2: 524288 op, 1345958.00 ns, 2.5672 ns/op
+OverheadActual   3: 524288 op, 1352459.00 ns, 2.5796 ns/op
+OverheadActual   4: 524288 op, 1448125.00 ns, 2.7621 ns/op
+OverheadActual   5: 524288 op, 1411750.00 ns, 2.6927 ns/op
+OverheadActual   6: 524288 op, 1360042.00 ns, 2.5941 ns/op
+OverheadActual   7: 524288 op, 1356459.00 ns, 2.5872 ns/op
+OverheadActual   8: 524288 op, 1341958.00 ns, 2.5596 ns/op
+OverheadActual   9: 524288 op, 1410041.00 ns, 2.6894 ns/op
+OverheadActual  10: 524288 op, 1338250.00 ns, 2.5525 ns/op
+OverheadActual  11: 524288 op, 1351709.00 ns, 2.5782 ns/op
+OverheadActual  12: 524288 op, 1352625.00 ns, 2.5799 ns/op
+OverheadActual  13: 524288 op, 1344542.00 ns, 2.5645 ns/op
+OverheadActual  14: 524288 op, 1338000.00 ns, 2.5520 ns/op
+OverheadActual  15: 524288 op, 1343917.00 ns, 2.5633 ns/op
+
+WorkloadWarmup   1: 524288 op, 826770916.00 ns, 1.5769 us/op
+WorkloadWarmup   2: 524288 op, 810850334.00 ns, 1.5466 us/op
+WorkloadWarmup   3: 524288 op, 805917542.00 ns, 1.5372 us/op
+WorkloadWarmup   4: 524288 op, 798359417.00 ns, 1.5227 us/op
+WorkloadWarmup   5: 524288 op, 805145291.00 ns, 1.5357 us/op
+
+// BeforeActualRun
+WorkloadActual   1: 524288 op, 814160833.00 ns, 1.5529 us/op
+WorkloadActual   2: 524288 op, 806525791.00 ns, 1.5383 us/op
+WorkloadActual   3: 524288 op, 1338253125.00 ns, 2.5525 us/op
+WorkloadActual   4: 524288 op, 806893917.00 ns, 1.5390 us/op
+WorkloadActual   5: 524288 op, 818349000.00 ns, 1.5609 us/op
+WorkloadActual   6: 524288 op, 806804458.00 ns, 1.5389 us/op
+WorkloadActual   7: 524288 op, 834496417.00 ns, 1.5917 us/op
+WorkloadActual   8: 524288 op, 804388792.00 ns, 1.5342 us/op
+WorkloadActual   9: 524288 op, 793587750.00 ns, 1.5136 us/op
+WorkloadActual  10: 524288 op, 800630584.00 ns, 1.5271 us/op
+
+// AfterActualRun
+WorkloadResult   1: 524288 op, 812808374.00 ns, 1.5503 us/op
+WorkloadResult   2: 524288 op, 805173332.00 ns, 1.5357 us/op
+WorkloadResult   3: 524288 op, 805541458.00 ns, 1.5364 us/op
+WorkloadResult   4: 524288 op, 816996541.00 ns, 1.5583 us/op
+WorkloadResult   5: 524288 op, 805451999.00 ns, 1.5363 us/op
+WorkloadResult   6: 524288 op, 833143958.00 ns, 1.5891 us/op
+WorkloadResult   7: 524288 op, 803036333.00 ns, 1.5317 us/op
+WorkloadResult   8: 524288 op, 792235291.00 ns, 1.5111 us/op
+WorkloadResult   9: 524288 op, 799278125.00 ns, 1.5245 us/op
+// GC:  235 1 0 1476438432 524288
+// Threading:  0 0 524288
+
+// AfterAll
+// Benchmark Process 93407 has exited with code 0.
+
+Mean = 1.541 μs, StdErr = 0.007 μs (0.48%), N = 9, StdDev = 0.022 μs
+Min = 1.511 μs, Q1 = 1.532 μs, Median = 1.536 μs, Q3 = 1.550 μs, Max = 1.589 μs
+IQR = 0.019 μs, LowerFence = 1.504 μs, UpperFence = 1.578 μs
+ConfidenceInterval = [1.504 μs; 1.579 μs] (CI 99.9%), Margin = 0.038 μs (2.44% of Mean)
+Skewness = 0.78, Kurtosis = 2.71, MValue = 2
+
+// ** Remained 3 (25,0 %) benchmark(s) to run. Estimated finish 2026-07-17 13:42 (0h 0m from now) **
+// **************************
+// Benchmark: EngineComparisonBenchmark.Handlebars_Warm: Job-XPUURG(IterationCount=10, WarmupCount=5)
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet NgSharp.Benchmark-Job-XPUURG-1.dll --anonymousPipes 108 109 --benchmarkName NgSharp.Benchmark.EngineComparisonBenchmark.Handlebars_Warm --job "IterationCount=10, WarmupCount=5" --benchmarkId 9 in /Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/bin/Release/net9.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: Job-XPUURG(IterationCount=10, WarmupCount=5)
+
+OverheadJitting  1: 1 op, 116583.00 ns, 116.5830 us/op
+WorkloadJitting  1: 1 op, 12716292.00 ns, 12.7163 ms/op
+
+OverheadJitting  2: 16 op, 479834.00 ns, 29.9896 us/op
+WorkloadJitting  2: 16 op, 745083.00 ns, 46.5677 us/op
+
+WorkloadPilot    1: 16 op, 123625.00 ns, 7.7266 us/op
+WorkloadPilot    2: 32 op, 272417.00 ns, 8.5130 us/op
+WorkloadPilot    3: 64 op, 338375.00 ns, 5.2871 us/op
+WorkloadPilot    4: 128 op, 677000.00 ns, 5.2891 us/op
+WorkloadPilot    5: 256 op, 1346208.00 ns, 5.2586 us/op
+WorkloadPilot    6: 512 op, 2802750.00 ns, 5.4741 us/op
+WorkloadPilot    7: 1024 op, 5950125.00 ns, 5.8107 us/op
+WorkloadPilot    8: 2048 op, 11415083.00 ns, 5.5738 us/op
+WorkloadPilot    9: 4096 op, 21927000.00 ns, 5.3533 us/op
+WorkloadPilot   10: 8192 op, 51828917.00 ns, 6.3268 us/op
+WorkloadPilot   11: 16384 op, 122849667.00 ns, 7.4981 us/op
+WorkloadPilot   12: 32768 op, 110895125.00 ns, 3.3843 us/op
+WorkloadPilot   13: 65536 op, 67093792.00 ns, 1.0238 us/op
+WorkloadPilot   14: 131072 op, 133326666.00 ns, 1.0172 us/op
+WorkloadPilot   15: 262144 op, 265946500.00 ns, 1.0145 us/op
+WorkloadPilot   16: 524288 op, 531998875.00 ns, 1.0147 us/op
+
+OverheadWarmup   1: 524288 op, 1339708.00 ns, 2.5553 ns/op
+OverheadWarmup   2: 524288 op, 1430583.00 ns, 2.7286 ns/op
+OverheadWarmup   3: 524288 op, 1341334.00 ns, 2.5584 ns/op
+OverheadWarmup   4: 524288 op, 1352667.00 ns, 2.5800 ns/op
+OverheadWarmup   5: 524288 op, 1349000.00 ns, 2.5730 ns/op
+
+OverheadActual   1: 524288 op, 1342375.00 ns, 2.5604 ns/op
+OverheadActual   2: 524288 op, 1344917.00 ns, 2.5652 ns/op
+OverheadActual   3: 524288 op, 1379583.00 ns, 2.6313 ns/op
+OverheadActual   4: 524288 op, 1338833.00 ns, 2.5536 ns/op
+OverheadActual   5: 524288 op, 1348000.00 ns, 2.5711 ns/op
+OverheadActual   6: 524288 op, 1344209.00 ns, 2.5639 ns/op
+OverheadActual   7: 524288 op, 1379125.00 ns, 2.6305 ns/op
+OverheadActual   8: 524288 op, 1346958.00 ns, 2.5691 ns/op
+OverheadActual   9: 524288 op, 1391042.00 ns, 2.6532 ns/op
+OverheadActual  10: 524288 op, 1354167.00 ns, 2.5829 ns/op
+OverheadActual  11: 524288 op, 1417167.00 ns, 2.7030 ns/op
+OverheadActual  12: 524288 op, 1375834.00 ns, 2.6242 ns/op
+OverheadActual  13: 524288 op, 1350916.00 ns, 2.5767 ns/op
+OverheadActual  14: 524288 op, 1338500.00 ns, 2.5530 ns/op
+OverheadActual  15: 524288 op, 1354250.00 ns, 2.5830 ns/op
+
+WorkloadWarmup   1: 524288 op, 529571667.00 ns, 1.0101 us/op
+WorkloadWarmup   2: 524288 op, 530771584.00 ns, 1.0124 us/op
+WorkloadWarmup   3: 524288 op, 526743125.00 ns, 1.0047 us/op
+WorkloadWarmup   4: 524288 op, 528894542.00 ns, 1.0088 us/op
+WorkloadWarmup   5: 524288 op, 534839459.00 ns, 1.0201 us/op
+
+// BeforeActualRun
+WorkloadActual   1: 524288 op, 551055125.00 ns, 1.0511 us/op
+WorkloadActual   2: 524288 op, 533973292.00 ns, 1.0185 us/op
+WorkloadActual   3: 524288 op, 526350833.00 ns, 1.0039 us/op
+WorkloadActual   4: 524288 op, 528037792.00 ns, 1.0072 us/op
+WorkloadActual   5: 524288 op, 528451459.00 ns, 1.0079 us/op
+WorkloadActual   6: 524288 op, 534089625.00 ns, 1.0187 us/op
+WorkloadActual   7: 524288 op, 525877709.00 ns, 1.0030 us/op
+WorkloadActual   8: 524288 op, 528373583.00 ns, 1.0078 us/op
+WorkloadActual   9: 524288 op, 533430459.00 ns, 1.0174 us/op
+WorkloadActual  10: 524288 op, 540754959.00 ns, 1.0314 us/op
+
+// AfterActualRun
+WorkloadResult   1: 524288 op, 532622376.00 ns, 1.0159 us/op
+WorkloadResult   2: 524288 op, 524999917.00 ns, 1.0014 us/op
+WorkloadResult   3: 524288 op, 526686876.00 ns, 1.0046 us/op
+WorkloadResult   4: 524288 op, 527100543.00 ns, 1.0054 us/op
+WorkloadResult   5: 524288 op, 532738709.00 ns, 1.0161 us/op
+WorkloadResult   6: 524288 op, 524526793.00 ns, 1.0005 us/op
+WorkloadResult   7: 524288 op, 527022667.00 ns, 1.0052 us/op
+WorkloadResult   8: 524288 op, 532079543.00 ns, 1.0149 us/op
+WorkloadResult   9: 524288 op, 539404043.00 ns, 1.0288 us/op
+// GC:  32 0 0 205520896 524288
+// Threading:  0 0 524288
+
+// AfterAll
+// Benchmark Process 93852 has exited with code 0.
+
+Mean = 1.010 μs, StdErr = 0.003 μs (0.31%), N = 9, StdDev = 0.009 μs
+Min = 1.000 μs, Q1 = 1.005 μs, Median = 1.005 μs, Q3 = 1.016 μs, Max = 1.029 μs
+IQR = 0.011 μs, LowerFence = 0.988 μs, UpperFence = 1.033 μs
+ConfidenceInterval = [0.995 μs; 1.026 μs] (CI 99.9%), Margin = 0.016 μs (1.54% of Mean)
+Skewness = 0.66, Kurtosis = 2.08, MValue = 2
+
+// ** Remained 2 (16,7 %) benchmark(s) to run. Estimated finish 2026-07-17 13:42 (0h 0m from now) **
+// **************************
+// Benchmark: EngineComparisonBenchmark.Scriban_Warm: Job-XPUURG(IterationCount=10, WarmupCount=5)
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet NgSharp.Benchmark-Job-XPUURG-1.dll --anonymousPipes 108 109 --benchmarkName NgSharp.Benchmark.EngineComparisonBenchmark.Scriban_Warm --job "IterationCount=10, WarmupCount=5" --benchmarkId 10 in /Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/bin/Release/net9.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: Job-XPUURG(IterationCount=10, WarmupCount=5)
+
+OverheadJitting  1: 1 op, 119834.00 ns, 119.8340 us/op
+WorkloadJitting  1: 1 op, 21749958.00 ns, 21.7500 ms/op
+
+OverheadJitting  2: 16 op, 585625.00 ns, 36.6016 us/op
+WorkloadJitting  2: 16 op, 1321541.00 ns, 82.5963 us/op
+
+WorkloadPilot    1: 16 op, 963625.00 ns, 60.2266 us/op
+WorkloadPilot    2: 32 op, 1523209.00 ns, 47.6003 us/op
+WorkloadPilot    3: 64 op, 3091958.00 ns, 48.3118 us/op
+WorkloadPilot    4: 128 op, 5974708.00 ns, 46.6774 us/op
+WorkloadPilot    5: 256 op, 14005417.00 ns, 54.7087 us/op
+WorkloadPilot    6: 512 op, 37081625.00 ns, 72.4250 us/op
+WorkloadPilot    7: 1024 op, 64599083.00 ns, 63.0850 us/op
+WorkloadPilot    8: 2048 op, 122526333.00 ns, 59.8273 us/op
+WorkloadPilot    9: 4096 op, 242914666.00 ns, 59.3053 us/op
+WorkloadPilot   10: 8192 op, 454286208.00 ns, 55.4549 us/op
+WorkloadPilot   11: 16384 op, 462531625.00 ns, 28.2307 us/op
+WorkloadPilot   12: 32768 op, 493137709.00 ns, 15.0494 us/op
+WorkloadPilot   13: 65536 op, 857774791.00 ns, 13.0886 us/op
+
+OverheadWarmup   1: 65536 op, 184334.00 ns, 2.8127 ns/op
+OverheadWarmup   2: 65536 op, 182000.00 ns, 2.7771 ns/op
+OverheadWarmup   3: 65536 op, 186125.00 ns, 2.8400 ns/op
+OverheadWarmup   4: 65536 op, 180333.00 ns, 2.7517 ns/op
+OverheadWarmup   5: 65536 op, 180416.00 ns, 2.7529 ns/op
+OverheadWarmup   6: 65536 op, 174042.00 ns, 2.6557 ns/op
+
+OverheadActual   1: 65536 op, 179042.00 ns, 2.7320 ns/op
+OverheadActual   2: 65536 op, 172583.00 ns, 2.6334 ns/op
+OverheadActual   3: 65536 op, 172125.00 ns, 2.6264 ns/op
+OverheadActual   4: 65536 op, 191750.00 ns, 2.9259 ns/op
+OverheadActual   5: 65536 op, 186375.00 ns, 2.8439 ns/op
+OverheadActual   6: 65536 op, 177958.00 ns, 2.7154 ns/op
+OverheadActual   7: 65536 op, 227208.00 ns, 3.4669 ns/op
+OverheadActual   8: 65536 op, 178292.00 ns, 2.7205 ns/op
+OverheadActual   9: 65536 op, 172375.00 ns, 2.6302 ns/op
+OverheadActual  10: 65536 op, 224625.00 ns, 3.4275 ns/op
+OverheadActual  11: 65536 op, 173000.00 ns, 2.6398 ns/op
+OverheadActual  12: 65536 op, 172209.00 ns, 2.6277 ns/op
+OverheadActual  13: 65536 op, 177541.00 ns, 2.7091 ns/op
+OverheadActual  14: 65536 op, 170125.00 ns, 2.5959 ns/op
+OverheadActual  15: 65536 op, 210041.00 ns, 3.2050 ns/op
+OverheadActual  16: 65536 op, 172167.00 ns, 2.6271 ns/op
+OverheadActual  17: 65536 op, 178083.00 ns, 2.7173 ns/op
+
+WorkloadWarmup   1: 65536 op, 811623958.00 ns, 12.3844 us/op
+WorkloadWarmup   2: 65536 op, 809935959.00 ns, 12.3586 us/op
+WorkloadWarmup   3: 65536 op, 783802458.00 ns, 11.9599 us/op
+WorkloadWarmup   4: 65536 op, 806193041.00 ns, 12.3015 us/op
+WorkloadWarmup   5: 65536 op, 810187666.00 ns, 12.3625 us/op
+
+// BeforeActualRun
+WorkloadActual   1: 65536 op, 819203875.00 ns, 12.5001 us/op
+WorkloadActual   2: 65536 op, 808946209.00 ns, 12.3435 us/op
+WorkloadActual   3: 65536 op, 802214792.00 ns, 12.2408 us/op
+WorkloadActual   4: 65536 op, 840026042.00 ns, 12.8178 us/op
+WorkloadActual   5: 65536 op, 805946041.00 ns, 12.2978 us/op
+WorkloadActual   6: 65536 op, 804983625.00 ns, 12.2831 us/op
+WorkloadActual   7: 65536 op, 859582959.00 ns, 13.1162 us/op
+WorkloadActual   8: 65536 op, 808871833.00 ns, 12.3424 us/op
+WorkloadActual   9: 65536 op, 800509958.00 ns, 12.2148 us/op
+WorkloadActual  10: 65536 op, 802551083.00 ns, 12.2460 us/op
+
+// AfterActualRun
+WorkloadResult   1: 65536 op, 819025917.00 ns, 12.4973 us/op
+WorkloadResult   2: 65536 op, 808768251.00 ns, 12.3408 us/op
+WorkloadResult   3: 65536 op, 802036834.00 ns, 12.2381 us/op
+WorkloadResult   4: 65536 op, 805768083.00 ns, 12.2950 us/op
+WorkloadResult   5: 65536 op, 804805667.00 ns, 12.2804 us/op
+WorkloadResult   6: 65536 op, 808693875.00 ns, 12.3397 us/op
+WorkloadResult   7: 65536 op, 800332000.00 ns, 12.2121 us/op
+WorkloadResult   8: 65536 op, 802373125.00 ns, 12.2432 us/op
+// GC:  368 27 0 2312722440 65536
+// Threading:  0 0 65536
+
+// AfterAll
+// Benchmark Process 94243 has exited with code 0.
+
+Mean = 12.306 μs, StdErr = 0.032 μs (0.26%), N = 8, StdDev = 0.090 μs
+Min = 12.212 μs, Q1 = 12.242 μs, Median = 12.288 μs, Q3 = 12.340 μs, Max = 12.497 μs
+IQR = 0.098 μs, LowerFence = 12.095 μs, UpperFence = 12.487 μs
+ConfidenceInterval = [12.133 μs; 12.479 μs] (CI 99.9%), Margin = 0.173 μs (1.40% of Mean)
+Skewness = 0.97, Kurtosis = 2.75, MValue = 2
+
+// ** Remained 1 (8,3 %) benchmark(s) to run. Estimated finish 2026-07-17 13:43 (0h 0m from now) **
+// **************************
+// Benchmark: EngineComparisonBenchmark.Fluid_Warm: Job-XPUURG(IterationCount=10, WarmupCount=5)
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet NgSharp.Benchmark-Job-XPUURG-1.dll --anonymousPipes 108 109 --benchmarkName NgSharp.Benchmark.EngineComparisonBenchmark.Fluid_Warm --job "IterationCount=10, WarmupCount=5" --benchmarkId 11 in /Users/stephanedetodaro/Projects/NgSharp/src/NgSharp.Benchmark/bin/Release/net9.0/NgSharp.Benchmark-Job-XPUURG-1/bin/Release/net9.0
+// Failed to set up high priority (Permission denied). In order to run benchmarks with high priority, make sure you have the right permissions.
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AdvSIMD,AES,CRC32,DP,RDM,SHA1,SHA256 VectorSize=128
+// Job: Job-XPUURG(IterationCount=10, WarmupCount=5)
+
+OverheadJitting  1: 1 op, 116167.00 ns, 116.1670 us/op
+WorkloadJitting  1: 1 op, 11774917.00 ns, 11.7749 ms/op
+
+OverheadJitting  2: 16 op, 567584.00 ns, 35.4740 us/op
+WorkloadJitting  2: 16 op, 734000.00 ns, 45.8750 us/op
+
+WorkloadPilot    1: 16 op, 166458.00 ns, 10.4036 us/op
+WorkloadPilot    2: 32 op, 305792.00 ns, 9.5560 us/op
+WorkloadPilot    3: 64 op, 572084.00 ns, 8.9388 us/op
+WorkloadPilot    4: 128 op, 1036208.00 ns, 8.0954 us/op
+WorkloadPilot    5: 256 op, 2199167.00 ns, 8.5905 us/op
+WorkloadPilot    6: 512 op, 4176000.00 ns, 8.1563 us/op
+WorkloadPilot    7: 1024 op, 8487833.00 ns, 8.2889 us/op
+WorkloadPilot    8: 2048 op, 26519000.00 ns, 12.9487 us/op
+WorkloadPilot    9: 4096 op, 25575458.00 ns, 6.2440 us/op
+WorkloadPilot   10: 8192 op, 22438500.00 ns, 2.7391 us/op
+WorkloadPilot   11: 16384 op, 27261916.00 ns, 1.6639 us/op
+WorkloadPilot   12: 32768 op, 43423000.00 ns, 1.3252 us/op
+WorkloadPilot   13: 65536 op, 86418583.00 ns, 1.3186 us/op
+WorkloadPilot   14: 131072 op, 167264375.00 ns, 1.2761 us/op
+WorkloadPilot   15: 262144 op, 338161500.00 ns, 1.2900 us/op
+WorkloadPilot   16: 524288 op, 671325291.00 ns, 1.2805 us/op
+
+OverheadWarmup   1: 524288 op, 1361125.00 ns, 2.5961 ns/op
+OverheadWarmup   2: 524288 op, 1352292.00 ns, 2.5793 ns/op
+OverheadWarmup   3: 524288 op, 1367042.00 ns, 2.6074 ns/op
+OverheadWarmup   4: 524288 op, 1368209.00 ns, 2.6097 ns/op
+OverheadWarmup   5: 524288 op, 1406334.00 ns, 2.6824 ns/op
+OverheadWarmup   6: 524288 op, 1428500.00 ns, 2.7246 ns/op
+OverheadWarmup   7: 524288 op, 1370958.00 ns, 2.6149 ns/op
+OverheadWarmup   8: 524288 op, 1441166.00 ns, 2.7488 ns/op
+OverheadWarmup   9: 524288 op, 1356584.00 ns, 2.5875 ns/op
+
+OverheadActual   1: 524288 op, 1359708.00 ns, 2.5934 ns/op
+OverheadActual   2: 524288 op, 1375375.00 ns, 2.6233 ns/op
+OverheadActual   3: 524288 op, 1378708.00 ns, 2.6297 ns/op
+OverheadActual   4: 524288 op, 1436792.00 ns, 2.7405 ns/op
+OverheadActual   5: 524288 op, 1357708.00 ns, 2.5896 ns/op
+OverheadActual   6: 524288 op, 1364667.00 ns, 2.6029 ns/op
+OverheadActual   7: 524288 op, 1429083.00 ns, 2.7258 ns/op
+OverheadActual   8: 524288 op, 1389500.00 ns, 2.6503 ns/op
+OverheadActual   9: 524288 op, 1429417.00 ns, 2.7264 ns/op
+OverheadActual  10: 524288 op, 1405000.00 ns, 2.6798 ns/op
+OverheadActual  11: 524288 op, 1372084.00 ns, 2.6170 ns/op
+OverheadActual  12: 524288 op, 1458834.00 ns, 2.7825 ns/op
+OverheadActual  13: 524288 op, 1359041.00 ns, 2.5922 ns/op
+OverheadActual  14: 524288 op, 1368875.00 ns, 2.6109 ns/op
+OverheadActual  15: 524288 op, 1422709.00 ns, 2.7136 ns/op
+
+WorkloadWarmup   1: 524288 op, 668107125.00 ns, 1.2743 us/op
+WorkloadWarmup   2: 524288 op, 677721917.00 ns, 1.2927 us/op
+WorkloadWarmup   3: 524288 op, 659687833.00 ns, 1.2583 us/op
+WorkloadWarmup   4: 524288 op, 734310458.00 ns, 1.4006 us/op
+WorkloadWarmup   5: 524288 op, 711746208.00 ns, 1.3575 us/op
+
+// BeforeActualRun
+WorkloadActual   1: 524288 op, 675077667.00 ns, 1.2876 us/op
+WorkloadActual   2: 524288 op, 678906750.00 ns, 1.2949 us/op
+WorkloadActual   3: 524288 op, 664042875.00 ns, 1.2666 us/op
+WorkloadActual   4: 524288 op, 673739250.00 ns, 1.2851 us/op
+WorkloadActual   5: 524288 op, 668665417.00 ns, 1.2754 us/op
+WorkloadActual   6: 524288 op, 665956958.00 ns, 1.2702 us/op
+WorkloadActual   7: 524288 op, 667925459.00 ns, 1.2740 us/op
+WorkloadActual   8: 524288 op, 669541667.00 ns, 1.2770 us/op
+WorkloadActual   9: 524288 op, 668674500.00 ns, 1.2754 us/op
+WorkloadActual  10: 524288 op, 665447042.00 ns, 1.2692 us/op
+
+// AfterActualRun
+WorkloadResult   1: 524288 op, 673698959.00 ns, 1.2850 us/op
+WorkloadResult   2: 524288 op, 677528042.00 ns, 1.2923 us/op
+WorkloadResult   3: 524288 op, 662664167.00 ns, 1.2639 us/op
+WorkloadResult   4: 524288 op, 672360542.00 ns, 1.2824 us/op
+WorkloadResult   5: 524288 op, 667286709.00 ns, 1.2727 us/op
+WorkloadResult   6: 524288 op, 664578250.00 ns, 1.2676 us/op
+WorkloadResult   7: 524288 op, 666546751.00 ns, 1.2713 us/op
+WorkloadResult   8: 524288 op, 668162959.00 ns, 1.2744 us/op
+WorkloadResult   9: 524288 op, 667295792.00 ns, 1.2728 us/op
+WorkloadResult  10: 524288 op, 664068334.00 ns, 1.2666 us/op
+// GC:  130 0 0 817910240 524288
+// Threading:  0 0 524288
+
+// AfterAll
+// Benchmark Process 94765 has exited with code 0.
+
+Mean = 1.275 μs, StdErr = 0.003 μs (0.22%), N = 10, StdDev = 0.009 μs
+Min = 1.264 μs, Q1 = 1.269 μs, Median = 1.273 μs, Q3 = 1.280 μs, Max = 1.292 μs
+IQR = 0.012 μs, LowerFence = 1.251 μs, UpperFence = 1.298 μs
+ConfidenceInterval = [1.261 μs; 1.288 μs] (CI 99.9%), Margin = 0.014 μs (1.06% of Mean)
+Skewness = 0.6, Kurtosis = 1.96, MValue = 2
+
+// ** Remained 0 (0,0 %) benchmark(s) to run. Estimated finish 2026-07-17 13:43 (0h 0m from now) **
+// ***** BenchmarkRunner: Finish  *****
+
+// * Export *
+  BenchmarkDotNet.Artifacts/results/NgSharp.Benchmark.EngineComparisonBenchmark-report.csv
+  BenchmarkDotNet.Artifacts/results/NgSharp.Benchmark.EngineComparisonBenchmark-report-github.md
+  BenchmarkDotNet.Artifacts/results/NgSharp.Benchmark.EngineComparisonBenchmark-report.html
+
+// * Detailed results *
+EngineComparisonBenchmark.NgSharp_Cold: Job-XPUURG(IterationCount=10, WarmupCount=5)
+Runtime = .NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+Mean = 28.170 μs, StdErr = 0.258 μs (0.91%), N = 8, StdDev = 0.729 μs
+Min = 27.165 μs, Q1 = 27.677 μs, Median = 28.090 μs, Q3 = 28.684 μs, Max = 29.310 μs
+IQR = 1.007 μs, LowerFence = 26.167 μs, UpperFence = 30.194 μs
+ConfidenceInterval = [26.777 μs; 29.564 μs] (CI 99.9%), Margin = 1.394 μs (4.95% of Mean)
+Skewness = 0.15, Kurtosis = 1.46, MValue = 2
+-------------------- Histogram --------------------
+[26.687 μs ; 27.317 μs) | @
+[27.317 μs ; 28.274 μs) | @@@@
+[28.274 μs ; 29.442 μs) | @@@
+---------------------------------------------------
+
+EngineComparisonBenchmark.RazorLight_Cold: Job-XPUURG(IterationCount=10, WarmupCount=5)
+Runtime = .NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+Mean = 24.206 ms, StdErr = 0.908 ms (3.75%), N = 10, StdDev = 2.872 ms
+Min = 21.104 ms, Q1 = 21.831 ms, Median = 23.543 ms, Q3 = 25.742 ms, Max = 29.240 ms
+IQR = 3.911 ms, LowerFence = 15.965 ms, UpperFence = 31.609 ms
+ConfidenceInterval = [19.864 ms; 28.549 ms] (CI 99.9%), Margin = 4.342 ms (17.94% of Mean)
+Skewness = 0.47, Kurtosis = 1.56, MValue = 2
+-------------------- Histogram --------------------
+[21.077 ms ; 24.577 ms) | @@@@@@
+[24.577 ms ; 28.484 ms) | @@@
+[28.484 ms ; 30.990 ms) | @
+---------------------------------------------------
+
+EngineComparisonBenchmark.Handlebars_Cold: Job-XPUURG(IterationCount=10, WarmupCount=5)
+Runtime = .NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+Mean = 2.052 ms, StdErr = 0.031 ms (1.53%), N = 9, StdDev = 0.094 ms
+Min = 1.939 ms, Q1 = 1.965 ms, Median = 2.086 ms, Q3 = 2.148 ms, Max = 2.160 ms
+IQR = 0.183 ms, LowerFence = 1.690 ms, UpperFence = 2.423 ms
+ConfidenceInterval = [1.894 ms; 2.210 ms] (CI 99.9%), Margin = 0.158 ms (7.70% of Mean)
+Skewness = -0.02, Kurtosis = 0.99, MValue = 3.6
+-------------------- Histogram --------------------
+[1.894 ms ; 2.013 ms) | @@@@
+[2.013 ms ; 2.063 ms) | 
+[2.063 ms ; 2.182 ms) | @@@@@
+---------------------------------------------------
+
+EngineComparisonBenchmark.Scriban_Cold: Job-XPUURG(IterationCount=10, WarmupCount=5)
+Runtime = .NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+Mean = 21.277 μs, StdErr = 0.270 μs (1.27%), N = 10, StdDev = 0.854 μs
+Min = 20.097 μs, Q1 = 20.591 μs, Median = 21.255 μs, Q3 = 21.768 μs, Max = 22.572 μs
+IQR = 1.176 μs, LowerFence = 18.827 μs, UpperFence = 23.532 μs
+ConfidenceInterval = [19.986 μs; 22.568 μs] (CI 99.9%), Margin = 1.291 μs (6.07% of Mean)
+Skewness = 0.17, Kurtosis = 1.43, MValue = 3.2
+-------------------- Histogram --------------------
+[20.062 μs ; 21.103 μs) | @@@@@
+[21.103 μs ; 21.633 μs) | @
+[21.633 μs ; 22.674 μs) | @@@@
+---------------------------------------------------
+
+EngineComparisonBenchmark.Stubble_Cold: Job-XPUURG(IterationCount=10, WarmupCount=5)
+Runtime = .NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+Mean = 2.562 μs, StdErr = 0.008 μs (0.30%), N = 8, StdDev = 0.022 μs
+Min = 2.531 μs, Q1 = 2.543 μs, Median = 2.566 μs, Q3 = 2.572 μs, Max = 2.593 μs
+IQR = 0.029 μs, LowerFence = 2.499 μs, UpperFence = 2.616 μs
+ConfidenceInterval = [2.520 μs; 2.604 μs] (CI 99.9%), Margin = 0.042 μs (1.63% of Mean)
+Skewness = 0.03, Kurtosis = 1.38, MValue = 2
+-------------------- Histogram --------------------
+[2.529 μs ; 2.608 μs) | @@@@@@@@
+---------------------------------------------------
+
+EngineComparisonBenchmark.Fluid_Cold: Job-XPUURG(IterationCount=10, WarmupCount=5)
+Runtime = .NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+Mean = 4.808 μs, StdErr = 0.029 μs (0.61%), N = 10, StdDev = 0.092 μs
+Min = 4.711 μs, Q1 = 4.732 μs, Median = 4.802 μs, Q3 = 4.850 μs, Max = 5.007 μs
+IQR = 0.118 μs, LowerFence = 4.555 μs, UpperFence = 5.027 μs
+ConfidenceInterval = [4.669 μs; 4.947 μs] (CI 99.9%), Margin = 0.139 μs (2.90% of Mean)
+Skewness = 0.75, Kurtosis = 2.51, MValue = 2
+-------------------- Histogram --------------------
+[4.687 μs ; 4.799 μs) | @@@@@
+[4.799 μs ; 4.951 μs) | @@@@
+[4.951 μs ; 5.063 μs) | @
+---------------------------------------------------
+
+EngineComparisonBenchmark.NgSharp_Warm: Job-XPUURG(IterationCount=10, WarmupCount=5)
+Runtime = .NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+Mean = 5.491 μs, StdErr = 0.069 μs (1.26%), N = 9, StdDev = 0.208 μs
+Min = 5.323 μs, Q1 = 5.335 μs, Median = 5.372 μs, Q3 = 5.617 μs, Max = 5.897 μs
+IQR = 0.283 μs, LowerFence = 4.911 μs, UpperFence = 6.041 μs
+ConfidenceInterval = [5.141 μs; 5.841 μs] (CI 99.9%), Margin = 0.350 μs (6.38% of Mean)
+Skewness = 0.79, Kurtosis = 1.95, MValue = 2
+-------------------- Histogram --------------------
+[5.265 μs ; 5.528 μs) | @@@@@@
+[5.528 μs ; 5.801 μs) | @@
+[5.801 μs ; 6.029 μs) | @
+---------------------------------------------------
+
+EngineComparisonBenchmark.NgSharp_Warm_Prebuilt: Job-XPUURG(IterationCount=10, WarmupCount=5)
+Runtime = .NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+Mean = 2.674 μs, StdErr = 0.019 μs (0.73%), N = 8, StdDev = 0.055 μs
+Min = 2.634 μs, Q1 = 2.643 μs, Median = 2.645 μs, Q3 = 2.683 μs, Max = 2.774 μs
+IQR = 0.040 μs, LowerFence = 2.584 μs, UpperFence = 2.742 μs
+ConfidenceInterval = [2.569 μs; 2.779 μs] (CI 99.9%), Margin = 0.105 μs (3.94% of Mean)
+Skewness = 0.93, Kurtosis = 1.89, MValue = 2
+-------------------- Histogram --------------------
+[2.611 μs ; 2.726 μs) | @@@@@@
+[2.726 μs ; 2.810 μs) | @@
+---------------------------------------------------
+
+EngineComparisonBenchmark.RazorLight_Warm: Job-XPUURG(IterationCount=10, WarmupCount=5)
+Runtime = .NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+Mean = 1.541 μs, StdErr = 0.007 μs (0.48%), N = 9, StdDev = 0.022 μs
+Min = 1.511 μs, Q1 = 1.532 μs, Median = 1.536 μs, Q3 = 1.550 μs, Max = 1.589 μs
+IQR = 0.019 μs, LowerFence = 1.504 μs, UpperFence = 1.578 μs
+ConfidenceInterval = [1.504 μs; 1.579 μs] (CI 99.9%), Margin = 0.038 μs (2.44% of Mean)
+Skewness = 0.78, Kurtosis = 2.71, MValue = 2
+-------------------- Histogram --------------------
+[1.509 μs ; 1.570 μs) | @@@@@@@@
+[1.570 μs ; 1.603 μs) | @
+---------------------------------------------------
+
+EngineComparisonBenchmark.Handlebars_Warm: Job-XPUURG(IterationCount=10, WarmupCount=5)
+Runtime = .NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+Mean = 1.010 μs, StdErr = 0.003 μs (0.31%), N = 9, StdDev = 0.009 μs
+Min = 1.000 μs, Q1 = 1.005 μs, Median = 1.005 μs, Q3 = 1.016 μs, Max = 1.029 μs
+IQR = 0.011 μs, LowerFence = 0.988 μs, UpperFence = 1.033 μs
+ConfidenceInterval = [0.995 μs; 1.026 μs] (CI 99.9%), Margin = 0.016 μs (1.54% of Mean)
+Skewness = 0.66, Kurtosis = 2.08, MValue = 2
+-------------------- Histogram --------------------
+[1.000 μs ; 1.035 μs) | @@@@@@@@@
+---------------------------------------------------
+
+EngineComparisonBenchmark.Scriban_Warm: Job-XPUURG(IterationCount=10, WarmupCount=5)
+Runtime = .NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+Mean = 12.306 μs, StdErr = 0.032 μs (0.26%), N = 8, StdDev = 0.090 μs
+Min = 12.212 μs, Q1 = 12.242 μs, Median = 12.288 μs, Q3 = 12.340 μs, Max = 12.497 μs
+IQR = 0.098 μs, LowerFence = 12.095 μs, UpperFence = 12.487 μs
+ConfidenceInterval = [12.133 μs; 12.479 μs] (CI 99.9%), Margin = 0.173 μs (1.40% of Mean)
+Skewness = 0.97, Kurtosis = 2.75, MValue = 2
+-------------------- Histogram --------------------
+[12.167 μs ; 12.557 μs) | @@@@@@@@
+---------------------------------------------------
+
+EngineComparisonBenchmark.Fluid_Warm: Job-XPUURG(IterationCount=10, WarmupCount=5)
+Runtime = .NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD; GC = Concurrent Workstation
+Mean = 1.275 μs, StdErr = 0.003 μs (0.22%), N = 10, StdDev = 0.009 μs
+Min = 1.264 μs, Q1 = 1.269 μs, Median = 1.273 μs, Q3 = 1.280 μs, Max = 1.292 μs
+IQR = 0.012 μs, LowerFence = 1.251 μs, UpperFence = 1.298 μs
+ConfidenceInterval = [1.261 μs; 1.288 μs] (CI 99.9%), Margin = 0.014 μs (1.06% of Mean)
+Skewness = 0.6, Kurtosis = 1.96, MValue = 2
+-------------------- Histogram --------------------
+[1.258 μs ; 1.298 μs) | @@@@@@@@@@
+---------------------------------------------------
+
+// * Summary *
+
+BenchmarkDotNet v0.15.2, macOS 26.2 (25C56) [Darwin 25.2.0]
+Apple M1 Max, 1 CPU, 10 logical and 10 physical cores
+.NET SDK 10.0.301
+  [Host]     : .NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD
+  Job-XPUURG : .NET 9.0.6 (9.0.625.26613), Arm64 RyuJIT AdvSIMD
+
+IterationCount=10  WarmupCount=5  
+
+| Method                | Categories | Mean          | Error         | StdDev        | Ratio  | RatioSD | Gen0     | Gen1     | Allocated | Alloc Ratio |
+|---------------------- |----------- |--------------:|--------------:|--------------:|-------:|--------:|---------:|---------:|----------:|------------:|
+| NgSharp_Cold          | Cold       |     28.170 μs |     1.3939 μs |     0.7290 μs |   1.00 |    0.03 |   9.0332 |   0.7324 |   57845 B |        1.00 |
+| RazorLight_Cold       | Cold       | 24,206.303 μs | 4,342.2854 μs | 2,872.1529 μs | 859.78 |   99.63 | 437.5000 | 125.0000 | 2839360 B |       49.09 |
+| Handlebars_Cold       | Cold       |  2,052.092 μs |   158.0522 μs |    94.0544 μs |  72.89 |    3.63 |  23.4375 |  11.7188 |  151726 B |        2.62 |
+| Scriban_Cold          | Cold       |     21.277 μs |     1.2914 μs |     0.8542 μs |   0.76 |    0.03 |   7.3242 |   0.6104 |   46325 B |        0.80 |
+| Stubble_Cold          | Cold       |      2.562 μs |     0.0417 μs |     0.0218 μs |   0.09 |    0.00 |   0.9918 |   0.0114 |    6224 B |        0.11 |
+| Fluid_Cold            | Cold       |      4.808 μs |     0.1392 μs |     0.0921 μs |   0.17 |    0.01 |   0.7782 |   0.0076 |    4912 B |        0.08 |
+|                       |            |               |               |               |        |         |          |          |           |             |
+| NgSharp_Warm          | Warm       |      5.491 μs |     0.3501 μs |     0.2083 μs |   1.00 |    0.05 |   0.7248 |        - |    4569 B |        1.00 |
+| NgSharp_Warm_Prebuilt | Warm       |      2.674 μs |     0.1053 μs |     0.0551 μs |   0.49 |    0.02 |   0.3242 |        - |    2048 B |        0.45 |
+| RazorLight_Warm       | Warm       |      1.541 μs |     0.0377 μs |     0.0224 μs |   0.28 |    0.01 |   0.4482 |   0.0019 |    2816 B |        0.62 |
+| Handlebars_Warm       | Warm       |      1.010 μs |     0.0156 μs |     0.0093 μs |   0.18 |    0.01 |   0.0610 |        - |     392 B |        0.09 |
+| Scriban_Warm          | Warm       |     12.306 μs |     0.1727 μs |     0.0903 μs |   2.24 |    0.08 |   5.6152 |   0.4120 |   35289 B |        7.72 |
+| Fluid_Warm            | Warm       |      1.275 μs |     0.0136 μs |     0.0090 μs |   0.23 |    0.01 |   0.2480 |        - |    1560 B |        0.34 |
+
+// * Hints *
+Outliers
+  EngineComparisonBenchmark.NgSharp_Cold: IterationCount=10, WarmupCount=5          -> 2 outliers were removed (31.36 μs, 36.07 μs)
+  EngineComparisonBenchmark.Handlebars_Cold: IterationCount=10, WarmupCount=5       -> 1 outlier  was  removed (2.56 ms)
+  EngineComparisonBenchmark.Stubble_Cold: IterationCount=10, WarmupCount=5          -> 2 outliers were removed (2.66 μs, 2.75 μs)
+  EngineComparisonBenchmark.NgSharp_Warm: IterationCount=10, WarmupCount=5          -> 1 outlier  was  removed (7.65 μs)
+  EngineComparisonBenchmark.NgSharp_Warm_Prebuilt: IterationCount=10, WarmupCount=5 -> 2 outliers were removed (3.11 μs, 3.15 μs)
+  EngineComparisonBenchmark.RazorLight_Warm: IterationCount=10, WarmupCount=5       -> 1 outlier  was  removed (2.55 μs)
+  EngineComparisonBenchmark.Handlebars_Warm: IterationCount=10, WarmupCount=5       -> 1 outlier  was  removed (1.05 μs)
+  EngineComparisonBenchmark.Scriban_Warm: IterationCount=10, WarmupCount=5          -> 2 outliers were removed (12.82 μs, 13.12 μs)
+
+// * Legends *
+  Categories  : All categories of the corresponded method, class, and assembly
+  Mean        : Arithmetic mean of all measurements
+  Error       : Half of 99.9% confidence interval
+  StdDev      : Standard deviation of all measurements
+  Ratio       : Mean of the ratio distribution ([Current]/[Baseline])
+  RatioSD     : Standard deviation of the ratio distribution ([Current]/[Baseline])
+  Gen0        : GC Generation 0 collects per 1000 operations
+  Gen1        : GC Generation 1 collects per 1000 operations
+  Allocated   : Allocated memory per single operation (managed only, inclusive, 1KB = 1024B)
+  Alloc Ratio : Allocated memory ratio distribution ([Current]/[Baseline])
+  1 μs        : 1 Microsecond (0.000001 sec)
+
+// * Diagnostic Output - MemoryDiagnoser *
+
+
+// ***** BenchmarkRunner: End *****
+Run time: 00:02:36 (156.19 sec), executed benchmarks: 12
+
+Global total time: 00:02:50 (170.47 sec), executed benchmarks: 12
+// * Artifacts cleanup *
+Artifacts cleanup is finished
