@@ -1,8 +1,5 @@
 ﻿using SkiaSharp;
 
-using AngleSharp.Dom;
-using AngleSharp.Html.Parser;
-
 using System;
 using System.IO;
 using System.Linq;
@@ -57,7 +54,7 @@ namespace NgSharp.Components
 
         public IEnumerable<MapPoint> MapPoints { get; set; }
 
-        public void Render(IElement element)
+        public string Render()
         {
             int zoom;
             BoundEntity bounds;
@@ -99,16 +96,7 @@ namespace NgSharp.Components
                 zoom,
                 ApiKey);
 
-            var htmlParser = new HtmlParser();
-
-            var image = $"<div class=\"map\" style =\"background:url({mapUrlParameterized}); height:{Height}px; width:{Width}px;\">" +
-                        $"  <img src=\"{data}\">" +
-                        $"</div>";
-
-            var node = htmlParser.ParseFragment(image, element);
-
-            element.Parent.InsertBefore(node.First(), element);
-            element.Parent.RemoveElement(element);
+            return $"<div class=\"map\" style=\"background:url({mapUrlParameterized}); height:{Height}px; width:{Width}px;\"><img src=\"{data}\"></div>";
         }
 
         private int GetMapZoomLevel(BoundEntity bounds, int mapWidth, int mapHeight)

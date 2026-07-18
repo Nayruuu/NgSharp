@@ -1,15 +1,11 @@
-﻿using AngleSharp.Dom;
-
-using System.Collections.Generic;
-
 namespace NgSharp.Directives
 {
     public interface IDirective
     {
         string DirectiveName { get; }
 
-        bool ApplyWhileParsing { get; }
-
-        void Apply(HtmlBuilder builder, string directiveName, IElement childElement, NgElement content, Dictionary<string, string> optionalArguments = null);
+        // Mutates the host element (typically its attributes) from the evaluated directive value —
+        // e.g. [hidden]="expr" adds the hidden attribute when expr is truthy.
+        void Apply(DirectiveElement element, NgElement content);
     }
 }

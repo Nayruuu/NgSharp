@@ -163,6 +163,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\NgSharp\NgSharp.csproj" />
+      <ProjectReference Include="..\NgSharp.Map\NgSharp.Map.csproj" />
     </ItemGroup>
 
 </Project>

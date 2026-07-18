@@ -149,7 +149,7 @@ public class Tests
             
         var obj = new 
         {
-            MyHtmlData = "<span style='color: red'>That text is red</span>"
+            MyHtmlData = "<span style=\"color: red\">That text is red</span>"
         };
 
         var content = await this.htmlBuilder.BuildFromTemplateAsync(template, obj);
@@ -307,7 +307,9 @@ public class Tests
         #if !DEBUG
         Skip.IfNot(RuntimeInformation.IsOSPlatform(OSPlatform.Windows), "SkiaSharp not supported on CI");
         #endif
-        
+
+        this.htmlBuilder.RegisterComponent<MapComponent>();
+
         var icon = File.ReadAllBytes("Templates/big-test-marker-icon.webp");
         
         var template = File.ReadAllText("Templates/big-test.html");
@@ -319,7 +321,7 @@ public class Tests
             Date = new DateTime(2023, 12, 31),
             MyAddedClass = "added__class",
             MyCustomLink = "https://ng-sharp.net",
-            MyHtmlData = "<span style='color: red'>That text is red</span>",
+            MyHtmlData = "<span style=\"color: red\">That text is red</span>",
             MyInitialWeight = "initial",
             MyBoldWeight = "bold",
             CssClass = "bg",

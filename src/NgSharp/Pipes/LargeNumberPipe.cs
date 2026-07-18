@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using AngleSharp.Dom;
 
 using System.Text.Json;
 
@@ -19,7 +18,7 @@ namespace NgSharp.Pipes
             { "K", Math.Pow(10, 3) }
         };
 
-        public string Transform(IElement childElement, NgElement value, string argument)
+        public string Transform(string tagName, NgElement value, string argument)
         {
             if (value is null || value.ValueKind == JsonValueKind.Null)
             {

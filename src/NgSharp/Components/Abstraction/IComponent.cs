@@ -1,12 +1,11 @@
-﻿using AngleSharp.Dom;
-
 namespace NgSharp.Components
 {
     public interface IComponent
     {
-        public string ComponentName { get; }
+        string ComponentName { get; }
 
-        public void Render(IElement element);
+        // Returns the HTML that replaces the <component-name> element. The instance's properties are
+        // bound from the element's [prop] attributes before this is called.
+        string Render();
     }
 }
-

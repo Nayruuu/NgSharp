@@ -2,23 +2,31 @@
 
   <PropertyGroup>
     <PackageId>NgSharp</PackageId>
-    <Version>1.0.8</Version>
+    <Version>2.0.0</Version>
     <Authors>Nayruu</Authors>
-    <Description>Angular-style HTML rendering engine for .NET. Includes pipes, directives, and component system. Built on top of AngleSharp.</Description>
-    <PackageTags>template html rendering angular pipes directives components pdf email ssr razorless lightweight fast anglesharp</PackageTags>
+    <Description>Interpreted Angular-style HTML template engine for .NET — no runtime compilation, so it runs under Native AOT, trimming, Azure Functions and C# scripts where Razor-based engines can't. Thread-safe immutable AST, pipes, directives, server components, [if]/[for]/[not-empty] and @if/@else/@for control-flow, &amp;&amp; / || conditions, and per-template AST caching. Zero third-party dependencies — a purpose-built HTML template parser produces structurally-correct, escaped output.</Description>
+    <PackageTags>template html rendering angular pipes directives components ssr razorless lightweight aot trimming serverless functions zero-dependency</PackageTags>
+    <PackageReleaseNotes>2.0: rewritten as an immutable AST + stateless renderer. Zero third-party dependencies — AngleSharp replaced by a purpose-built HTML template parser (analyzer-verified trim/Native-AOT-clean core; ~3x faster cold-start). @if/@else/@else if/@for control-flow, &amp;&amp; / || operators, per-template AST cache (HtmlBuilder.Compile), NgElement.FromObject fast path. BREAKING: IPipe.Transform/IComponent.Render/IDirective.Apply no longer take an AngleSharp IElement (pipes take a tag-name string, components return their HTML, directives mutate a DirectiveElement); the map component moved to the separate NgSharp.Map package; NgElement.Children/Properties are now IReadOnlyList/IReadOnlyDictionary.</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/Nayruuu/NgSharp</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/Nayruuu/NgSharp</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RootNamespace>NgSharp</RootNamespace>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFrameworks>netstandard2.1;net8.0</TargetFrameworks>
     <LangVersion>9</LangVersion>
   </PropertyGroup>
 
+  <!-- Run the trim / Native-AOT analyzers on the net8.0 build so AOT-safety is self-verified. -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="AngleSharp" Version="1.3.0" />
-    <PackageReference Include="SkiaSharp" Version="3.119.0" />
     <PackageReference Include="System.Text.Json" Version="9.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="NgSharp.Tests" />
   </ItemGroup>
 
   <ItemGroup>
