@@ -1,0 +1,66 @@
+<div class="fiche">
+<header class="fiche-head">
+<p class="ref">{{ Ref }}</p>
+<h1>{{ Name | upper }}</h1>
+<p class="format">{{ Format }}</p>
+<p class="lieu">{{ City }} — {{ Address }}</p>
+<p class="maj">Mis à jour le {{ UpdatedAt | date:'dd/MM/yyyy' }}</p>
+</header>
+<section class="badges">
+<span [if]="Available" class="ok">Disponible</span>
+<span [if]="IsDigital" class="digital">Digital</span>
+<span [if]="HasLighting" class="light">Éclairé</span>
+<span [if]="HasAudienceData" class="audience">Data audience</span>
+<span [if]="IsPremium" class="premium">Premium</span>
+<span [if]="NearTransport" class="transport">Proche transports</span>
+</section>
+<section class="audience">
+<h3>Audience estimée</h3>
+<ul>
+<li>Impressions : {{ Impressions | largeNumber }}</li>
+<li>Couverture : {{ Reach | largeNumber }}</li>
+<li>Fréquence : {{ Frequency | number:'N1' }}</li>
+</ul>
+</section>
+<section class="prix">
+<h3>Tarification</h3>
+<p>Tarif de base : <strong>{{ BasePrice | number:'N2' }} €</strong></p>
+<p [if]="IsPremium" class="surcharge">Supplément premium : {{ PremiumSurcharge | number:'N2' }} €</p>
+</section>
+<section class="specs">
+<h3>Caractéristiques techniques</h3>
+<table>
+<tbody>
+<tr [for]="Specs">
+<td class="label">{{ Label }}</td>
+<td class="value">{{ Value }}</td>
+<td class="flag"><span [if]="Highlighted" class="star">★</span></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="creneaux">
+<h3>Disponibilités</h3>
+<table>
+<thead>
+<tr><th>Période</th><th>Du</th><th>Au</th><th>Tarif</th><th>Statut</th></tr>
+</thead>
+<tbody>
+<tr [for]="Slots">
+<td>{{ Period }}</td>
+<td>{{ StartDate | date:'dd/MM/yyyy' }}</td>
+<td>{{ EndDate | date:'dd/MM/yyyy' }}</td>
+<td class="prix">{{ Price | number:'N2' }} €</td>
+<td class="statut">
+<span [if]="Available" class="ok">Libre</span>
+<span [if]="LastMinute" class="last">Dernière minute</span>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<footer class="fiche-foot">
+<p class="desc">{{ Description }}</p>
+<p class="ref-foot">{{ Ref }} — {{ City }}</p>
+</footer>
+</div>

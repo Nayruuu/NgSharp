@@ -1,14 +1,13 @@
-namespace NgSharp.Components
+namespace NgSharp.Components;
+
+public class CustomComponent : IComponent
 {
-    public class CustomComponent : IComponent
+    public string ComponentName => "custom-component";
+
+    public string ComponentText { get; set; }
+
+    public string Render()
     {
-        public string ComponentName => "custom-component";
-
-        public string ComponentText { get; set; }
-
-        public string Render()
-        {
-            return $"<div>{ComponentText}</div>";
-        }
+        return $"<div>{ComponentText}</div>";
     }
 }

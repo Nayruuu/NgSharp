@@ -58,4 +58,5 @@ nunit-*.xml
 
 # Misc
 **/.idea
-**/.DS_STORE
+.DS_Store
+BenchmarkDotNet.Artifacts/

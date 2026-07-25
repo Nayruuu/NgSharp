@@ -1,0 +1,138 @@
+<article class="company" data-headcount="@Model.Headcount">
+  <!-- corporate report - rendered by the NgSharp feature showcase -->
+  <style>.masthead { border-bottom: 2px solid @Model.AccentColor; }@Raw(Model.PrintCss)</style>
+  <header class="masthead">
+    <h1>@Model.Name.ToUpper()</h1>
+    <img class="brand" src="@Raw(NgSharp.Benchmark.Showcase.ImageSrc(Model.Logo))" alt="@Model.Name">
+    <div class="logo">@Raw(Model.LogoHtml)</div>
+    <p class="meta">Founded @Model.FoundedAt.ToString("yyyy") · @Model.Headcount people across @Model.Departments.Count departments</p>
+    <p class="brandmark">@(NgSharp.Benchmark.InitialsPipe.Compute(Model.Name)) · @Model.Name.Length letters</p>
+  </header>
+  <section class="highlights" style="background-image: @Raw(NgSharp.Benchmark.Showcase.ImageUrl(Model.Logo))">
+    <div class="kpi"><b>@(Model.Departments[0].Name)</b> operates on @Raw(Model.Departments[0].Budget.ToString("C0"))</div>
+    <div class="kpi"><b>@(Model.Departments[1].Name)</b> operates on @Raw(Model.Departments[1].Budget.ToString("C0"))</div>
+    <p class="flagship">Flagship: @(Model.Departments[0].Name) — first team @(Model.Departments[0].Teams[0].Name)</p>
+  </section>
+  <nav class="directory">
+    @foreach (var dir in Model.Departments)
+    {
+      <a class="dir">@dir.Name · @(NgSharp.Benchmark.InitialsPipe.Compute(Model.Name))</a>
+    }
+  </nav>
+  @if (Model.Headcount != 0)
+  {
+    <p class="active">@Model.Headcount active employees</p>
+  }
+  @foreach (var d in Model.Departments)
+  {
+    <section class="dept@(d.IsCore ? " core" : "")" data-budget="@d.Budget"@Raw(d.Budget >= 500000 ? " data-audit=\"required\"" : "")>
+      <h2 style="color: @d.ThemeColor" data-theme="@d.ThemeColor">@d.Name</h2>
+      <p class="budget">Budget @Raw(d.Budget.ToString("C0"))</p>
+      @if (d.Budget >= 600000)
+      {
+        <span class="band">expanded</span>
+      }
+      else if (d.Budget >= 400000)
+      {
+        <span class="band">standard</span>
+      }
+      else
+      {
+        <span class="band">lean</span>
+      }
+      @if (d.IsCore)
+      {
+        <span class="badge">core</span>
+      }
+      @foreach (var t in d.Teams)
+      {
+        <div class="team">
+          <h3>@t.Name — @t.Members.Count members</h3>
+          @if (t.Members.Count > 0)
+          {
+            <ul class="roster">
+              @foreach (var m in t.Members)
+              {
+                <li class="member@(m.IsLead ? " lead" : "")@(m.IsRemote ? " remote" : "")">
+                  <span class="name">@m.Name.ToUpper()</span>
+                  <span class="role">@m.Role</span>
+                  <span class="salary">@Raw(m.Salary.ToString("C0"))</span>
+                  <span class="joined">joined @m.JoinedAt.ToString("yyyy-MM-dd")</span>
+                  @if (m.Age >= 40)
+                  {
+                    <span class="tier senior">senior</span>
+                  }
+                  else if (m.Age >= 25)
+                  {
+                    <span class="tier mid">mid-level</span>
+                  }
+                  else
+                  {
+                    <span class="tier junior">junior</span>
+                  }
+                  @if (m.IsLead && m.IsRemote)
+                  {
+                    <span class="flag">remote lead</span>
+                  }
+                  <span class="mode">@(m.IsRemote ? m.RemoteLabel : m.OnsiteLabel)</span>
+                  <span class="status">@Raw(m.StatusHtml)</span>
+                  @if (m.Tasks.Count > 0)
+                  {
+                    <ul class="tasks">
+                      @foreach (var k in m.Tasks)
+                      {
+                        <li class="task@(k.Done ? " done" : "")">
+                          <span class="title">@k.Title</span>
+                          <span class="prio">@k.Priority.ToUpper()</span>
+                          @if (k.Priority == "high")
+                          {
+                            <span class="urgent">urgent</span>
+                          }
+                          @if (k.Points > 5 || k.Done)
+                          {
+                            <span class="pts">@k.Points pts</span>
+                          }
+                        </li>
+                      }
+                    </ul>
+                  }
+                </li>
+              }
+            </ul>
+          }
+        </div>
+      }
+    </section>
+  }
+  <section class="portfolio">
+    <h2>Projects</h2>
+    <p class="contact">contact @Model.ContactEmail.ToLower()</p>
+    @foreach (var pr in Model.Projects)
+    {
+      <div class="project">
+        <h3>@Raw(NgSharp.Benchmark.Showcase.TitleCase(pr.Owner)) · #@(pr.Code.ToString().PadLeft(6, '0'))</h3>
+        <p class="codename">codename @Raw(NgSharp.Benchmark.Showcase.DefaultStr(pr.Nickname, "—"))</p>
+        <p class="desc">@Raw(NgSharp.Benchmark.Showcase.Truncate(pr.Description, 60))</p>
+        <p class="tags">@(string.Join(", ", pr.Tags))</p>
+        <p class="funding">funded at @Raw(NgSharp.Benchmark.Showcase.Currency(pr.Budget, "EUR"))</p>
+        @switch (pr.Status)
+        {
+          case "active":
+            <span class="state live">live</span>
+            break;
+          case "paused":
+            <span class="state hold">on hold</span>
+            break;
+          default:
+            <span class="state retired">retired</span>
+            break;
+        }
+      </div>
+    }
+    @if (Model.Archived.Count == 0)
+    {
+      <p class="none">aucun résultat</p>
+    }
+  </section>
+  <footer class="headcount">Total headcount: @Model.Headcount</footer>
+</article>

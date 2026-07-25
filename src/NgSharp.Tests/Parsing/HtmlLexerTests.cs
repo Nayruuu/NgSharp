@@ -2,9 +2,9 @@ using NgSharp.Parsing;
 
 namespace NgSharp.Tests.Parsing;
 
-// Phase 1 of the AngleSharp removal: a purpose-built HTML template tokenizer.
-// It tokenizes syntax only (tags/attrs/text/comments) and handles rawtext (<script>/<style>);
-// void-ness and tree structure are the tree-builder's job. Interpolation {{ }} stays inside text.
+// The purpose-built HTML template tokenizer: syntax only (tags/attrs/text/comments), rawtext
+// (<script>/<style>) handled; void-ness and tree structure are the tree-builder's job.
+// Interpolation {{ }} stays inside text.
 public class HtmlLexerTests
 {
     [Fact]

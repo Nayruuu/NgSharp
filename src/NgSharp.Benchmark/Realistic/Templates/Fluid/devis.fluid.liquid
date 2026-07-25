@@ -1,0 +1,90 @@
+<div class="devis">
+<header class="devis-head">
+<div class="issuer">
+<h1>{{ Issuer.Name | upper }}</h1>
+<p>{{ Issuer.Address }}</p>
+<p>{{ Issuer.Zip }} {{ Issuer.City }}</p>
+<p>SIRET {{ Issuer.Siret }} — TVA {{ Issuer.Tva }}</p>
+<p>{{ Issuer.Phone }} — {{ Issuer.Email }}</p>
+<p class="contact">Contact : {{ Issuer.Contact }}</p>
+</div>
+<div class="meta">
+<h2>DEVIS N° {{ Number }}</h2>
+<p>Référence : {{ Reference }}</p>
+<p>Émis le {{ IssueDate | date:'dd/MM/yyyy' }}</p>
+<p>Valable jusqu'au {{ ValidUntil | date:'dd/MM/yyyy' }}</p>
+</div>
+</header>
+<section class="client">
+<h3>Client</h3>
+<p class="name">{{ Client.Name }}</p>
+<p>{{ Client.Address }}</p>
+<p>{{ Client.Zip }} {{ Client.City }}</p>
+<p>À l'attention de {{ Client.Contact }}</p>
+<p>{{ Client.Phone }} — {{ Client.Email }}</p>
+</section>
+<section class="campaign">
+<h3>{{ CampaignName | upper }}</h3>
+<p>Du {{ CampaignStart | date:'dd/MM/yyyy' }} au {{ CampaignEnd | date:'dd/MM/yyyy' }}</p>
+<p>Volume global estimé : {{ TotalImpressions | largeNumber }} impressions</p>
+</section>
+{% for section in Sections %}
+<section class="reseau">
+<div class="section-head">
+<h3>{{ section.Title | upper }}</h3>
+<p class="subtitle">{{ section.Subtitle }}</p>
+{% if section.HasDiscount %}<span class="badge-remise">Remise réseau appliquée</span>{% endif %}
+</div>
+<table class="lignes">
+<thead>
+<tr><th>Réf</th><th>Emplacement</th><th>Format</th><th>Ville</th><th>Qté</th><th>Impressions</th><th>Période</th><th>P.U. HT</th><th>Remise</th><th>Total HT</th><th>Statut</th></tr>
+</thead>
+<tbody>
+{% for line in section.Lines %}
+<tr>
+<td class="ref">{{ line.Ref }}</td>
+<td class="label">{{ line.Label }}</td>
+<td>{{ line.Format }}</td>
+<td>{{ line.City }}</td>
+<td class="qte">{{ line.Quantity }}</td>
+<td class="impr">{{ line.Impressions | largeNumber }}</td>
+<td class="periode">{{ line.StartDate | date:'dd/MM/yyyy' }} → {{ line.EndDate | date:'dd/MM/yyyy' }}</td>
+<td class="pu">{{ line.UnitPrice | number:'N2' }} €</td>
+<td class="remise"></td>
+<td class="total">{{ line.TotalHT | number:'N2' }} €</td>
+<td class="statut">{% if line.InStock %}<span class="ok">Disponible</span>{% endif %}{% if line.OnOption %}<span class="opt">Sur option</span>{% endif %}{% if line.Highlighted %}<span class="star">★</span>{% endif %}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+<div class="section-total">
+<p>Volume section : {{ section.SectionImpressions | largeNumber }} impressions</p>
+<p>Sous-total HT : <strong>{{ section.SubtotalHT | number:'N2' }} €</strong></p>
+</div>
+</section>
+{% endfor %}
+{% if HasOptions %}<section class="options">
+<h3>Options proposées</h3>
+<ul>
+{% for option in Options %}<li>{{ option.Text }}</li>{% endfor %}
+</ul>
+</section>{% endif %}
+<section class="totaux">
+<table>
+<tr><td>Total HT</td><td class="amount">{{ TotalHT | number:'N2' }} €</td></tr>
+<tr><td>TVA ({{ TvaRate | number:'P0' }})</td><td class="amount">{{ TotalTva | number:'N2' }} €</td></tr>
+<tr class="ttc"><td>Total TTC</td><td class="amount">{{ TotalTTC | number:'N2' }} €</td></tr>
+</table>
+</section>
+<section class="cgv">
+<h3>Conditions générales</h3>
+<ol>
+{% for term in Terms %}<li>{{ term.Text }}</li>{% endfor %}
+</ol>
+</section>
+<footer class="devis-foot">
+<p class="notes">{{ Notes }}</p>
+<p>Fait à {{ Issuer.City }}, le {{ IssueDate | date:'dd/MM/yyyy' }}</p>
+<p class="mentions">{{ Issuer.Name }} — SIRET {{ Issuer.Siret }} — TVA {{ Issuer.Tva }}</p>
+</footer>
+</div>

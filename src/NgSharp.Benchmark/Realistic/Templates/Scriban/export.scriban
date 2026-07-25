@@ -1,0 +1,78 @@
+{
+  "export":{
+    "kind":"quote",
+    "source":"arena-text",
+    "generatedAt":"{{ IssueDate | iso }}"
+  },
+  "number":{{ Number | json }},
+  "reference":{{ Reference | json }},
+  "issueDate":"{{ IssueDate | date 'yyyy-MM-dd' }}",
+  "validUntil":"{{ ValidUntil | date 'yyyy-MM-dd' }}",
+  "campaign":{
+    "name":{{ CampaignName | json }},
+    "start":"{{ CampaignStart | date 'yyyy-MM-dd' }}",
+    "end":"{{ CampaignEnd | date 'yyyy-MM-dd' }}",
+    "impressions":{{ TotalImpressions }}
+  },
+  "issuer":{
+    "name":{{ Issuer.Name | json }},
+    "city":{{ Issuer.City | json }},
+    "siret":{{ Issuer.Siret | json }},
+    "tva":{{ Issuer.Tva | json }},
+    "email":{{ Issuer.Email | json }}
+  },
+  "client":{
+    "name":{{ Client.Name | json }},
+    "city":{{ Client.City | json }},
+    "contact":{{ Client.Contact | json }},
+    "email":{{ Client.Email | json }}
+  },
+  "sections":[
+    {{ for s in Sections }}
+      {
+        "title":{{ s.Title | json }},
+        "discounted":{{ s.HasDiscount }},
+        "lines":[
+          {{ for line in s.Lines }}
+            {
+              "ref":{{ line.Ref | json }},
+              "qty":{{ line.Quantity }},
+              "unit":{{ line.UnitPrice | jnum }},
+              {{ if line.Discount > 0 }}
+                "discount":{{ line.Discount | jnum }},
+              {{ end }}
+              "ht":{{ line.TotalHT | jnum }}
+            },
+          {{ end }}
+          {
+            "type":"subtotal",
+            "ht":{{ s.SubtotalHT | jnum }},
+            "impressions":{{ s.SectionImpressions }}
+          }
+        ]
+      },
+    {{ end }}
+    {
+      "type":"totals",
+      "ht":{{ TotalHT | jnum }},
+      "tvaRate":{{ TvaRate | jnum }},
+      "tva":{{ TotalTva | jnum }},
+      "ttc":{{ TotalTTC | jnum }},
+      "impressions":{{ TotalImpressions }}
+    }
+  ],
+  "hasOptions":{{ HasOptions }},
+  "options":[
+    {{ for o in Options }}
+      {"Text":{{ o.Text | json }}}
+      {{ if !for.last }},{{ end }}
+    {{ end }}
+  ],
+  "terms":[
+    {{ for t in Terms }}
+      {"Text":{{ t.Text | json }}}
+      {{ if !for.last }},{{ end }}
+    {{ end }}
+  ],
+  "notes":{{ Notes | json }}
+}

@@ -1,0 +1,68 @@
+{
+  "export":{
+    "kind":"quote",
+    "source":"arena-text",
+    "generatedAt":"{{ IssueDate }}"
+  },
+  "number":{{ Number | json }},
+  "reference":{{ Reference | json }},
+  "issueDate":"{{ IssueDate | date:'yyyy-MM-dd' }}",
+  "validUntil":"{{ ValidUntil | date:'yyyy-MM-dd' }}",
+  "campaign":{
+    "name":{{ CampaignName | json }},
+    "start":"{{ CampaignStart | date:'yyyy-MM-dd' }}",
+    "end":"{{ CampaignEnd | date:'yyyy-MM-dd' }}",
+    "impressions":{{ TotalImpressions }}
+  },
+  "issuer":{
+    "name":{{ Issuer.Name | json }},
+    "city":{{ Issuer.City | json }},
+    "siret":{{ Issuer.Siret | json }},
+    "tva":{{ Issuer.Tva | json }},
+    "email":{{ Issuer.Email | json }}
+  },
+  "client":{
+    "name":{{ Client.Name | json }},
+    "city":{{ Client.City | json }},
+    "contact":{{ Client.Contact | json }},
+    "email":{{ Client.Email | json }}
+  },
+  "sections":[
+    @for (Sections) {
+      {
+        "title":{{ Title | json }},
+        "discounted":{{ HasDiscount }},
+        "lines":[
+          @for (Lines) {
+            {
+              "ref":{{ Ref | json }},
+              "qty":{{ Quantity }},
+              "unit":{{ UnitPrice }},
+              @if (Discount > 0) {
+                "discount":{{ Discount }},
+              }
+              "ht":{{ TotalHT }}
+            },
+          }
+          {
+            "type":"subtotal",
+            "ht":{{ SubtotalHT }},
+            "impressions":{{ SectionImpressions }}
+          }
+        ]
+      },
+    }
+    {
+      "type":"totals",
+      "ht":{{ TotalHT }},
+      "tvaRate":{{ TvaRate }},
+      "tva":{{ TotalTva }},
+      "ttc":{{ TotalTTC }},
+      "impressions":{{ TotalImpressions }}
+    }
+  ],
+  "hasOptions":{{ HasOptions }},
+  "options":{{ Options | json }},
+  "terms":{{ Terms | json }},
+  "notes":{{ Notes | json }}
+}

@@ -1,0 +1,68 @@
+{
+    "NgSharp @for block (text)": {
+        "prefix": [
+            "ng-for",
+            "@for"
+        ],
+        "body": [
+            "@for (${1:item} of ${2:Items}) {",
+            "$0",
+            "}"
+        ],
+        "description": "Text-mode @for block — $index / $count / $first / $last are available inside"
+    },
+    "NgSharp @if block (text)": {
+        "prefix": [
+            "ng-if",
+            "@if"
+        ],
+        "body": [
+            "@if (${1:condition}) {",
+            "$0",
+            "}"
+        ],
+        "description": "Text-mode @if block"
+    },
+    "NgSharp @if / @else block (text)": {
+        "prefix": [
+            "ng-if-else",
+            "@ifelse"
+        ],
+        "body": [
+            "@if (${1:condition}) {",
+            "${2}",
+            "} @else {",
+            "${3}",
+            "}"
+        ],
+        "description": "Text-mode @if block with an @else branch"
+    },
+    "NgSharp @switch block (text)": {
+        "prefix": [
+            "ng-switch",
+            "@switch"
+        ],
+        "body": [
+            "@switch (${1:value}) {",
+            "@case (${2:'first'}) {${3}}",
+            "@case (${4:'second'}) {${5}}",
+            "@default {${6}}",
+            "}"
+        ],
+        "description": "Text-mode @switch block — the value is evaluated once; the first equal @case renders, else @default"
+    },
+    "NgSharp interpolation with pipe": {
+        "prefix": "ng-pipe",
+        "body": [
+            "{{ ${1:Path} | ${2:number}:'${3:C2}' }}"
+        ],
+        "description": "Interpolation with a formatting pipe (pipes format with the current culture)"
+    },
+    "NgSharp JSON string field": {
+        "prefix": "ng-json",
+        "body": [
+            "\"${1:name}\":{{ ${2:Path} | json }}"
+        ],
+        "description": "JSON field — the json pipe emits the complete quoted, escaped literal"
+    }
+}

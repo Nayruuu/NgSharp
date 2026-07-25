@@ -21,12 +21,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Templates\date-pipe\date.pipe.html">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Templates\date-pipe\date.pipe.result.html">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
       <None Update="Templates\pipes\date-pipe\date.pipe.html">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
@@ -60,30 +54,6 @@
       <None Update="Templates\pipes\upper\upper.pipe.result.html">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Update="Templates\directives\html\html.directive.html">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Templates\directives\html\html.directive.result.html">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Templates\directives\ht\attr\attr.directive.html">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Templates\directives\ht\attr\attr.directive.result.html">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Templates\directives\ht\html\html.directive.html">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Templates\directives\ht\html\html.directive.result.html">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Templates\directives\ht\style\style.directive.html">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Templates\directives\ht\style\style.directive.result.html">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
       <None Update="Templates\directives\html\attr\attr.directive.html">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
@@ -100,18 +70,6 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Update="Templates\directives\html\style\style.directive.result.html">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Templates\directives\structural\if\attr\attr.directive.html">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Templates\directives\structural\if\attr\attr.directive.result.html">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Templates\directives\structural\attr\attr.directive.html">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Templates\directives\structural\attr\attr.directive.result.html">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Update="Templates\directives\structural\if\if.directive.html">

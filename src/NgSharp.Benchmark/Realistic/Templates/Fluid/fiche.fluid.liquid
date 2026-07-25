@@ -1,0 +1,63 @@
+<div class="fiche">
+<header class="fiche-head">
+<p class="ref">{{ Ref }}</p>
+<h1>{{ Name | upper }}</h1>
+<p class="format">{{ Format }}</p>
+<p class="lieu">{{ City }} — {{ Address }}</p>
+<p class="maj">Mis à jour le {{ UpdatedAt | date:'dd/MM/yyyy' }}</p>
+</header>
+<section class="badges">
+{% if Available %}<span class="ok">Disponible</span>{% endif %}
+{% if IsDigital %}<span class="digital">Digital</span>{% endif %}
+{% if HasLighting %}<span class="light">Éclairé</span>{% endif %}
+{% if HasAudienceData %}<span class="audience">Data audience</span>{% endif %}
+{% if IsPremium %}<span class="premium">Premium</span>{% endif %}
+{% if NearTransport %}<span class="transport">Proche transports</span>{% endif %}
+</section>
+<section class="audience">
+<h3>Audience estimée</h3>
+<ul>
+<li>Impressions : {{ Impressions | largeNumber }}</li>
+<li>Couverture : {{ Reach | largeNumber }}</li>
+<li>Fréquence : {{ Frequency | number:'N1' }}</li>
+</ul>
+</section>
+<section class="prix">
+<h3>Tarification</h3>
+<p>Tarif de base : <strong>{{ BasePrice | number:'N2' }} €</strong></p>
+{% if IsPremium %}<p class="surcharge">Supplément premium : {{ PremiumSurcharge | number:'N2' }} €</p>{% endif %}
+</section>
+<section class="specs">
+<h3>Caractéristiques techniques</h3>
+<table>
+<tbody>
+{% for spec in Specs %}<tr>
+<td class="label">{{ spec.Label }}</td>
+<td class="value">{{ spec.Value }}</td>
+<td class="flag">{% if spec.Highlighted %}<span class="star">★</span>{% endif %}</td>
+</tr>{% endfor %}
+</tbody>
+</table>
+</section>
+<section class="creneaux">
+<h3>Disponibilités</h3>
+<table>
+<thead>
+<tr><th>Période</th><th>Du</th><th>Au</th><th>Tarif</th><th>Statut</th></tr>
+</thead>
+<tbody>
+{% for slot in Slots %}<tr>
+<td>{{ slot.Period }}</td>
+<td>{{ slot.StartDate | date:'dd/MM/yyyy' }}</td>
+<td>{{ slot.EndDate | date:'dd/MM/yyyy' }}</td>
+<td class="prix">{{ slot.Price | number:'N2' }} €</td>
+<td class="statut">{% if slot.Available %}<span class="ok">Libre</span>{% endif %}{% if slot.LastMinute %}<span class="last">Dernière minute</span>{% endif %}</td>
+</tr>{% endfor %}
+</tbody>
+</table>
+</section>
+<footer class="fiche-foot">
+<p class="desc">{{ Description }}</p>
+<p class="ref-foot">{{ Ref }} — {{ City }}</p>
+</footer>
+</div>

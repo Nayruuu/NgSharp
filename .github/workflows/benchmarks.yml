@@ -1,0 +1,75 @@
+# Public, reproducible benchmark runs — anyone can press "Run workflow" and get the full
+# BenchmarkDotNet results as a downloadable artifact, produced on a neutral GitHub runner.
+#
+# READ THE NUMBERS RIGHT: absolute timings vary with the runner hardware (a shared cloud vCPU
+# is not an Apple M1 Max, and neighbours differ run to run). The reproducible claim is the
+# ORDER — which engine is first on a cell, cold and warm, in time and in allocations — not
+# the microsecond values. The identity gates in ci.yml guarantee every engine renders the
+# same bytes, so the ordering compares like for like.
+
+name: Benchmarks
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Monthly: 05:17 UTC on the 4th — off the busy midnight/first-of-month cron slots.
+    - cron: '17 5 4 * *'
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Build benchmark harness (Release)
+        run: dotnet build src/NgSharp.Benchmark --configuration Release
+
+      # The four suites run one at a time (BenchmarkDotNet needs the machine to itself as much
+      # as a shared runner allows). Results accumulate in BenchmarkDotNet.Artifacts/results/.
+      - name: 'Suite 1 — engine comparison (catalogue, 6 engines)'
+        run: dotnet run --project src/NgSharp.Benchmark --configuration Release --no-build -- --filter '*EngineComparisonBenchmark*'
+
+      - name: 'Suite 2 — feature showcase (4 engines)'
+        run: dotnet run --project src/NgSharp.Benchmark --configuration Release --no-build -- --filter '*FeatureShowcaseBenchmark*'
+
+      - name: 'Suite 3 — realistic documents (devis / fiche / cartes, 4 engines)'
+        run: dotnet run --project src/NgSharp.Benchmark --configuration Release --no-build -- --filter '*RealisticDocumentBenchmark*'
+
+      - name: 'Suite 4 — text mode (JSON export, 4 engines)'
+        run: dotnet run --project src/NgSharp.Benchmark --configuration Release --no-build -- --filter '*TextDocumentBenchmark*'
+
+      - name: Publish result tables to the run summary
+        if: always()
+        run: |
+          {
+            echo '## BenchmarkDotNet results'
+            echo ''
+            echo '> Absolute numbers depend on this runner; the **ordering** is the message.'
+            for f in BenchmarkDotNet.Artifacts/results/*-report-github.md; do
+              [ -e "$f" ] || continue
+              echo ''
+              echo "### $(basename "$f" -report-github.md)"
+              echo ''
+              cat "$f"
+            done
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload results artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmarkdotnet-results
+          path: BenchmarkDotNet.Artifacts/results/
+          if-no-files-found: error
+          retention-days: 90

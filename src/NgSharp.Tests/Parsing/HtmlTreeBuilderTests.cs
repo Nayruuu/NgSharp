@@ -2,12 +2,10 @@ using NgSharp.Parsing;
 
 namespace NgSharp.Tests.Parsing;
 
-// Phase 2 of the AngleSharp removal: tokens -> lightweight HtmlNode tree. Void-aware, lenient on
-// mismatched/unclosed tags (no HTML5 error-recovery), rawtext content becomes a text child.
+// Tokens -> lightweight HtmlNode tree. Void-aware, lenient on mismatched/unclosed tags
+// (no HTML5 error-recovery), rawtext content becomes a text child.
 public class HtmlTreeBuilderTests
 {
-    private static IReadOnlyList<HtmlNode> Build(string html) => HtmlTreeBuilder.Build(HtmlLexer.Tokenize(html));
-
     [Fact]
     public void Single_element()
     {
@@ -140,4 +138,6 @@ public class HtmlTreeBuilderTests
         Assert.Equal("body", html.Children[1].Name);
         Assert.Equal("p", Assert.Single(html.Children[1].Children).Name);
     }
+
+    private static IReadOnlyList<HtmlNode> Build(string html) => HtmlTreeBuilder.Build(HtmlLexer.Tokenize(html));
 }

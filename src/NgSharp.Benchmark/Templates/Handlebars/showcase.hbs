@@ -1,0 +1,81 @@
+<article class="company" data-headcount="{{Headcount}}">
+  <!-- corporate report - rendered by the NgSharp feature showcase -->
+  <style>.masthead { border-bottom: 2px solid {{AccentColor}}; }{{{PrintCss}}}</style>
+  <header class="masthead">
+    <h1>{{upper Name}}</h1>
+    <img class="brand" src="{{{imgsrc Logo}}}" alt="{{Name}}">
+    <div class="logo">{{{LogoHtml}}}</div>
+    <p class="meta">Founded {{date FoundedAt "yyyy"}} · {{largeNumber Headcount}} people across {{Departments.Count}} departments</p>
+    <p class="brandmark">{{initials Name}} · {{len Name}} letters</p>
+  </header>
+  <section class="highlights" style="background-image: {{{imgurl Logo}}}">
+    {{> kpi Departments.[0]}}
+    {{> kpi Departments.[1]}}
+    <p class="flagship">Flagship: {{Departments.[0].Name}} — first team {{Departments.[0].Teams.[0].Name}}</p>
+  </section>
+  <nav class="directory">
+    {{#each Departments}}
+      <a class="dir">{{Name}} · {{initials ../Name}}</a>
+    {{/each}}
+  </nav>
+  {{#if (ne Headcount 0)}}
+    <p class="active">{{Headcount}} active employees</p>
+  {{/if}}
+  {{#each Departments}}
+    <section class="dept{{#if IsCore}} core{{/if}}" data-budget="{{Budget}}"{{#if (gte Budget 500000)}} data-audit="required"{{/if}}>
+      <h2 style="color: {{ThemeColor}}" data-theme="{{ThemeColor}}">{{Name}}</h2>
+      <p class="budget">Budget {{{num Budget "C0"}}}</p>
+      {{#if (gte Budget 600000)}}<span class="band">expanded</span>{{else}}{{#if (gte Budget 400000)}}<span class="band">standard</span>{{else}}<span class="band">lean</span>{{/if}}{{/if}}
+      {{#if IsCore}}<span class="badge">core</span>{{/if}}
+      {{#each Teams}}
+        <div class="team">
+          <h3>{{Name}} — {{Members.Count}} members</h3>
+          {{#if Members.Count}}
+            <ul class="roster">
+              {{#each Members}}
+                <li class="member{{#if IsLead}} lead{{/if}}{{#if IsRemote}} remote{{/if}}">
+                  <span class="name">{{upper Name}}</span>
+                  <span class="role">{{Role}}</span>
+                  <span class="salary">{{{num Salary "C0"}}}</span>
+                  <span class="joined">joined {{date JoinedAt "yyyy-MM-dd"}}</span>
+                  {{#if (gte Age 40)}}<span class="tier senior">senior</span>{{else}}{{#if (gte Age 25)}}<span class="tier mid">mid-level</span>{{else}}<span class="tier junior">junior</span>{{/if}}{{/if}}
+                  {{#if (and IsLead IsRemote)}}<span class="flag">remote lead</span>{{/if}}
+                  <span class="mode">{{#if IsRemote}}{{RemoteLabel}}{{else}}{{OnsiteLabel}}{{/if}}</span>
+                  <span class="status">{{{StatusHtml}}}</span>
+                  {{#if Tasks.Count}}
+                    <ul class="tasks">
+                      {{#each Tasks}}
+                        <li class="task{{#if Done}} done{{/if}}">
+                          <span class="title">{{Title}}</span>
+                          <span class="prio">{{upper Priority}}</span>
+                          {{#if (eq Priority "high")}}<span class="urgent">urgent</span>{{/if}}
+                          {{#if (or (gt Points 5) Done)}}<span class="pts">{{Points}} pts</span>{{/if}}
+                        </li>
+                      {{/each}}
+                    </ul>
+                  {{/if}}
+                </li>
+              {{/each}}
+            </ul>
+          {{/if}}
+        </div>
+      {{/each}}
+    </section>
+  {{/each}}
+  <section class="portfolio">
+    <h2>Projects</h2>
+    <p class="contact">contact {{lower ContactEmail}}</p>
+    {{#each Projects}}
+      <div class="project">
+        <h3>{{titlecase Owner}} · #{{pad Code 6}}</h3>
+        <p class="codename">codename {{{default Nickname "—"}}}</p>
+        <p class="desc">{{{truncate Description 60}}}</p>
+        <p class="tags">{{join Tags ", "}}</p>
+        <p class="funding">funded at {{{currency Budget "EUR"}}}</p>
+        {{#if (eq Status "active")}}<span class="state live">live</span>{{else}}{{#if (eq Status "paused")}}<span class="state hold">on hold</span>{{else}}<span class="state retired">retired</span>{{/if}}{{/if}}
+      </div>
+    {{/each}}
+    {{#unless Archived.Count}}<p class="none">aucun résultat</p>{{/unless}}
+  </section>
+  <footer class="headcount">Total headcount: {{Headcount}}</footer>
+</article>

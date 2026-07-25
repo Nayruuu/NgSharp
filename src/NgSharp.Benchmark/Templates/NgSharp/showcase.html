@@ -1,0 +1,85 @@
+<article class="company" [data-headcount]="Headcount">
+  <!-- corporate report - rendered by the NgSharp feature showcase -->
+  <style>.masthead { border-bottom: 2px solid {{ AccentColor }}; }{{ PrintCss }}</style>
+  <header class="masthead">
+    <h1>{{ Name | upper }}</h1>
+    <img class="brand" [src]="Logo | image" [attr.alt]="Name">
+    <div class="logo" [html]="LogoHtml"></div>
+    <p class="meta">Founded {{ FoundedAt | date: 'yyyy' }} · {{ Headcount | largeNumber }} people across {{ Departments?.Count + ' departments' }}</p>
+    <p class="brandmark">{{ Name | initials }} · {{ Name.Length }} letters</p>
+  </header>
+  <ng-template #kpi><div class="kpi"><b>{{ Name }}</b> operates on {{ Budget | number: 'C0' }}</div></ng-template>
+  <section class="highlights" [style.background-image]="Logo | image">
+    @render(kpi, Departments[0])
+    @render(kpi, Departments[1])
+    <p class="flagship">Flagship: {{ Departments[0].Name }} — first team {{ Departments[0].Teams[0].Name }}</p>
+  </section>
+  <nav class="directory">
+    @for (d of Departments)
+    {
+      <a class="dir">{{ d.Name }} · {{ Name | initials }}</a>
+    }
+  </nav>
+  <ng-container [if]="Headcount != 0">
+    <p class="active">{{ Headcount }} active employees</p>
+  </ng-container>
+  <section class="dept" [for]="Departments" [class.core]="IsCore" [data-budget]="Budget" [audit]="Budget >= 500000">
+    <h2 [style.color]="ThemeColor" [attr.data-theme]="ThemeColor">{{ Name }}</h2>
+    <p class="budget">Budget {{ Budget | number: 'C0' }}</p>
+    <span [if]="Budget >= 600000" class="band">expanded</span>
+    <span [else-if]="Budget >= 400000" class="band">standard</span>
+    <span [else]="" class="band">lean</span>
+    @if (IsCore)
+    {
+      <span class="badge">core</span>
+    }
+    <div class="team" [for]="Teams">
+      <h3>{{ Name }} — {{ Members.Count }} members</h3>
+      <ul class="roster" [not-empty]="Members">
+        <li class="member" [for]="Members" [class.lead]="IsLead" [class.remote]="IsRemote">
+          <span class="name">{{ Name | upper }}</span>
+          <span class="role">{{ Role }}</span>
+          <span class="salary">{{ Salary | number: 'C0' }}</span>
+          <span class="joined">joined {{ JoinedAt | date: 'yyyy-MM-dd' }}</span>
+          @if (Age >= 40)
+          {
+            <span class="tier senior">senior</span>
+          }
+          @else if (Age >= 25)
+          {
+            <span class="tier mid">mid-level</span>
+          }
+          @else
+          {
+            <span class="tier junior">junior</span>
+          }
+          <span [if]="IsLead && IsRemote" class="flag">remote lead</span>
+          <span class="mode">{{ !IsRemote ? OnsiteLabel : RemoteLabel }}</span>
+          <span class="status" [html]="StatusHtml"></span>
+          <ul class="tasks" [not-empty]="Tasks">
+            <li class="task" [for]="Tasks" [class.done]="Done">
+              <span class="title">{{ Title }}</span>
+              <span class="prio">{{ Priority | upper }}</span>
+              <span [if]="Priority == 'high'" class="urgent">urgent</span>
+              <span [if]="Points * 2 > 10 || Done == true" class="pts">{{ Points }} pts</span>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </section>
+  <section class="portfolio">
+    <h2>Projects</h2>
+    <p class="contact">contact {{ ContactEmail | lower }}</p>
+    <div class="project" [for]="Projects">
+      <h3>{{ Owner | titlecase }} · #{{ Code | pad:6 }}</h3>
+      <p class="codename">codename {{ Nickname | default:'—' }}</p>
+      <p class="desc">{{ Description | truncate:60 }}</p>
+      <p class="tags">{{ Tags | join:', ' }}</p>
+      <p class="funding">funded at {{ Budget | currency:'EUR' }}</p>
+      @switch (Status) { @case ('active') {<span class="state live">live</span>} @case ('paused') {<span class="state hold">on hold</span>} @default {<span class="state retired">retired</span>} }
+    </div>
+    <p class="none" [empty]="Archived">aucun résultat</p>
+  </section>
+  <headcount-badge [total]="Headcount"></headcount-badge>
+</article>

@@ -64,4 +64,89 @@ public class ExpressionLexerTests
             },
             tokens);
     }
+
+    [Fact]
+    public void Tokenizes_Unary_Not()
+    {
+        var tokens = ExpressionLexer.Tokenize("!Flag")
+            .Where(t => t.Kind != TokenKind.End)
+            .Select(t => (t.Kind, t.Text))
+            .ToArray();
+
+        Assert.Equal(
+            new[]
+            {
+                (TokenKind.Not, "!"),
+                (TokenKind.Identifier, "Flag")
+            },
+            tokens);
+    }
+
+    [Fact]
+    public void Distinguishes_Unary_Not_From_Not_Equals()
+    {
+        var tokens = ExpressionLexer.Tokenize("!A != B")
+            .Where(t => t.Kind != TokenKind.End)
+            .Select(t => (t.Kind, t.Text))
+            .ToArray();
+
+        Assert.Equal(
+            new[]
+            {
+                (TokenKind.Not, "!"),
+                (TokenKind.Identifier, "A"),
+                (TokenKind.Operator, "!="),
+                (TokenKind.Identifier, "B")
+            },
+            tokens);
+    }
+
+    [Fact]
+    public void Folds_Safe_Navigation_Into_A_Dotted_Path()
+    {
+        var tokens = ExpressionLexer.Tokenize("User?.Address?.City")
+            .Where(t => t.Kind != TokenKind.End)
+            .Select(t => (t.Kind, t.Text))
+            .ToArray();
+
+        Assert.Equal(
+            new[]
+            {
+                (TokenKind.Identifier, "User.Address.City")
+            },
+            tokens);
+    }
+
+    [Fact]
+    public void Keeps_The_Ternary_Question_Separate_From_Safe_Nav()
+    {
+        var tokens = ExpressionLexer.Tokenize("A?.B ? C : D")
+            .Where(t => t.Kind != TokenKind.End)
+            .Select(t => (t.Kind, t.Text))
+            .ToArray();
+
+        Assert.Equal(
+            new[]
+            {
+                (TokenKind.Identifier, "A.B"),
+                (TokenKind.Question, "?"),
+                (TokenKind.Identifier, "C"),
+                (TokenKind.Colon, ":"),
+                (TokenKind.Identifier, "D")
+            },
+            tokens);
+    }
+
+    [Fact]
+    public void Folds_An_Array_Index_Into_The_Path()
+    {
+        var tokens = ExpressionLexer.Tokenize("Users[0].Name")
+            .Where(t => t.Kind != TokenKind.End)
+            .Select(t => (t.Kind, t.Text))
+            .ToArray();
+
+        Assert.Equal(
+            new[] { (TokenKind.Identifier, "Users[0].Name") },
+            tokens);
+    }
 }

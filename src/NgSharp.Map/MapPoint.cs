@@ -1,25 +1,23 @@
-namespace NgSharp.Components
+namespace NgSharp.Components;
+
+public class MapPoint
 {
-    public class MapPoint
+    public double Latitude { get; set; }
+
+    public double Longitude { get; set; }
+
+    public double? Orientation { get; set; }
+
+    public byte[] IconData { get; set; }
+
+    public MapPoint(double latitude, double longitude, double? orientation = null)
     {
-        public double Latitude { get; set; }
-        
-        public double Longitude { get; set; }
-        
-        public double? Orientation { get; set; }
-        
-        public byte[] IconData { get; set; }
+        Latitude = latitude;
+        Longitude = longitude;
+        Orientation = orientation;
+    }
 
-        private MapPoint()
-        {
-            
-        }
-
-        public MapPoint(double latitude, double longitude, double? orientation = null)
-        {
-            this.Latitude = latitude;
-            this.Longitude = longitude;
-            this.Orientation = orientation;
-        }
+    private MapPoint()
+    {
     }
 }

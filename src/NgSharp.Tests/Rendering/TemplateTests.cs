@@ -12,31 +12,6 @@ namespace NgSharp.Tests.Rendering;
 
 public class TemplateTests
 {
-    private static NgElement Ctx(object model)
-    {
-        var json = JsonSerializer.Serialize(model);
-        using var doc = JsonDocument.Parse(json);
-        return NgElement.FromJson(doc.RootElement.Clone());
-    }
-
-    private static string Render(string template, object model = null)
-        => TemplateRenderer.Render(TemplateParser.Parse(template), model is null ? null : Ctx(model));
-
-    private static string Render(string template, object model, IReadOnlyDictionary<string, IComponent> components)
-        => TemplateRenderer.Render(
-            TemplateParser.Parse(template, components?.Keys),
-            model is null ? null : Ctx(model),
-            null,
-            components);
-
-    private static string Render(string template, object model, IReadOnlyDictionary<string, IDirective> directives)
-        => TemplateRenderer.Render(
-            TemplateParser.Parse(template, null, directives?.Keys),
-            model is null ? null : Ctx(model),
-            null,
-            null,
-            directives);
-
     [Fact]
     public void Renders_A_Static_Element()
         => Assert.Equal("<p>Hello</p>", Render("<p>Hello</p>"));
@@ -208,7 +183,7 @@ public class TemplateTests
     public void Style_Content_Is_Not_Html_Escaped()
     {
         var html = TemplateRenderer.Render(
-            TemplateParser.ParseDocument("<html><head><style>.a > .b{color:red}</style></head><body></body></html>"), null);
+            TemplateParser.ParseDocument("<html><head><style>.a > .b{color:red}</style></head><body></body></html>"), default);
 
         Assert.Contains("<style>.a > .b{color:red}</style>", html);
     }
@@ -217,7 +192,7 @@ public class TemplateTests
     public void Script_Content_Is_Not_Html_Escaped()
     {
         var html = TemplateRenderer.Render(
-            TemplateParser.ParseDocument("<html><body><script>if(a<b){x()}</script></body></html>"), null);
+            TemplateParser.ParseDocument("<html><body><script>if(a<b){x()}</script></body></html>"), default);
 
         Assert.Contains("<script>if(a<b){x()}</script>", html);
     }
@@ -234,4 +209,30 @@ public class TemplateTests
             "<li>a</li><li>b</li>",
             Render("@if (Show) {@for (Items) {<li>{{ Label }}</li>}}",
                 new { Show = true, Items = new[] { new { Label = "a" }, new { Label = "b" } } }));
+
+    private static NgElement Ctx(object model)
+    {
+        var json = JsonSerializer.Serialize(model);
+        using var doc = JsonDocument.Parse(json);
+
+        return NgElement.FromJson(doc.RootElement.Clone());
+    }
+
+    private static string Render(string template, object model = null)
+        => TemplateRenderer.Render(TemplateParser.ParseDocument(template), model is null ? default : Ctx(model));
+
+    private static string Render(string template, object model, IReadOnlyDictionary<string, IComponent> components)
+        => TemplateRenderer.Render(
+            TemplateParser.ParseDocument(template, components?.Keys),
+            model is null ? default : Ctx(model),
+            null,
+            components?.ToDictionary(pair => pair.Key, pair => new ComponentRegistration(pair.Value, pair.Value.GetType())));
+
+    private static string Render(string template, object model, IReadOnlyDictionary<string, IDirective> directives)
+        => TemplateRenderer.Render(
+            TemplateParser.ParseDocument(template, null, directives?.Keys),
+            model is null ? default : Ctx(model),
+            null,
+            null,
+            directives);
 }

@@ -11,6 +11,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NgSharp.Benchmark", "src\Ng
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NgSharp.Map", "src\NgSharp.Map\NgSharp.Map.csproj", "{64EA8169-2EAF-4E10-9C72-50F124382E04}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Srcs", "Srcs", "{D43B1751-F0F1-4659-8BCC-E6B0D840CC79}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tooling", "Tooling", "{CFEDCB82-E4BF-427E-AC0F-8241FE038335}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vscode-ngsharp", "vscode-ngsharp", "{90F127D6-3F25-45C3-9C1E-64379AA90FC7}"
+	ProjectSection(SolutionItems) = preProject
+		tooling\vscode-ngsharp\package.json = tooling\vscode-ngsharp\package.json
+		tooling\vscode-ngsharp\README.md = tooling\vscode-ngsharp\README.md
+		tooling\vscode-ngsharp\language-configuration.json = tooling\vscode-ngsharp\language-configuration.json
+		tooling\vscode-ngsharp\snippets\ngsharp-html.code-snippets = tooling\vscode-ngsharp\snippets\ngsharp-html.code-snippets
+		tooling\vscode-ngsharp\snippets\ngsharp-text.code-snippets = tooling\vscode-ngsharp\snippets\ngsharp-text.code-snippets
+		tooling\vscode-ngsharp\syntaxes\ngsharp.tmLanguage.json = tooling\vscode-ngsharp\syntaxes\ngsharp.tmLanguage.json
+		tooling\vscode-ngsharp\syntaxes\ngsharp-text.tmLanguage.json = tooling\vscode-ngsharp\syntaxes\ngsharp-text.tmLanguage.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,5 +87,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FD87630B-6F4D-4688-844E-A4AFC915ECEC} = {D43B1751-F0F1-4659-8BCC-E6B0D840CC79}
+		{10947615-1B6A-4E58-8A7D-5FDB46815BD6} = {D43B1751-F0F1-4659-8BCC-E6B0D840CC79}
+		{B5E6584F-E6B3-42FB-9478-484985085DBC} = {D43B1751-F0F1-4659-8BCC-E6B0D840CC79}
+		{64EA8169-2EAF-4E10-9C72-50F124382E04} = {D43B1751-F0F1-4659-8BCC-E6B0D840CC79}
+		{90F127D6-3F25-45C3-9C1E-64379AA90FC7} = {CFEDCB82-E4BF-427E-AC0F-8241FE038335}
 	EndGlobalSection
 EndGlobal

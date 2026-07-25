@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 
 using NgSharp;
 using NgSharp.Tests.CustomElements;
@@ -9,15 +8,8 @@ namespace NgSharp.Tests.Parsing;
 // @if/@for control-flow nesting.
 public class RobustnessEdgeCasesTests
 {
-    private static Task<string> Render(string tpl, object model)
-    {
-        var builder = HtmlBuilder.Default;
-        builder.RegisterDirective<HiddenDirective>();
-        return builder.BuildFromTemplateAsync(tpl, model);
-    }
-
     [Fact]
-    public async Task Kitchen_Sink_For_If_Attr_Directive_Pipe_On_One_Element()
+    public void Kitchen_Sink_For_If_Attr_Directive_Pipe_On_One_Element()
     {
         var model = new
         {
@@ -29,7 +21,7 @@ public class RobustnessEdgeCasesTests
             }
         };
 
-        var content = await Render(
+        var content = Render(
             "<ul><li [for]=\"Items\" [if]=\"Show == true\" [attr.class]=\"Css\" [hidden]=\"H\">{{ Name | upper }}</li></ul>", model);
 
         Assert.Contains("class=\"on\"", content);
@@ -41,11 +33,11 @@ public class RobustnessEdgeCasesTests
     }
 
     [Fact]
-    public async Task Interpolation_Escapes_Special_Chars_In_Loop()
+    public void Interpolation_Escapes_Special_Chars_In_Loop()
     {
         var model = new { Items = new[] { new { X = "<b>&\"'</b>" }, new { X = "a & b" } } };
 
-        var content = await Render("<ul><li [for]=\"Items\">{{ X }}</li></ul>", model);
+        var content = Render("<ul><li [for]=\"Items\">{{ X }}</li></ul>", model);
 
         Assert.DoesNotContain("<b>&\"'</b>", content);   // must be escaped, not injected
         Assert.Contains("&lt;b&gt;", content);
@@ -53,11 +45,11 @@ public class RobustnessEdgeCasesTests
     }
 
     [Fact]
-    public async Task Unicode_And_Accents_In_Loop()
+    public void Unicode_And_Accents_In_Loop()
     {
         var model = new { Items = new[] { new { N = "café" }, new { N = "naïve €" }, new { N = "日本語" } } };
 
-        var content = await Render("<ul><li [for]=\"Items\">{{ N }}</li></ul>", model);
+        var content = Render("<ul><li [for]=\"Items\">{{ N }}</li></ul>", model);
 
         Assert.Contains("café", content);
         Assert.Contains("naïve €", content);
@@ -65,43 +57,51 @@ public class RobustnessEdgeCasesTests
     }
 
     [Fact]
-    public async Task AtIf_Inside_AtFor()
+    public void AtIf_Inside_AtFor()
     {
         var model = new { Items = new[] { new { Ok = true, N = "keep" }, new { Ok = false, N = "drop" } } };
 
-        var content = await Render("<div>@for (Items) { <span>@if (Ok == true) { {{ N }} }</span> }</div>", model);
+        var content = Render("<div>@for (Items) { <span>@if (Ok == true) { {{ N }} }</span> }</div>", model);
 
         Assert.Contains("keep", content);
         Assert.DoesNotContain("drop", content);
     }
 
     [Fact]
-    public async Task AtFor_Inside_AtIf()
+    public void AtFor_Inside_AtIf()
     {
         var model = new { Enabled = true, Items = new[] { new { N = "x" }, new { N = "y" } } };
 
-        var content = await Render("<div>@if (Enabled == true) { <ul>@for (Items) { <li>{{ N }}</li> }</ul> }</div>", model);
+        var content = Render("<div>@if (Enabled == true) { <ul>@for (Items) { <li>{{ N }}</li> }</ul> }</div>", model);
 
         Assert.Contains("<li>x</li>", content);
         Assert.Contains("<li>y</li>", content);
     }
 
     [Fact]
-    public async Task Five_Level_Deep_Nesting()
+    public void Five_Level_Deep_Nesting()
     {
         var model = new { A = new[] { new { B = new[] { new { C = new[] { new { D = new[] { new { E = new[] { new { V = "deep" } } } } } } } } } } };
 
-        var content = await Render(
+        var content = Render(
             "<div [for]=\"A\"><div [for]=\"B\"><div [for]=\"C\"><div [for]=\"D\"><span [for]=\"E\">{{ V }}</span></div></div></div></div>", model);
 
         Assert.Contains("<span>deep</span>", content);
     }
 
     [Fact]
-    public async Task Empty_Collection_Renders_Nothing_No_Crash()
+    public void Empty_Collection_Renders_Nothing_No_Crash()
     {
-        var content = await Render("<ul><li [for]=\"Items\">{{ N }}</li></ul>", new { Items = new object[0] });
+        var content = Render("<ul><li [for]=\"Items\">{{ N }}</li></ul>", new { Items = new object[0] });
 
         Assert.Contains("<ul></ul>", content);
+    }
+
+    private static string Render(string tpl, object model)
+    {
+        var builder = HtmlBuilder.Create();
+        builder.RegisterDirective<HiddenDirective>();
+
+        return builder.BuildFromTemplate(tpl, model);
     }
 }

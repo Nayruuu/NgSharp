@@ -7,21 +7,37 @@ using System.Runtime.InteropServices;
 
 namespace NgSharp.Tests.Integration;
 
-public class EndToEndTests
+public class EndToEndTests : IDisposable
 {
-    private readonly HtmlBuilder htmlBuilder;
+    private readonly HtmlBuilder _htmlBuilder;
+
+    private readonly CultureInfo _previousCulture;
+    private readonly CultureInfo _previousUICulture;
 
     public EndToEndTests()
     {
-        this.htmlBuilder = HtmlBuilder.Default;
-        
-        CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("fr-FR");
-        CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("fr-FR");
+        _htmlBuilder = HtmlBuilder.Create();
+
+        // These goldens are authored under fr-FR (locale-sensitive pipe output). Set the culture
+        // THREAD-LOCALLY and restore it in Dispose — a global DefaultThreadCurrentCulture write leaks
+        // fr-FR onto pooled threads and makes invariant-culture tests flaky under parallel execution.
+        _previousCulture = CultureInfo.CurrentCulture;
+        _previousUICulture = CultureInfo.CurrentUICulture;
+
+        CultureInfo.CurrentCulture = new CultureInfo("fr-FR");
+        CultureInfo.CurrentUICulture = new CultureInfo("fr-FR");
     }
-    
+
+    public void Dispose()
+    {
+        CultureInfo.CurrentCulture = _previousCulture;
+        CultureInfo.CurrentUICulture = _previousUICulture;
+    }
+
     #region Pipes
+
     [Fact]
-    public async Task Should_Replace_DateTime_With_Format_Provided_Using_Date_Pipe()
+    public void Should_Replace_DateTime_With_Format_Provided_Using_Date_Pipe()
     {
         var template = File.ReadAllText("Templates/pipes/date-pipe/date.pipe.html");
         var resultTemplate = File.ReadAllText("Templates/pipes/date-pipe/date.pipe.result.html");
@@ -31,17 +47,17 @@ public class EndToEndTests
             NullDate = (DateTime?)null,
             OneDate = new DateTime(2014, 03, 13, 23, 33, 32)
         };
-        
-        var content = await this.htmlBuilder.BuildFromTemplateAsync(template, obj);
 
-        Assert.Equal(HtmlBuilder.MinifyHtml(resultTemplate), HtmlBuilder.MinifyHtml(content));
+        var content = _htmlBuilder.BuildFromTemplate(template, obj);
+
+        Assert.Equal(TestHtml.Minify(resultTemplate), TestHtml.Minify(content));
     }
 
     [Fact]
-    public async Task Should_Set_Image_Data_Using_Image_Pipe()
+    public void Should_Set_Image_Data_Using_Image_Pipe()
     {
         var imageContent = File.ReadAllBytes("Templates/pipes/image-pipe/image.jpeg");
-        
+
         var template = File.ReadAllText("Templates/pipes/image-pipe/image.pipe.html");
         var resultTemplate = File.ReadAllText("Templates/pipes/image-pipe/image.pipe.result.html");
 
@@ -56,23 +72,23 @@ public class EndToEndTests
                 FileContent = imageContent
             }
         };
-        
-        var content = await this.htmlBuilder.BuildFromTemplateAsync(template, obj);
+
+        var content = _htmlBuilder.BuildFromTemplate(template, obj);
 
         Assert.Equal(
-            HtmlBuilder
-                .MinifyHtml(resultTemplate)
+            TestHtml
+                .Minify(resultTemplate)
                 .Replace("##IMAGEDATA##", Convert.ToBase64String(imageContent)),
-            HtmlBuilder.MinifyHtml(content));
+            TestHtml.Minify(content));
     }
 
     [Fact]
-    public async Task Should_Replace_String_With_Big_Number_Output_Using_Large_Number_Pipe()
+    public void Should_Replace_String_With_Big_Number_Output_Using_Large_Number_Pipe()
     {
         var template = File.ReadAllText("Templates/pipes/large-number/large-number.pipe.html");
         var resultTemplate = File.ReadAllText("Templates/pipes/large-number/large-number.pipe.result.html");
-            
-        var obj = new 
+
+        var obj = new
         {
             NullNumber = (int?)null,
             ThousandNumber = 1_200,
@@ -82,123 +98,127 @@ public class EndToEndTests
             QuantiNumber = 1_200_000_000_000_000
         };
 
-        var content = await this.htmlBuilder.BuildFromTemplateAsync(template, obj);
+        var content = _htmlBuilder.BuildFromTemplate(template, obj);
 
-        Assert.Equal(HtmlBuilder.MinifyHtml(resultTemplate), HtmlBuilder.MinifyHtml(content));
+        Assert.Equal(TestHtml.Minify(resultTemplate), TestHtml.Minify(content));
     }
-    
+
     [Fact]
-    public async Task Should_Replace_String_With_Number_Output_Using_Number_Pipe()
+    public void Should_Replace_String_With_Number_Output_Using_Number_Pipe()
     {
         var template = File.ReadAllText("Templates/pipes/number/number.pipe.html");
         var resultTemplate = File.ReadAllText("Templates/pipes/number/number.pipe.result.html");
-            
-        var obj = new 
+
+        var obj = new
         {
             NullNumber = (decimal?)null,
             IntNumber = 100,
             OneNumber = 1.23232M,
         };
 
-        var content = await this.htmlBuilder.BuildFromTemplateAsync(template, obj);
+        var content = _htmlBuilder.BuildFromTemplate(template, obj);
 
-        Assert.Equal(HtmlBuilder.MinifyHtml(resultTemplate), HtmlBuilder.MinifyHtml(content));
+        Assert.Equal(TestHtml.Minify(resultTemplate), TestHtml.Minify(content));
     }
-    
+
     [Fact]
-    public async Task Should_Replace_String_With_UPPERCASE_Output_Using_Upper_Pipe()
+    public void Should_Replace_String_With_UPPERCASE_Output_Using_Upper_Pipe()
     {
         var template = File.ReadAllText("Templates/pipes/upper/upper.pipe.html");
         var resultTemplate = File.ReadAllText("Templates/pipes/upper/upper.pipe.result.html");
-            
-        var obj = new 
+
+        var obj = new
         {
             NullName = (string)null,
             FullName = "Jean-Paul Goat hier"
         };
 
-        var content = await this.htmlBuilder.BuildFromTemplateAsync(template, obj);
+        var content = _htmlBuilder.BuildFromTemplate(template, obj);
 
-        Assert.Equal(HtmlBuilder.MinifyHtml(resultTemplate), HtmlBuilder.MinifyHtml(content));
+        Assert.Equal(TestHtml.Minify(resultTemplate), TestHtml.Minify(content));
     }
+
     #endregion
-    
+
     #region Directives
+
     [Fact]
-    public async Task Should_Apply_Attr_Directive()
+    public void Should_Apply_Attr_Directive()
     {
         var template = File.ReadAllText("Templates/directives/html/attr/attr.directive.html");
         var resultTemplate = File.ReadAllText("Templates/directives/html/attr/attr.directive.result.html");
-            
-        var obj = new 
+
+        var obj = new
         {
             MyAddedClass = "added__class",
             MyCustomLink = "https://ng-sharp.net"
         };
 
-        var content = await this.htmlBuilder.BuildFromTemplateAsync(template, obj);
+        var content = _htmlBuilder.BuildFromTemplate(template, obj);
 
-        Assert.Equal(HtmlBuilder.MinifyHtml(resultTemplate), HtmlBuilder.MinifyHtml(content));
+        Assert.Equal(TestHtml.Minify(resultTemplate), TestHtml.Minify(content));
     }
-    
+
     [Fact]
-    public async Task Should_Apply_Html_Directive()
+    public void Should_Apply_Html_Directive()
     {
         var template = File.ReadAllText("Templates/directives/html/html/html.directive.html");
         var resultTemplate = File.ReadAllText("Templates/directives/html/html/html.directive.result.html");
-            
-        var obj = new 
+
+        var obj = new
         {
             MyHtmlData = "<span style=\"color: red\">That text is red</span>"
         };
 
-        var content = await this.htmlBuilder.BuildFromTemplateAsync(template, obj);
+        var content = _htmlBuilder.BuildFromTemplate(template, obj);
 
-        Assert.Equal(HtmlBuilder.MinifyHtml(resultTemplate), HtmlBuilder.MinifyHtml(content));
+        Assert.Equal(TestHtml.Minify(resultTemplate), TestHtml.Minify(content));
     }
-    
+
     [Fact]
-    public async Task Should_Apply_Style_Directive()
+    public void Should_Apply_Style_Directive()
     {
         var template = File.ReadAllText("Templates/directives/html/style/style.directive.html");
         var resultTemplate = File.ReadAllText("Templates/directives/html/style/style.directive.result.html");
-            
-        var obj = new 
+
+        var obj = new
         {
             MyInitialWeight = "initial",
             MyBoldWeight = "bold"
         };
 
-        var content = await this.htmlBuilder.BuildFromTemplateAsync(template, obj);
+        var content = _htmlBuilder.BuildFromTemplate(template, obj);
 
-        Assert.Equal(HtmlBuilder.MinifyHtml(resultTemplate), HtmlBuilder.MinifyHtml(content));
+        Assert.Equal(TestHtml.Minify(resultTemplate), TestHtml.Minify(content));
     }
+
     #endregion
-    
+
     #region Structural Directives
+
     [Fact]
-    public async Task Should_Apply_If_Structural_Directive()
+    public void Should_Apply_If_Structural_Directive()
     {
         var template = File.ReadAllText("Templates/directives/structural/if/if.directive.html");
         var resultTemplate = File.ReadAllText("Templates/directives/structural/if/if.directive.result.html");
-            
-        var obj = new 
+
+        var obj = new
         {
             ShouldDisplay = true
         };
 
-        var content = await this.htmlBuilder.BuildFromTemplateAsync(template, obj);
+        var content = _htmlBuilder.BuildFromTemplate(template, obj);
 
-        Assert.Equal(HtmlBuilder.MinifyHtml(resultTemplate), HtmlBuilder.MinifyHtml(content));
+        Assert.Equal(TestHtml.Minify(resultTemplate), TestHtml.Minify(content));
     }
-    
+
     [Fact]
-    public async Task Should_Apply_For_Structural_Directive()
+    public void Should_Apply_For_Structural_Directive()
     {
         var template = File.ReadAllText("Templates/directives/structural/for/for.directive.html");
         var resultTemplate = File.ReadAllText("Templates/directives/structural/for/for.directive.result.html");
-            
-        var obj = new 
+
+        var obj = new
         {
             MyArray = Enumerable.Range(1, 10)
                 .Select(i => new
@@ -215,18 +235,18 @@ public class EndToEndTests
                 .ToArray()
         };
 
-        var content = await this.htmlBuilder.BuildFromTemplateAsync(template, obj);
+        var content = _htmlBuilder.BuildFromTemplate(template, obj);
 
-        Assert.Equal(HtmlBuilder.MinifyHtml(resultTemplate), HtmlBuilder.MinifyHtml(content));
+        Assert.Equal(TestHtml.Minify(resultTemplate), TestHtml.Minify(content));
     }
-    
+
     [Fact]
-    public async Task Should_Apply_Not_Empty_Structural_Directive()
+    public void Should_Apply_Not_Empty_Structural_Directive()
     {
         var template = File.ReadAllText("Templates/directives/structural/not-empty/not-empty.directive.html");
         var resultTemplate = File.ReadAllText("Templates/directives/structural/not-empty/not-empty.directive.result.html");
-            
-        var obj = new 
+
+        var obj = new
         {
             MyArray = Enumerable.Range(1, 10)
                 .Select(i => new
@@ -238,80 +258,84 @@ public class EndToEndTests
             MyTasks = Array.Empty<object>()
         };
 
-        var content = await this.htmlBuilder.BuildFromTemplateAsync(template, obj);
+        var content = _htmlBuilder.BuildFromTemplate(template, obj);
 
-        Assert.Equal(HtmlBuilder.MinifyHtml(resultTemplate), HtmlBuilder.MinifyHtml(content));
+        Assert.Equal(TestHtml.Minify(resultTemplate), TestHtml.Minify(content));
     }
+
     #endregion
-    
+
     #region Custom Elements
+
     [Fact]
-    public async Task Should_Replace_String_With_lowercase_Output_Using_Custom_Lower_Pipe()
+    public void Should_Replace_String_With_lowercase_Output_Using_Custom_Lower_Pipe()
     {
-        this.htmlBuilder.RegisterPipe<LowerCasePipe>();
-        
+        _htmlBuilder.RegisterPipe<LowerCasePipe>();
+
         var template = File.ReadAllText("Templates/pipes/lower/lower.pipe.html");
         var resultTemplate = File.ReadAllText("Templates/pipes/lower/lower.pipe.result.html");
-            
-        var obj = new 
+
+        var obj = new
         {
             FullName = "Jean-Paul Goat hier"
         };
 
-        var content = await this.htmlBuilder.BuildFromTemplateAsync(template, obj);
+        var content = _htmlBuilder.BuildFromTemplate(template, obj);
 
-        Assert.Equal(HtmlBuilder.MinifyHtml(resultTemplate), HtmlBuilder.MinifyHtml(content));
+        Assert.Equal(TestHtml.Minify(resultTemplate), TestHtml.Minify(content));
     }
-    
+
     [Fact]
-    public async Task Should_Add_Custom_Hidden_Attribute()
+    public void Should_Add_Custom_Hidden_Attribute()
     {
-        this.htmlBuilder.RegisterDirective<HiddenDirective>();
-        
+        _htmlBuilder.RegisterDirective<HiddenDirective>();
+
         var template = File.ReadAllText("Templates/directives/html/hidden/hidden.directive.html");
         var resultTemplate = File.ReadAllText("Templates/directives/html/hidden/hidden.directive.result.html");
-            
-        var obj = new 
+
+        var obj = new
         {
             IsHidden = true
         };
 
-        var content = await this.htmlBuilder.BuildFromTemplateAsync(template, obj);
+        var content = _htmlBuilder.BuildFromTemplate(template, obj);
 
-        Assert.Equal(HtmlBuilder.MinifyHtml(resultTemplate), HtmlBuilder.MinifyHtml(content));
+        Assert.Equal(TestHtml.Minify(resultTemplate), TestHtml.Minify(content));
     }
 
     [Fact]
-    public async Task Should_Add_Custom_Component()
+    public void Should_Add_Custom_Component()
     {
-        this.htmlBuilder.RegisterComponent<CustomComponent>();
-        
+        _htmlBuilder.RegisterComponent<CustomComponent>();
+
         var template = File.ReadAllText("Templates/components/custom.component.html");
         var resultTemplate = File.ReadAllText("Templates/components/custom.component.result.html");
-            
-        var obj = new 
+
+        var obj = new
         {
             MyComponentText = "This is my custom component text"
         };
 
-        var content = await this.htmlBuilder.BuildFromTemplateAsync(template, obj);
+        var content = _htmlBuilder.BuildFromTemplate(template, obj);
 
-        Assert.Equal(HtmlBuilder.MinifyHtml(resultTemplate), HtmlBuilder.MinifyHtml(content));
+        Assert.Equal(TestHtml.Minify(resultTemplate), TestHtml.Minify(content));
     }
+
     #endregion
-    
+
     #region Big Test
+
     [SkippableFact]
-    public async Task Should_Parse_Big_One()
+    public void Should_Parse_Big_One()
     {
         #if !DEBUG
         Skip.IfNot(RuntimeInformation.IsOSPlatform(OSPlatform.Windows), "SkiaSharp not supported on CI");
         #endif
 
-        this.htmlBuilder.RegisterComponent<MapComponent>();
+        _htmlBuilder.RegisterComponent<MapComponent>();
 
         var icon = File.ReadAllBytes("Templates/big-test-marker-icon.webp");
-        
+
         var template = File.ReadAllText("Templates/big-test.html");
         var resultTemplate = File.ReadAllText("Templates/big-test.result.html");
 
@@ -361,9 +385,10 @@ public class EndToEndTests
             }
         };
 
-        var content = await this.htmlBuilder.BuildFromTemplateAsync(template, obj);
+        var content = _htmlBuilder.BuildFromTemplate(template, obj);
 
-        Assert.Equal(HtmlBuilder.MinifyHtml(resultTemplate), HtmlBuilder.MinifyHtml(content));
+        Assert.Equal(TestHtml.Minify(resultTemplate), TestHtml.Minify(content));
     }
+
     #endregion
 }

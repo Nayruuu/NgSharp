@@ -1,0 +1,78 @@
+{
+  "export":{
+    "kind":"quote",
+    "source":"arena-text",
+    "generatedAt":"{{iso IssueDate}}"
+  },
+  "number":{{json Number}},
+  "reference":{{json Reference}},
+  "issueDate":"{{date IssueDate "yyyy-MM-dd"}}",
+  "validUntil":"{{date ValidUntil "yyyy-MM-dd"}}",
+  "campaign":{
+    "name":{{json CampaignName}},
+    "start":"{{date CampaignStart "yyyy-MM-dd"}}",
+    "end":"{{date CampaignEnd "yyyy-MM-dd"}}",
+    "impressions":{{TotalImpressions}}
+  {{cb}},
+  "issuer":{
+    "name":{{json Issuer.Name}},
+    "city":{{json Issuer.City}},
+    "siret":{{json Issuer.Siret}},
+    "tva":{{json Issuer.Tva}},
+    "email":{{json Issuer.Email}}
+  {{cb}},
+  "client":{
+    "name":{{json Client.Name}},
+    "city":{{json Client.City}},
+    "contact":{{json Client.Contact}},
+    "email":{{json Client.Email}}
+  {{cb}},
+  "sections":[
+    {{#each Sections}}
+      {
+        "title":{{json Title}},
+        "discounted":{{jbool HasDiscount}},
+        "lines":[
+          {{#each Lines}}
+            {
+              "ref":{{json Ref}},
+              "qty":{{Quantity}},
+              "unit":{{jnum UnitPrice}},
+              {{#if (gt0 Discount)}}
+                "discount":{{jnum Discount}},
+              {{/if}}
+              "ht":{{jnum TotalHT}}
+            {{cb}},
+          {{/each}}
+          {
+            "type":"subtotal",
+            "ht":{{jnum SubtotalHT}},
+            "impressions":{{SectionImpressions}}
+          {{cb}}
+        ]
+      },
+    {{/each}}
+    {
+      "type":"totals",
+      "ht":{{jnum TotalHT}},
+      "tvaRate":{{jnum TvaRate}},
+      "tva":{{jnum TotalTva}},
+      "ttc":{{jnum TotalTTC}},
+      "impressions":{{TotalImpressions}}
+    {{cb}}
+  ],
+  "hasOptions":{{jbool HasOptions}},
+  "options":[
+    {{#each Options}}
+      {"Text":{{json Text}}{{cb}}
+      {{#unless @last}},{{/unless}}
+    {{/each}}
+  ],
+  "terms":[
+    {{#each Terms}}
+      {"Text":{{json Text}}{{cb}}
+      {{#unless @last}},{{/unless}}
+    {{/each}}
+  ],
+  "notes":{{json Notes}}
+{{cb}}

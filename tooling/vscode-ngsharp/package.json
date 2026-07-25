@@ -1,0 +1,70 @@
+{
+    "name": "ngsharp",
+    "displayName": "NgSharp Templates",
+    "description": "Syntax highlighting and snippets for NgSharp templates: {{ }} interpolation, pipes, [if]/[for] bindings, @if/@for/@render blocks — injected into HTML, plus a text-mode language for .ngt files.",
+    "version": "0.1.0",
+    "publisher": "nayruuu",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Nayruuu/NgSharp"
+    },
+    "engines": {
+        "vscode": "^1.75.0"
+    },
+    "categories": [
+        "Programming Languages",
+        "Snippets"
+    ],
+    "keywords": [
+        "ngsharp",
+        "template",
+        "angular",
+        "html",
+        "dotnet"
+    ],
+    "contributes": {
+        "languages": [
+            {
+                "id": "ngsharp-text",
+                "aliases": [
+                    "NgSharp Text Template",
+                    "ngsharp-text"
+                ],
+                "extensions": [
+                    ".ngt"
+                ],
+                "filenamePatterns": [
+                    "*.ng.txt"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "scopeName": "ngsharp.injection",
+                "path": "./syntaxes/ngsharp.tmLanguage.json",
+                "injectTo": [
+                    "text.html",
+                    "text.html.basic",
+                    "text.html.derivative"
+                ]
+            },
+            {
+                "language": "ngsharp-text",
+                "scopeName": "source.ngsharp-text",
+                "path": "./syntaxes/ngsharp-text.tmLanguage.json"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "html",
+                "path": "./snippets/ngsharp-html.code-snippets"
+            },
+            {
+                "language": "ngsharp-text",
+                "path": "./snippets/ngsharp-text.code-snippets"
+            }
+        ]
+    }
+}

@@ -1,7 +1,7 @@
 using System;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 using NgSharp;
 using NgSharp.Pipes;
@@ -17,23 +17,8 @@ namespace NgSharp.Tests.Model;
 public class FromObjectEquivalenceTests
 {
     private static readonly IReadOnlyDictionary<string, IPipe> NoPipes = new Dictionary<string, IPipe>();
-    private static readonly IReadOnlyDictionary<string, IComponent> NoComponents = new Dictionary<string, IComponent>();
+    private static readonly IReadOnlyDictionary<string, ComponentRegistration> NoComponents = new Dictionary<string, ComponentRegistration>();
     private static readonly IReadOnlyDictionary<string, IDirective> NoDirectives = new Dictionary<string, IDirective>();
-
-    private static string Render(NgElement context, string template)
-    {
-        var nodes = TemplateParser.ParseDocument(template);
-        return HtmlBuilder.MinifyHtml(TemplateRenderer.Render(nodes, context, NoPipes, NoComponents, NoDirectives));
-    }
-
-    private static NgElement ViaJson(object model)
-    {
-        using var doc = JsonDocument.Parse(JsonSerializer.Serialize(model));
-        return NgElement.FromJson(doc.RootElement);
-    }
-
-    private static void AssertSame(object model, string template)
-        => Assert.Equal(Render(ViaJson(model), template), Render(NgElement.FromObject(model), template));
 
     [Fact]
     public void Scalars_All_Kinds()
@@ -60,6 +45,44 @@ public class FromObjectEquivalenceTests
     [Fact]
     public void ByteArray_As_Base64()
         => AssertSame(new { Bytes = new byte[] { 1, 2, 3, 250, 255 } }, "<p>{{ Bytes }}</p>");
+
+    [Fact]
+    public void TimeSpan_Value()
+    {
+        var model = new { T = new TimeSpan(1, 2, 3, 4, 500) };
+
+        AssertSame(model, "<p>{{ T }}</p>");
+
+        // The GetDateTime unbox fast path must not swallow the boxed TimeSpan: both ingestion paths
+        // read the same STJ text, so they must agree.
+        Assert.Equal(ViaJson(model).SelectToken("T").GetDateTime(), NgElement.FromObject(model).SelectToken("T").GetDateTime());
+    }
+
+    [Fact]
+    public void TimeSpan_Clr_Properties_Do_Not_Leak()
+    {
+        // Pre-deferral, a TimeSpan fell into the lazy-Object fallback: it rendered EMPTY while its
+        // CLR properties leaked ({{ T.TotalMinutes }} resolved). Both paths must now render the STJ
+        // text and treat member access on it as missing.
+        var model = new { T = new TimeSpan(2, 30, 0) };
+
+        AssertSame(model, "<p>{{ T.TotalMinutes }}</p>");
+        Assert.Equal("<p></p>", Render(NgElement.FromObject(model), "<p>{{ T.TotalMinutes }}</p>"));
+    }
+
+    [Fact]
+    public void Uri_Value()
+        // The space, the non-ASCII and the '&' exercise the STJ escape round-trip (é / &
+        // must come back unescaped, exactly like the JSON ingestion path).
+        => AssertSame(new { U = new Uri("https://example.com/a b/café?q=1&x=2") }, "<p>{{ U }}</p>");
+
+    [Fact]
+    public void Version_Value()
+        => AssertSame(new { V = new Version(1, 2, 3), Short = new Version(4, 5) }, "<p>{{ V }}|{{ Short }}</p>");
+
+    [Fact]
+    public void DateOnly_And_TimeOnly_Values()
+        => AssertSame(new { D = new DateOnly(2023, 5, 1), T = new TimeOnly(13, 45, 30) }, "<p>{{ D }}|{{ T }}</p>");
 
     [Fact]
     public void Nested_Object_Paths()
@@ -121,13 +144,36 @@ public class FromObjectEquivalenceTests
             "<p>{{ Keep }}|{{ Maybe }}</p>");
 
     [Fact]
-    public void Object_Cycle_Throws_Clean_Instead_Of_StackOverflow()
+    public void Cyclic_Object_Renders_Safely_Through_Lazy_Reads()
     {
         var node = new Node { Name = "root" };
         node.Self = node;
 
-        Assert.Throws<InvalidOperationException>(() => NgElement.FromObject(node));
+        // The lazy reader never walks the whole data graph — only the finite paths the template writes —
+        // so a cyclic model renders fine, and even a path through the cycle terminates.
+        var html = HtmlBuilder.Create().BuildFromTemplate("<p>{{ Self.Self.Self.Name }}</p>", node);
+
+        Assert.Equal("<p>root</p>", html);
     }
+
+    private static string Render(NgElement context, string template)
+    {
+        var nodes = TemplateParser.ParseDocument(template);
+
+        return TestHtml.Minify(TemplateRenderer.Render(nodes, context, NoPipes, NoComponents, NoDirectives));
+    }
+
+    private static NgElement ViaJson(object model)
+    {
+        using var doc = JsonDocument.Parse(JsonSerializer.Serialize(model));
+
+        // Clone() detaches the element from the document so it outlives this using-scope — required because
+        // FromJson reads the element LAZILY (the canonical pattern for a JsonElement that outlives its doc).
+        return NgElement.FromJson(doc.RootElement.Clone());
+    }
+
+    private static void AssertSame(object model, string template)
+        => Assert.Equal(Render(ViaJson(model), template), Render(NgElement.FromObject(model), template));
 
     private class AttrModel
     {

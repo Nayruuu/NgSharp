@@ -1,0 +1,31 @@
+<div class="cartes">
+<header class="cartes-head">
+<h1>{{upper Title}}</h1>
+<p class="region">Région : {{Region}}</p>
+<p class="gen">Généré le {{date GeneratedAt "dd/MM/yyyy"}}</p>
+<p class="stats">{{AvailableCount}} emplacements disponibles — {{largeNumber TotalImpressions}} impressions cumulées</p>
+</header>
+<section class="grille">
+{{#each Cards}}<article class="carte">
+<div class="carte-head">
+<span class="ref">{{Ref}}</span>
+<span class="status">{{Status}}</span>
+</div>
+<h3>{{Name}}</h3>
+<p class="ville">{{City}} — {{Format}}</p>
+<ul class="meta">
+<li class="prix">{{num Price "N2"}} €</li>
+<li class="impr">{{largeNumber Impressions}} impressions</li>
+<li class="slot">Prochain créneau : {{date NextSlot "dd/MM/yyyy"}}</li>
+</ul>
+<div class="tags">
+{{#if Available}}<span class="ok">Disponible</span>{{/if}}
+{{#if Digital}}<span class="digital">Digital</span>{{/if}}
+{{#if Promo}}<span class="promo">Promo</span>{{/if}}
+</div>
+</article>{{/each}}
+</section>
+<footer class="cartes-foot">
+<p>{{Title}} — {{Region}} — {{date GeneratedAt "dd/MM/yyyy"}}</p>
+</footer>
+</div>

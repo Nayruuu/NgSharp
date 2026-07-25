@@ -1,5 +1,5 @@
-using System.Globalization;
 using System.Text.Json;
+using System.Globalization;
 using System.Collections.Generic;
 
 using NgSharp;
@@ -16,19 +16,6 @@ public class ExpressionTests
         ["upper"] = new UpperPipe(),
         ["number"] = new NumberPipe()
     };
-
-    private static NgElement Ctx(object model)
-    {
-        var json = JsonSerializer.Serialize(model);
-        using var doc = JsonDocument.Parse(json);
-        return NgElement.FromJson(doc.RootElement.Clone());
-    }
-
-    private static NgElement Eval(string expression, object model = null)
-        => ExpressionEvaluator.Evaluate(ExpressionParser.Parse(expression), model is null ? null : Ctx(model));
-
-    private static NgElement Eval(string expression, object model, IReadOnlyDictionary<string, IPipe> pipes)
-        => ExpressionEvaluator.Evaluate(ExpressionParser.Parse(expression), model is null ? null : Ctx(model), pipes);
 
     [Fact]
     public void Evaluates_Integer_Literal()
@@ -133,12 +120,10 @@ public class ExpressionTests
 
     [Fact]
     public void And_Binds_Tighter_Than_Or()
-        // '||' lower than '&&': true || (false && false) == true (not (true || false) && false == false)
         => Assert.True(Eval("A == 1 || B == 9 && C == 9", new { A = 1, B = 2, C = 3 }).GetBoolean());
 
     [Fact]
     public void Parentheses_Override_Precedence()
-        // (true || false) && false == false
         => Assert.False(Eval("(A == 1 || B == 9) && C == 9", new { A = 1, B = 2, C = 3 }).GetBoolean());
 
     [Fact]
@@ -157,8 +142,6 @@ public class ExpressionTests
     public void Explicit_Null_Check_Combined_With_And()
         => Assert.True(Eval("Name != null && A == 1", new { Name = "x", A = 1 }).GetBoolean());
 
-    // ---- Full truth tables ----
-
     [Theory]
     [InlineData(true, true, true)]
     [InlineData(true, false, false)]
@@ -174,8 +157,6 @@ public class ExpressionTests
     [InlineData(false, false, false)]
     public void Or_TruthTable(bool l, bool r, bool expected)
         => Assert.Equal(expected, Eval("L || R", new { L = l, R = r }).GetBoolean());
-
-    // ---- Short-circuit, PROVEN: a bad-pipe right operand is skipped when the result is already decided ----
 
     [Fact]
     public void And_ShortCircuits_Right_Skipped_When_Left_False()
@@ -196,8 +177,6 @@ public class ExpressionTests
     [Fact]
     public void Chained_And_ShortCircuits_Before_Reaching_Bad_Pipe()
         => Assert.False(Eval("L && M && (X | nope)", new { L = false, M = true, X = "y" }).GetBoolean());
-
-    // ---- Chaining (left-associative, 3+ operands) ----
 
     [Theory]
     [InlineData(true, true, true, true)]
@@ -223,8 +202,6 @@ public class ExpressionTests
     public void And_Chained_Five_One_False()
         => Assert.False(Eval("A && B && C && D && E", new { A = true, B = true, C = false, D = true, E = true }).GetBoolean());
 
-    // ---- Precedence: '||' binds looser than '&&' ----
-
     [Theory]
     [InlineData(false, true, true, true)]    // F || (T && T) = T
     [InlineData(false, true, false, false)]  // F || (T && F) = F
@@ -238,8 +215,6 @@ public class ExpressionTests
     [InlineData(true, false, false, false)]  // (T && F) || F = F
     public void And_Is_Higher_Precedence_Than_Or(bool a, bool b, bool c, bool expected)
         => Assert.Equal(expected, Eval("A && B || C", new { A = a, B = b, C = c }).GetBoolean());
-
-    // ---- Parentheses ----
 
     [Fact]
     public void Parens_Double_Nested()
@@ -258,8 +233,6 @@ public class ExpressionTests
     [InlineData(true, false, true, false, false)]  // (T&&F) || (T&&F) = F
     public void Parens_Grouped_On_Both_Sides(bool a, bool b, bool c, bool d, bool expected)
         => Assert.Equal(expected, Eval("(A && B) || (C && D)", new { A = a, B = b, C = c, D = d }).GetBoolean());
-
-    // ---- Strict truthiness: no JS-style coercion; non-bool is falsy, null via '!= null' ----
 
     [Fact]
     public void Number_Operand_Is_Falsy_Even_When_Nonzero()
@@ -281,8 +254,6 @@ public class ExpressionTests
     public void Number_Compared_Then_Anded_Is_True()
         => Assert.True(Eval("Count > 0 && Flag", new { Count = 5, Flag = true }).GetBoolean());
 
-    // ---- Mixed comparison operators as operands ----
-
     [Fact]
     public void Mixed_Comparison_Operators_Anded()
         => Assert.True(Eval("A >= 1 && B <= 5 && C != 0", new { A = 3, B = 4, C = 1 }).GetBoolean());
@@ -291,8 +262,6 @@ public class ExpressionTests
     public void Mixed_Comparison_Operators_Ored()
         => Assert.True(Eval("A > 5 || B < 2", new { A = 1, B = 1 }).GetBoolean());
 
-    // ---- Whitespace insensitivity ----
-
     [Fact]
     public void No_Spaces_Around_Operators()
         => Assert.True(Eval("A==1&&B==2", new { A = 1, B = 2 }).GetBoolean());
@@ -300,8 +269,6 @@ public class ExpressionTests
     [Fact]
     public void Extra_Spaces_Around_Operators()
         => Assert.True(Eval("A  ==  1   &&   B  ==  2", new { A = 1, B = 2 }).GetBoolean());
-
-    // ---- As a ternary condition ----
 
     [Fact]
     public void And_As_Ternary_Condition_Selects_True_Branch()
@@ -316,4 +283,181 @@ public class ExpressionTests
         => Assert.Equal("yes", Eval("A == 1 || B == 9 ? 'yes' : 'no'", new { A = 1, B = 9 }).GetString());
 
     #endregion
+
+    #region Unary '!' ( negation, strict truthiness, precedence )
+
+    [Fact]
+    public void Not_Negates_True_To_False()
+        => Assert.False(Eval("!Flag", new { Flag = true }).GetBoolean());
+
+    [Fact]
+    public void Not_Negates_False_To_True()
+        => Assert.True(Eval("!Flag", new { Flag = false }).GetBoolean());
+
+    [Fact]
+    public void Not_Of_Missing_Is_True_Strict_Truthiness()
+        => Assert.True(Eval("!Missing", new { A = 1 }).GetBoolean());
+
+    [Fact]
+    public void Not_Of_NonBool_Value_Is_True_Strict_Truthiness()
+        => Assert.True(Eval("!Name", new { Name = "hello" }).GetBoolean());
+
+    [Fact]
+    public void Double_Not_Preserves_Truthiness()
+    {
+        Assert.True(Eval("!!Flag", new { Flag = true }).GetBoolean());
+        Assert.False(Eval("!!Flag", new { Flag = false }).GetBoolean());
+    }
+
+    [Fact]
+    public void Not_Binds_Tighter_Than_And()
+        => Assert.True(Eval("!A && B", new { A = false, B = true }).GetBoolean());
+
+    [Fact]
+    public void Not_Applies_To_Parenthesized_Comparison()
+        => Assert.True(Eval("!(A == 1)", new { A = 2 }).GetBoolean());
+
+    [Fact]
+    public void Not_On_Comparison_Left_Operand()
+        => Assert.True(Eval("!A == false", new { A = true }).GetBoolean());
+
+    [Fact]
+    public void Not_As_Ternary_Condition()
+        => Assert.Equal("hidden", Eval("!Visible ? 'hidden' : 'shown'", new { Visible = false }).GetString());
+
+    #endregion
+
+    #region Safe-navigation '?.' ( null-safe member access — resolves like '.', never misparses as a ternary )
+
+    [Fact]
+    public void SafeNav_Resolves_Present_Member()
+        => Assert.Equal("Alice", Eval("User?.Name", new { User = new { Name = "Alice" } }).GetString());
+
+    [Fact]
+    public void SafeNav_On_Null_Intermediate_Yields_Null_Not_Wrong_Branch()
+        => Assert.Equal(JsonValueKind.Null, Eval("User?.Name", new { User = (string)null }).ValueKind);
+
+    [Fact]
+    public void SafeNav_On_Missing_Intermediate_Yields_Null()
+        => Assert.Equal(JsonValueKind.Null, Eval("User?.Name", new { Other = 1 }).ValueKind);
+
+    [Fact]
+    public void SafeNav_Chained_Resolves_Deep_Member()
+        => Assert.Equal("Paris", Eval("User?.Address?.City", new { User = new { Address = new { City = "Paris" } } }).GetString());
+
+    [Fact]
+    public void SafeNav_Chained_On_Null_Middle_Yields_Null()
+        => Assert.Equal(JsonValueKind.Null, Eval("User?.Address?.City", new { User = new { Address = (string)null } }).ValueKind);
+
+    [Fact]
+    public void SafeNav_Does_Not_Swallow_A_Following_Ternary()
+        => Assert.Equal("y", Eval("A?.B == 1 ? 'y' : 'n'", new { A = new { B = 1 } }).GetString());
+
+    #endregion
+
+    #region Arithmetic ( + - * / % , precedence, unary minus, '+' string concat )
+
+    [Fact]
+    public void Adds_Two_Numbers()
+        => Assert.Equal(5, Eval("A + B", new { A = 2, B = 3 }).GetInt());
+
+    [Fact]
+    public void Subtracts_Two_Numbers()
+        => Assert.Equal(1, Eval("A - B", new { A = 3, B = 2 }).GetInt());
+
+    [Fact]
+    public void Multiplies_Two_Numbers()
+        => Assert.Equal(12, Eval("A * B", new { A = 3, B = 4 }).GetInt());
+
+    [Fact]
+    public void Divides_Two_Numbers()
+        => Assert.Equal(2.5, Eval("A / B", new { A = 5, B = 2 }).GetDouble());
+
+    [Fact]
+    public void Modulo_Of_Two_Numbers()
+        => Assert.Equal(1, Eval("A % B", new { A = 7, B = 3 }).GetInt());
+
+    [Fact]
+    public void Multiplication_Binds_Tighter_Than_Addition()
+        => Assert.Equal(14, Eval("A + B * C", new { A = 2, B = 3, C = 4 }).GetInt());   // 2 + (3*4)
+
+    [Fact]
+    public void Parentheses_Override_Arithmetic_Precedence()
+        => Assert.Equal(20, Eval("(A + B) * C", new { A = 2, B = 3, C = 4 }).GetInt()); // (2+3)*4
+
+    [Fact]
+    public void Subtraction_Is_Left_Associative()
+        => Assert.Equal(0, Eval("A - B - C", new { A = 5, B = 3, C = 2 }).GetInt());    // (5-3)-2
+
+    [Fact]
+    public void Unary_Minus_Negates()
+        => Assert.Equal(-3, Eval("-A", new { A = 3 }).GetInt());
+
+    [Fact]
+    public void Unary_Minus_As_A_Subtrahend()
+        => Assert.Equal(5, Eval("A - -B", new { A = 3, B = 2 }).GetInt());              // 3 - (-2)
+
+    [Fact]
+    public void Negative_Literal_Still_Compares()
+        => Assert.True(Eval("V == -3", new { V = -3 }).GetBoolean());
+
+    [Fact]
+    public void Plus_Concatenates_When_An_Operand_Is_A_String()
+        => Assert.Equal("Alice Martin", Eval("First + ' ' + Last", new { First = "Alice", Last = "Martin" }).GetString());
+
+    [Fact]
+    public void Plus_Concatenates_A_String_And_A_Number()
+        => Assert.Equal("Total: 5", Eval("'Total: ' + N", new { N = 5 }).GetString());
+
+    [Fact]
+    public void Arithmetic_Binds_Tighter_Than_Comparison()
+        => Assert.True(Eval("A + B == C", new { A = 2, B = 3, C = 5 }).GetBoolean());   // (2+3)==5
+
+    [Fact]
+    public void Division_By_Zero_Is_Zero_Not_Infinity()
+        => Assert.Equal(0, Eval("A / B", new { A = 5, B = 0 }).GetInt());
+
+    [Fact]
+    public void Missing_Operand_Counts_As_Zero_In_Arithmetic()
+        => Assert.Equal(3, Eval("Missing + A", new { A = 3 }).GetInt());
+
+    #endregion
+
+    #region Array indexing ( Items[0].Name — the README lists it; was silently broken in expressions )
+
+    [Fact]
+    public void Indexes_The_First_Array_Element()
+        => Assert.Equal("Alice", Eval("Users[0].Name", new { Users = new[] { new { Name = "Alice" }, new { Name = "Bob" } } }).GetString());
+
+    [Fact]
+    public void Indexes_A_Later_Array_Element()
+        => Assert.Equal("Bob", Eval("Users[1].Name", new { Users = new[] { new { Name = "Alice" }, new { Name = "Bob" } } }).GetString());
+
+    [Fact]
+    public void Out_Of_Range_Index_Is_Null()
+        => Assert.Equal(JsonValueKind.Null, Eval("Users[9].Name", new { Users = new[] { new { Name = "Alice" } } }).ValueKind);
+
+    [Fact]
+    public void Indexes_A_Scalar_Array_Element()
+        => Assert.Equal("b", Eval("Tags[1]", new { Tags = new[] { "a", "b", "c" } }).GetString());
+
+    [Fact]
+    public void Index_Composes_With_Safe_Navigation()
+        => Assert.Equal("Alice", Eval("Users[0]?.Name", new { Users = new[] { new { Name = "Alice" } } }).GetString());
+
+    #endregion
+
+    private static NgElement Ctx(object model)
+    {
+        var json = JsonSerializer.Serialize(model);
+        using var doc = JsonDocument.Parse(json);
+
+        return NgElement.FromJson(doc.RootElement.Clone());
+    }
+
+    private static NgElement Eval(string expression, object model = null)
+        => ExpressionEvaluator.Evaluate(ExpressionParser.Parse(expression), model is null ? default : Ctx(model));
+
+    private static NgElement Eval(string expression, object model, IReadOnlyDictionary<string, IPipe> pipes)
+        => ExpressionEvaluator.Evaluate(ExpressionParser.Parse(expression), model is null ? default : Ctx(model), pipes);
 }

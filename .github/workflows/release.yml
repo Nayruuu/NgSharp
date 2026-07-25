@@ -13,7 +13,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x'
+          dotnet-version: '10.0.x'
 
       - name: Restore
         run: dotnet restore
@@ -21,8 +21,11 @@ jobs:
       - name: Test
         run: dotnet test src/NgSharp.Tests/NgSharp.Tests.csproj --configuration Release
 
-      - name: Pack
+      - name: Pack NgSharp
         run: dotnet pack src/NgSharp/NgSharp.csproj --configuration Release --output artifacts
+
+      - name: Pack NgSharp.Map
+        run: dotnet pack src/NgSharp.Map/NgSharp.Map.csproj --configuration Release --output artifacts
 
       - name: Push to nuget.org
         run: dotnet nuget push "artifacts/*.nupkg" --api-key "${{ secrets.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate

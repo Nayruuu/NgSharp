@@ -1,19 +1,15 @@
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Text.Json;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 using NgSharp;
 
 namespace NgSharp.Tests.Characterization;
 
-// Safety net for the AngleSharp removal (docs/remove-anglesharp-plan.md, Phase 0).
-//
 // Each case renders through the CURRENT engine and is locked against a committed golden file.
 // Missing golden -> captured on first run (then commit it). Present golden -> asserted equal.
-// The goldens encode current behaviour verbatim, INCLUDING current warts (e.g. MinifyHtml
-// collapsing whitespace inside <pre>/<script>) — the parser swap must preserve them byte-for-byte.
-// When a wart is intentionally fixed later, regenerate only that case's golden in the same commit.
+// The goldens encode current behaviour verbatim, warts included; when a wart is intentionally
+// fixed, regenerate only that case's golden in the same commit.
 public class ParserCharacterizationTests
 {
     public static IEnumerable<object[]> Cases()
@@ -80,16 +76,18 @@ public class ParserCharacterizationTests
 
     [Theory]
     [MemberData(nameof(Cases))]
-    public async Task Output_Matches_Golden(string name, string template, string json)
+    public void Output_Matches_Golden(string name, string template, string json)
     {
         var model = JsonDocument.Parse(json).RootElement;
-        var actual = await HtmlBuilder.Default.BuildFromTemplateAsync(template, model);
+        var actual = HtmlBuilder.Create().BuildFromTemplate(template, model);
 
         var path = GoldenPath(name);
-        if (!File.Exists(path))
+
+        if (File.Exists(path) == false)
         {
             Directory.CreateDirectory(Path.GetDirectoryName(path));
             File.WriteAllText(path, actual);
+
             return;
         }
 

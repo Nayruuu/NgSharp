@@ -2,18 +2,44 @@
 
   <PropertyGroup>
     <PackageId>NgSharp</PackageId>
-    <Version>2.0.0</Version>
+    <Version>3.0.0</Version>
     <Authors>Nayruu</Authors>
     <Description>Interpreted Angular-style HTML template engine for .NET — no runtime compilation, so it runs under Native AOT, trimming, Azure Functions and C# scripts where Razor-based engines can't. Thread-safe immutable AST, pipes, directives, server components, [if]/[for]/[not-empty] and @if/@else/@for control-flow, &amp;&amp; / || conditions, and per-template AST caching. Zero third-party dependencies — a purpose-built HTML template parser produces structurally-correct, escaped output.</Description>
     <PackageTags>template html rendering angular pipes directives components ssr razorless lightweight aot trimming serverless functions zero-dependency</PackageTags>
-    <PackageReleaseNotes>2.0: rewritten as an immutable AST + stateless renderer. Zero third-party dependencies — AngleSharp replaced by a purpose-built HTML template parser (analyzer-verified trim/Native-AOT-clean core; ~3x faster cold-start). @if/@else/@else if/@for control-flow, &amp;&amp; / || operators, per-template AST cache (HtmlBuilder.Compile), NgElement.FromObject fast path. BREAKING: IPipe.Transform/IComponent.Render/IDirective.Apply no longer take an AngleSharp IElement (pipes take a tag-name string, components return their HTML, directives mutate a DirectiveElement); the map component moved to the separate NgSharp.Map package; NgElement.Children/Properties are now IReadOnlyList/IReadOnlyDictionary.</PackageReleaseNotes>
+    <PackageReleaseNotes>3.0 — the V3 engine.
+
+Fused single-pass parser, lazy zero-copy model reads, monomorphic inline
+caches, span-formatted pipes: the fastest of six benchmarked .NET template
+engines, warm and cold, in time and allocations, with byte-identical output.
+
+NEW
+- @switch / @case / @default control-flow block (both dialects)
+- TemplateOptions: one options record on every call (mode, strict, culture, limits)
+- Strict mode + Validate() diagnostics; silent failures become NgSharpException — including statically-detectable always-false conditions and literal division by zero
+- TemplateMode.Text: plain-text / JSON / CSV output through the same pipeline
+- TextWriter sinks + RenderAsync: awaited writes, atomic (a throwing render writes nothing)
+- $index / $count / $first / $last loop variables; per-render culture; RenderLimits caps
+- &lt;ng-template&gt; / @render fragments; transparent ng-container; @for (x of items)
+- [else-if] / [else] attribute chains; complex-type component property binding
+- 7 new built-in pipes (default, currency, lower, truncate, join, titlecase, pad) + [empty] directive
+
+BREAKING (each with its remedy in the README, section "Migrating from 2.x")
+- HtmlBuilder.Default removed: use Create() and keep the instance you register on
+- BuildFromTemplateAsync wrappers removed: rendering is synchronous
+- MinifyHtml and Token removed
+- FromObject / FromJson lose their unused parent/key parameters
+- FromJson reads the JsonElement lazily: Clone() an element that outlives its JsonDocument
+- NgElement.Key always returns string.Empty
+- The built-in pipes are sealed</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/Nayruuu/NgSharp</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/Nayruuu/NgSharp</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RootNamespace>NgSharp</RootNamespace>
     <TargetFrameworks>netstandard2.1;net8.0</TargetFrameworks>
-    <LangVersion>9</LangVersion>
+    <!-- File-scoped namespaces (team convention) need C# 10+; every feature used is syntax-only, so
+         the netstandard2.1 target compiles identically. -->
+    <LangVersion>12</LangVersion>
   </PropertyGroup>
 
   <!-- Ship the XML doc comments in the package (IntelliSense for consumers). CS1591 is not an error:
@@ -28,7 +54,9 @@
     <IsAotCompatible>true</IsAotCompatible>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!-- net8.0 gets System.Text.Json from the shared framework — referencing the package there would
+       only add a redundant nuspec dependency. Only netstandard2.1 needs the package. -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
     <PackageReference Include="System.Text.Json" Version="9.0.7" />
   </ItemGroup>
 
@@ -39,7 +67,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="" />
+    <!-- Single source of truth: the repository-root README ships in the package. -->
+    <None Include="..\..\README.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>

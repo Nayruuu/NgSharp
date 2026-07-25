@@ -1,0 +1,316 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "NgSharp (HTML injection)",
+    "scopeName": "ngsharp.injection",
+    "injectionSelector": "L:text.html -comment",
+    "patterns": [
+        { "include": "#interpolation" },
+        { "include": "#block-control" },
+        { "include": "#ng-tag" },
+        { "include": "#binding-attribute" }
+    ],
+    "repository": {
+        "interpolation": {
+            "comment": "trim markers: '{{-' / '-}}' are only markers with whitespace on the expression side — '{{-X }}' is minus-X, '{{ A - B }}' a subtraction",
+            "name": "meta.template.expression.ngsharp",
+            "begin": "\\{\\{(?:-(?=\\s))?",
+            "beginCaptures": {
+                "0": { "name": "punctuation.definition.template-expression.begin.ngsharp" }
+            },
+            "end": "(?<=\\s)-\\}\\}|\\}\\}",
+            "endCaptures": {
+                "0": { "name": "punctuation.definition.template-expression.end.ngsharp" }
+            },
+            "patterns": [
+                { "include": "#expression" }
+            ]
+        },
+        "block-control": {
+            "patterns": [
+                {
+                    "comment": "@for (x of Items) — the 'of' keyword only exists inside @for parens",
+                    "name": "meta.block.for.ngsharp",
+                    "begin": "((@)for)\\s*(\\()",
+                    "beginCaptures": {
+                        "1": { "name": "keyword.control.for.ngsharp" },
+                        "3": { "name": "punctuation.section.parens.begin.ngsharp" }
+                    },
+                    "end": "(\\))",
+                    "endCaptures": {
+                        "1": { "name": "punctuation.section.parens.end.ngsharp" }
+                    },
+                    "patterns": [
+                        { "match": "\\bof\\b", "name": "keyword.control.of.ngsharp" },
+                        { "include": "#expression" }
+                    ]
+                },
+                {
+                    "comment": "@if (cond) and @else if (cond)",
+                    "name": "meta.block.if.ngsharp",
+                    "begin": "((@)(?:else\\s+if|if))\\s*(\\()",
+                    "beginCaptures": {
+                        "1": { "name": "keyword.control.conditional.ngsharp" },
+                        "3": { "name": "punctuation.section.parens.begin.ngsharp" }
+                    },
+                    "end": "(\\))",
+                    "endCaptures": {
+                        "1": { "name": "punctuation.section.parens.end.ngsharp" }
+                    },
+                    "patterns": [
+                        { "include": "#expression" }
+                    ]
+                },
+                {
+                    "comment": "@switch (value) and @case (value)",
+                    "name": "meta.block.switch.ngsharp",
+                    "begin": "((@)(?:switch|case))\\s*(\\()",
+                    "beginCaptures": {
+                        "1": { "name": "keyword.control.switch.ngsharp" },
+                        "3": { "name": "punctuation.section.parens.begin.ngsharp" }
+                    },
+                    "end": "(\\))",
+                    "endCaptures": {
+                        "1": { "name": "punctuation.section.parens.end.ngsharp" }
+                    },
+                    "patterns": [
+                        { "include": "#expression" }
+                    ]
+                },
+                {
+                    "comment": "@render(fragmentName, model-expression)",
+                    "name": "meta.block.render.ngsharp",
+                    "begin": "((@)render)\\s*(\\()",
+                    "beginCaptures": {
+                        "1": { "name": "keyword.control.render.ngsharp" },
+                        "3": { "name": "punctuation.section.parens.begin.ngsharp" }
+                    },
+                    "end": "(\\))",
+                    "endCaptures": {
+                        "1": { "name": "punctuation.section.parens.end.ngsharp" }
+                    },
+                    "patterns": [
+                        {
+                            "comment": "the first argument is the <ng-template #name> reference",
+                            "match": "\\G\\s*([A-Za-z_][\\w-]*)",
+                            "captures": {
+                                "1": { "name": "entity.name.function.template-reference.ngsharp" }
+                            }
+                        },
+                        { "match": ",", "name": "punctuation.separator.ngsharp" },
+                        { "include": "#expression" }
+                    ]
+                },
+                {
+                    "comment": "@else, optionally followed by its opening brace",
+                    "match": "((@)else)\\b\\s*(\\{)?",
+                    "captures": {
+                        "1": { "name": "keyword.control.conditional.ngsharp" },
+                        "3": { "name": "punctuation.section.block.begin.ngsharp" }
+                    }
+                },
+                {
+                    "comment": "@default, optionally followed by its opening brace",
+                    "match": "((@)default)\\b\\s*(\\{)?",
+                    "captures": {
+                        "1": { "name": "keyword.control.switch.ngsharp" },
+                        "3": { "name": "punctuation.section.block.begin.ngsharp" }
+                    }
+                },
+                {
+                    "comment": "opening brace directly after a block's closing paren",
+                    "match": "(?<=\\))\\s*(\\{)",
+                    "captures": {
+                        "1": { "name": "punctuation.section.block.begin.ngsharp" }
+                    }
+                },
+                {
+                    "comment": "closing brace alone on its line, or immediately before @else/@case/@default — the common block layouts",
+                    "match": "^\\s*(\\})\\s*$|(\\})(?=\\s*@(?:else|case|default)\\b)",
+                    "captures": {
+                        "1": { "name": "punctuation.section.block.end.ngsharp" },
+                        "2": { "name": "punctuation.section.block.end.ngsharp" }
+                    }
+                }
+            ]
+        },
+        "ng-tag": {
+            "patterns": [
+                {
+                    "comment": "<ng-template #name ...> — claims the open tag so the #reference can be scoped",
+                    "name": "meta.tag.ng-template.ngsharp",
+                    "begin": "(</?)(ng-template|ng-container)(?=[\\s/>])",
+                    "beginCaptures": {
+                        "1": { "name": "punctuation.definition.tag.begin.ngsharp" },
+                        "2": { "name": "entity.name.tag.ngsharp" }
+                    },
+                    "end": "(/?>)",
+                    "endCaptures": {
+                        "1": { "name": "punctuation.definition.tag.end.ngsharp" }
+                    },
+                    "patterns": [
+                        {
+                            "match": "(#)([A-Za-z_][\\w-]*)",
+                            "captures": {
+                                "1": { "name": "punctuation.definition.template-reference.ngsharp" },
+                                "2": { "name": "entity.name.function.template-reference.ngsharp" }
+                            }
+                        },
+                        { "include": "#binding-attribute" },
+                        {
+                            "match": "([\\w-]+)(=)?",
+                            "captures": {
+                                "1": { "name": "entity.other.attribute-name.html" },
+                                "2": { "name": "punctuation.separator.key-value.html" }
+                            }
+                        },
+                        {
+                            "name": "string.quoted.double.html",
+                            "begin": "\"",
+                            "end": "\""
+                        },
+                        {
+                            "name": "string.quoted.single.html",
+                            "begin": "'",
+                            "end": "'"
+                        }
+                    ]
+                }
+            ]
+        },
+        "binding-attribute": {
+            "patterns": [
+                {
+                    "comment": "structural control-flow attributes: [if] [for] [else-if] [else] [not-empty]",
+                    "name": "meta.attribute.structural.ngsharp",
+                    "begin": "(\\[)(if|for|else-if|else|not-empty)(\\])\\s*(=)\\s*([\"'])",
+                    "beginCaptures": {
+                        "1": { "name": "punctuation.definition.binding.begin.ngsharp" },
+                        "2": { "name": "keyword.control.structural.ngsharp" },
+                        "3": { "name": "punctuation.definition.binding.end.ngsharp" },
+                        "4": { "name": "punctuation.separator.key-value.html" },
+                        "5": { "name": "punctuation.definition.string.begin.html" }
+                    },
+                    "end": "\\5",
+                    "endCaptures": {
+                        "0": { "name": "punctuation.definition.string.end.html" }
+                    },
+                    "patterns": [
+                        { "include": "#expression" }
+                    ]
+                },
+                {
+                    "comment": "[attr.x] / [class.x] / [style.x] bindings",
+                    "name": "meta.attribute.binding.ngsharp",
+                    "begin": "(\\[)(attr|class|style)(\\.)([\\w-]+)(\\])\\s*(=)\\s*([\"'])",
+                    "beginCaptures": {
+                        "1": { "name": "punctuation.definition.binding.begin.ngsharp" },
+                        "2": { "name": "support.type.binding.ngsharp" },
+                        "3": { "name": "punctuation.accessor.ngsharp" },
+                        "4": { "name": "entity.other.attribute-name.ngsharp" },
+                        "5": { "name": "punctuation.definition.binding.end.ngsharp" },
+                        "6": { "name": "punctuation.separator.key-value.html" },
+                        "7": { "name": "punctuation.definition.string.begin.html" }
+                    },
+                    "end": "\\7",
+                    "endCaptures": {
+                        "0": { "name": "punctuation.definition.string.end.html" }
+                    },
+                    "patterns": [
+                        { "include": "#expression" }
+                    ]
+                },
+                {
+                    "comment": "[html] raw binding, and bare [prop] bindings (component inputs, [src], [alt], custom directives)",
+                    "name": "meta.attribute.binding.ngsharp",
+                    "begin": "(\\[)([\\w-]+)(\\])\\s*(=)\\s*([\"'])",
+                    "beginCaptures": {
+                        "1": { "name": "punctuation.definition.binding.begin.ngsharp" },
+                        "2": { "name": "entity.other.attribute-name.binding.ngsharp" },
+                        "3": { "name": "punctuation.definition.binding.end.ngsharp" },
+                        "4": { "name": "punctuation.separator.key-value.html" },
+                        "5": { "name": "punctuation.definition.string.begin.html" }
+                    },
+                    "end": "\\5",
+                    "endCaptures": {
+                        "0": { "name": "punctuation.definition.string.end.html" }
+                    },
+                    "patterns": [
+                        { "include": "#expression" }
+                    ]
+                }
+            ]
+        },
+        "expression": {
+            "patterns": [
+                {
+                    "name": "string.quoted.single.ngsharp",
+                    "begin": "'",
+                    "beginCaptures": { "0": { "name": "punctuation.definition.string.begin.ngsharp" } },
+                    "end": "'",
+                    "endCaptures": { "0": { "name": "punctuation.definition.string.end.ngsharp" } }
+                },
+                {
+                    "name": "string.quoted.double.ngsharp",
+                    "begin": "\"",
+                    "beginCaptures": { "0": { "name": "punctuation.definition.string.begin.ngsharp" } },
+                    "end": "\"",
+                    "endCaptures": { "0": { "name": "punctuation.definition.string.end.ngsharp" } }
+                },
+                {
+                    "match": "\\b\\d+(?:\\.\\d+)?\\b",
+                    "name": "constant.numeric.ngsharp"
+                },
+                {
+                    "match": "\\b(true|false|null)\\b",
+                    "name": "constant.language.ngsharp"
+                },
+                {
+                    "comment": "loop variables — $index (0-based), $count, $first, $last",
+                    "match": "(\\$)(index|count|first|last)\\b",
+                    "name": "variable.language.loop.ngsharp"
+                },
+                {
+                    "comment": "pipe separator + pipe name (|| is logical-or, handled below via lookarounds here)",
+                    "match": "(?<!\\|)(\\|)(?!\\|)\\s*([A-Za-z_][\\w-]*)",
+                    "captures": {
+                        "1": { "name": "keyword.operator.pipe.ngsharp" },
+                        "2": { "name": "support.function.pipe.ngsharp" }
+                    }
+                },
+                {
+                    "match": "==|!=|<=|>=|<|>",
+                    "name": "keyword.operator.comparison.ngsharp"
+                },
+                {
+                    "match": "&&|\\|\\||!",
+                    "name": "keyword.operator.logical.ngsharp"
+                },
+                {
+                    "comment": "safe navigation — before the ternary rule so '?.' never lexes as '?'",
+                    "match": "\\?\\.",
+                    "name": "punctuation.accessor.optional.ngsharp"
+                },
+                {
+                    "match": "[+\\-*/%]",
+                    "name": "keyword.operator.arithmetic.ngsharp"
+                },
+                {
+                    "match": "\\?|:",
+                    "name": "keyword.operator.ternary.ngsharp"
+                },
+                {
+                    "match": "\\[\\d+\\]",
+                    "name": "meta.index.ngsharp"
+                },
+                {
+                    "match": "[A-Za-z_][\\w$]*",
+                    "name": "variable.other.member.ngsharp"
+                },
+                {
+                    "match": "\\.",
+                    "name": "punctuation.accessor.ngsharp"
+                }
+            ]
+        }
+    }
+}

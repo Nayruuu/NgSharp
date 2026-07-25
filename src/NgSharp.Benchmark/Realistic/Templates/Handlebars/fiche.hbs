@@ -1,0 +1,66 @@
+<div class="fiche">
+<header class="fiche-head">
+<p class="ref">{{Ref}}</p>
+<h1>{{upper Name}}</h1>
+<p class="format">{{Format}}</p>
+<p class="lieu">{{City}} — {{Address}}</p>
+<p class="maj">Mis à jour le {{date UpdatedAt "dd/MM/yyyy"}}</p>
+</header>
+<section class="badges">
+{{#if Available}}<span class="ok">Disponible</span>{{/if}}
+{{#if IsDigital}}<span class="digital">Digital</span>{{/if}}
+{{#if HasLighting}}<span class="light">Éclairé</span>{{/if}}
+{{#if HasAudienceData}}<span class="audience">Data audience</span>{{/if}}
+{{#if IsPremium}}<span class="premium">Premium</span>{{/if}}
+{{#if NearTransport}}<span class="transport">Proche transports</span>{{/if}}
+</section>
+<section class="audience">
+<h3>Audience estimée</h3>
+<ul>
+<li>Impressions : {{largeNumber Impressions}}</li>
+<li>Couverture : {{largeNumber Reach}}</li>
+<li>Fréquence : {{num Frequency "N1"}}</li>
+</ul>
+</section>
+<section class="prix">
+<h3>Tarification</h3>
+<p>Tarif de base : <strong>{{num BasePrice "N2"}} €</strong></p>
+{{#if IsPremium}}<p class="surcharge">Supplément premium : {{num PremiumSurcharge "N2"}} €</p>{{/if}}
+</section>
+<section class="specs">
+<h3>Caractéristiques techniques</h3>
+<table>
+<tbody>
+{{#each Specs}}<tr>
+<td class="label">{{Label}}</td>
+<td class="value">{{Value}}</td>
+<td class="flag">{{#if Highlighted}}<span class="star">★</span>{{/if}}</td>
+</tr>{{/each}}
+</tbody>
+</table>
+</section>
+<section class="creneaux">
+<h3>Disponibilités</h3>
+<table>
+<thead>
+<tr><th>Période</th><th>Du</th><th>Au</th><th>Tarif</th><th>Statut</th></tr>
+</thead>
+<tbody>
+{{#each Slots}}<tr>
+<td>{{Period}}</td>
+<td>{{date StartDate "dd/MM/yyyy"}}</td>
+<td>{{date EndDate "dd/MM/yyyy"}}</td>
+<td class="prix">{{num Price "N2"}} €</td>
+<td class="statut">
+{{#if Available}}<span class="ok">Libre</span>{{/if}}
+{{#if LastMinute}}<span class="last">Dernière minute</span>{{/if}}
+</td>
+</tr>{{/each}}
+</tbody>
+</table>
+</section>
+<footer class="fiche-foot">
+<p class="desc">{{Description}}</p>
+<p class="ref-foot">{{Ref}} — {{City}}</p>
+</footer>
+</div>

@@ -1,0 +1,81 @@
+<article class="company" data-headcount="{{ Headcount }}">
+  <!-- corporate report - rendered by the NgSharp feature showcase -->
+  <style>.masthead { border-bottom: 2px solid {{ AccentColor }}; }{{ PrintCss }}</style>
+  <header class="masthead">
+    <h1>{{ Name | upper }}</h1>
+    <img class="brand" src="{{ Logo | imgsrc }}" alt="{{ Name }}">
+    <div class="logo">{{ LogoHtml }}</div>
+    <p class="meta">Founded {{ FoundedAt | date: 'yyyy' }} · {{ Headcount | largeNumber }} people across {{ Departments.size }} departments</p>
+    <p class="brandmark">{{ Name | initials }} · {{ Name.size }} letters</p>
+  </header>
+  <section class="highlights" style="background-image: {{ Logo | imgurl }}">
+    <div class="kpi"><b>{{ Departments[0].Name }}</b> operates on {{ Departments[0].Budget | number: 'C0' }}</div>
+    <div class="kpi"><b>{{ Departments[1].Name }}</b> operates on {{ Departments[1].Budget | number: 'C0' }}</div>
+    <p class="flagship">Flagship: {{ Departments[0].Name }} — first team {{ Departments[0].Teams[0].Name }}</p>
+  </section>
+  <nav class="directory">
+    {% for d in Departments %}
+      <a class="dir">{{ d.Name }} · {{ Name | initials }}</a>
+    {% endfor %}
+  </nav>
+  {% if Headcount != 0 %}
+    <p class="active">{{ Headcount }} active employees</p>
+  {% endif %}
+  {% for d in Departments %}
+    <section class="dept{% if d.IsCore %} core{% endif %}" data-budget="{{ d.Budget }}"{% if d.Budget >= 500000 %} data-audit="required"{% endif %}>
+      <h2 style="color: {{ d.ThemeColor }}" data-theme="{{ d.ThemeColor }}">{{ d.Name }}</h2>
+      <p class="budget">Budget {{ d.Budget | number: 'C0' }}</p>
+      {% if d.Budget >= 600000 %}<span class="band">expanded</span>{% elsif d.Budget >= 400000 %}<span class="band">standard</span>{% else %}<span class="band">lean</span>{% endif %}
+      {% if d.IsCore %}<span class="badge">core</span>{% endif %}
+      {% for t in d.Teams %}
+        <div class="team">
+          <h3>{{ t.Name }} — {{ t.Members.size }} members</h3>
+          {% if t.Members.size > 0 %}
+            <ul class="roster">
+              {% for m in t.Members %}
+                <li class="member{% if m.IsLead %} lead{% endif %}{% if m.IsRemote %} remote{% endif %}">
+                  <span class="name">{{ m.Name | upper }}</span>
+                  <span class="role">{{ m.Role }}</span>
+                  <span class="salary">{{ m.Salary | number: 'C0' }}</span>
+                  <span class="joined">joined {{ m.JoinedAt | date: 'yyyy-MM-dd' }}</span>
+                  {% if m.Age >= 40 %}<span class="tier senior">senior</span>{% elsif m.Age >= 25 %}<span class="tier mid">mid-level</span>{% else %}<span class="tier junior">junior</span>{% endif %}
+                  {% if m.IsLead and m.IsRemote %}<span class="flag">remote lead</span>{% endif %}
+                  <span class="mode">{% if m.IsRemote %}{{ m.RemoteLabel }}{% else %}{{ m.OnsiteLabel }}{% endif %}</span>
+                  <span class="status">{{ m.StatusHtml }}</span>
+                  {% if m.Tasks.size > 0 %}
+                    <ul class="tasks">
+                      {% for k in m.Tasks %}
+                        <li class="task{% if k.Done %} done{% endif %}">
+                          <span class="title">{{ k.Title }}</span>
+                          <span class="prio">{{ k.Priority | upper }}</span>
+                          {% if k.Priority == 'high' %}<span class="urgent">urgent</span>{% endif %}
+                          {% if k.Points > 5 or k.Done %}<span class="pts">{{ k.Points }} pts</span>{% endif %}
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </section>
+  {% endfor %}
+  <section class="portfolio">
+    <h2>Projects</h2>
+    <p class="contact">contact {{ ContactEmail | lower }}</p>
+    {% for pr in Projects %}
+      <div class="project">
+        <h3>{{ pr.Owner | titlecase }} · #{{ pr.Code | pad: 6 }}</h3>
+        <p class="codename">codename {{ pr.Nickname | default: '—' }}</p>
+        <p class="desc">{{ pr.Description | truncate: 60 }}</p>
+        <p class="tags">{{ pr.Tags | join: ', ' }}</p>
+        <p class="funding">funded at {{ pr.Budget | currency: 'EUR' }}</p>
+        {% case pr.Status %}{% when 'active' %}<span class="state live">live</span>{% when 'paused' %}<span class="state hold">on hold</span>{% else %}<span class="state retired">retired</span>{% endcase %}
+      </div>
+    {% endfor %}
+    {% if Archived.size == 0 %}<p class="none">aucun résultat</p>{% endif %}
+  </section>
+  <footer class="headcount">Total headcount: {{ Headcount }}</footer>
+</article>

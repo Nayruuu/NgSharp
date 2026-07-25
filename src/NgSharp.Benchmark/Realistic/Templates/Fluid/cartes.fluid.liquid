@@ -1,0 +1,31 @@
+<div class="cartes">
+<header class="cartes-head">
+<h1>{{ Title | upper }}</h1>
+<p class="region">Région : {{ Region }}</p>
+<p class="gen">Généré le {{ GeneratedAt | date:'dd/MM/yyyy' }}</p>
+<p class="stats">{{ AvailableCount }} emplacements disponibles — {{ TotalImpressions | largeNumber }} impressions cumulées</p>
+</header>
+<section class="grille">
+{% for card in Cards %}<article class="carte">
+<div class="carte-head">
+<span class="ref">{{ card.Ref }}</span>
+<span class="status">{{ card.Status }}</span>
+</div>
+<h3>{{ card.Name }}</h3>
+<p class="ville">{{ card.City }} — {{ card.Format }}</p>
+<ul class="meta">
+<li class="prix">{{ card.Price | number:'N2' }} €</li>
+<li class="impr">{{ card.Impressions | largeNumber }} impressions</li>
+<li class="slot">Prochain créneau : {{ card.NextSlot | date:'dd/MM/yyyy' }}</li>
+</ul>
+<div class="tags">
+{% if card.Available %}<span class="ok">Disponible</span>{% endif %}
+{% if card.Digital %}<span class="digital">Digital</span>{% endif %}
+{% if card.Promo %}<span class="promo">Promo</span>{% endif %}
+</div>
+</article>{% endfor %}
+</section>
+<footer class="cartes-foot">
+<p>{{ Title }} — {{ Region }} — {{ GeneratedAt | date:'dd/MM/yyyy' }}</p>
+</footer>
+</div>

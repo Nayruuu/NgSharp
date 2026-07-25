@@ -1,0 +1,127 @@
+{
+    "NgSharp @for block": {
+        "prefix": [
+            "ng-for",
+            "@for"
+        ],
+        "body": [
+            "@for (${1:item} of ${2:Items}) {",
+            "\t$0",
+            "}"
+        ],
+        "description": "NgSharp @for block — inside it, $index / $count / $first / $last are available"
+    },
+    "NgSharp @if block": {
+        "prefix": [
+            "ng-if",
+            "@if"
+        ],
+        "body": [
+            "@if (${1:condition}) {",
+            "\t$0",
+            "}"
+        ],
+        "description": "NgSharp @if block"
+    },
+    "NgSharp @if / @else block": {
+        "prefix": [
+            "ng-if-else",
+            "@ifelse"
+        ],
+        "body": [
+            "@if (${1:condition}) {",
+            "\t${2}",
+            "} @else {",
+            "\t${3}",
+            "}"
+        ],
+        "description": "NgSharp @if block with an @else branch"
+    },
+    "NgSharp @switch block": {
+        "prefix": [
+            "ng-switch",
+            "@switch"
+        ],
+        "body": [
+            "@switch (${1:value}) {",
+            "\t@case (${2:'first'}) {",
+            "\t\t${3}",
+            "\t}",
+            "\t@case (${4:'second'}) {",
+            "\t\t${5}",
+            "\t}",
+            "\t@default {",
+            "\t\t${6}",
+            "\t}",
+            "}"
+        ],
+        "description": "NgSharp @switch block — the value is evaluated once; the first equal @case renders, else @default"
+    },
+    "NgSharp [if] attribute": {
+        "prefix": [
+            "ng-if-attr",
+            "[if]"
+        ],
+        "body": [
+            "<${1:span} [if]=\"${2:condition}\">$0</${1:span}>"
+        ],
+        "description": "Structural [if] on a single element"
+    },
+    "NgSharp [for] attribute": {
+        "prefix": [
+            "ng-for-attr",
+            "[for]"
+        ],
+        "body": [
+            "<${1:li} [for]=\"${2:Items}\">{{ ${3:Name} }}</${1:li}>"
+        ],
+        "description": "Structural [for] on a single element — repeats the element per item"
+    },
+    "NgSharp [else-if] chain": {
+        "prefix": [
+            "ng-else-if-attr",
+            "[else-if]"
+        ],
+        "body": [
+            "<${1:span} [if]=\"${2:first-condition}\">${3}</${1:span}>",
+            "<${1:span} [else-if]=\"${4:second-condition}\">${5}</${1:span}>",
+            "<${1:span} [else]=\"\">${6}</${1:span}>"
+        ],
+        "description": "An [if] / [else-if] / [else] chain of sibling elements"
+    },
+    "NgSharp ng-template fragment": {
+        "prefix": "ng-template",
+        "body": [
+            "<ng-template #${1:name}>",
+            "\t$0",
+            "</ng-template>"
+        ],
+        "description": "Reusable fragment — render it with @render(${1:name}, model)"
+    },
+    "NgSharp @render": {
+        "prefix": [
+            "ng-render",
+            "@render"
+        ],
+        "body": [
+            "@render(${1:fragment}, ${2:Model})"
+        ],
+        "description": "Render an <ng-template #fragment> against a model expression"
+    },
+    "NgSharp ng-container": {
+        "prefix": "ng-container",
+        "body": [
+            "<ng-container [if]=\"${1:condition}\">",
+            "\t$0",
+            "</ng-container>"
+        ],
+        "description": "Transparent grouping — no wrapper element in the output"
+    },
+    "NgSharp server component": {
+        "prefix": "ng-component",
+        "body": [
+            "<${1:my-component} [${2:prop}]=\"${3:Path}\"></${1:my-component}>"
+        ],
+        "description": "Server component tag — properties bind from [prop] attributes"
+    }
+}

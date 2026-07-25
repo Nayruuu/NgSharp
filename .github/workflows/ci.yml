@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        dotnet-version: [ '9.0.x' ]
+        dotnet-version: [ '10.0.x' ]
 
     steps:
       - name: Checkout code
@@ -30,3 +30,46 @@ jobs:
 
       - name: Run tests
         run: dotnet test --no-build --configuration Release --verbosity normal
+
+  # The four byte-identity gates behind the published benchmarks: every engine port must render
+  # EXACTLY the same output as NgSharp (and the text-mode export must be valid JSON), or the build
+  # goes red. This is what keeps the benchmark suites honest — same document, same bytes, no
+  # "my template does less work" asterisk.
+  identity-gates:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Build benchmark harness (Release)
+        run: dotnet build src/NgSharp.Benchmark --configuration Release
+
+      # showcmp and enginecmp are diff reporters (they always exit 0); the gate greps their
+      # transcript: any 'identical=False' or engine THROW fails the job, and at least one
+      # 'identical=True' must be present so an empty transcript can't pass vacuously.
+      - name: 'Gate 1 — showcmp (feature showcase: NgSharp vs Handlebars / RazorLight / Fluid)'
+        run: |
+          out=$(dotnet run --project src/NgSharp.Benchmark --configuration Release --no-build -- showcmp)
+          echo "$out"
+          echo "$out" | grep -q "identical=True" || { echo "::error::showcmp produced no identity line"; exit 1; }
+          echo "$out" | grep -qE "identical=False|THROW" && { echo "::error::showcmp: output mismatch"; exit 1; } || true
+
+      - name: 'Gate 2 — realistic-verify (3 realistic documents x 4 engines vs committed goldens)'
+        run: dotnet run --project src/NgSharp.Benchmark --configuration Release --no-build -- realistic-verify
+
+      - name: 'Gate 3 — enginecmp (catalogue: NgSharp vs the 5 other engines)'
+        run: |
+          out=$(dotnet run --project src/NgSharp.Benchmark --configuration Release --no-build -- enginecmp)
+          echo "$out"
+          echo "$out" | grep -q "identical=True" || { echo "::error::enginecmp produced no identity line"; exit 1; }
+          echo "$out" | grep -qE "identical=False|THROW" && { echo "::error::enginecmp: output mismatch"; exit 1; } || true
+
+      - name: 'Gate 4 — textcmp (text-mode JSON export: byte identity + JsonDocument.Parse)'
+        run: dotnet run --project src/NgSharp.Benchmark --configuration Release --no-build -- textcmp

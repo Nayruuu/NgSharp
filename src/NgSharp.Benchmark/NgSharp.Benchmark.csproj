@@ -28,7 +28,9 @@
     <ItemGroup>
       <!-- Engine templates embedded so they travel with the assembly (BenchmarkDotNet runs each
            benchmark in a generated child process where a file-relative read would not find them). -->
-      <EmbeddedResource Include="Templates\*" />
+      <EmbeddedResource Include="Templates\**\*" />
+      <EmbeddedResource Include="Realistic\Templates\**\*" />
+      <EmbeddedResource Include="Realistic\Expected\*" />
     </ItemGroup>
 
 </Project>
